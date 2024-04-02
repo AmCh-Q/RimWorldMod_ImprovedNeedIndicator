@@ -40,7 +40,7 @@ namespace Improved_Need_Indicator
         private static string HandleResting(Need_Rest need, string originalTip)
         {
             Pawn pawn = (Pawn)f_pawn.GetValue(need);
-            string newTip = originalTip;
+            string newTip = originalTip + "\n";
             float curLevel = need.CurLevel;
 
             float changePerUpdate = NeedTunings.NeedUpdateInterval
@@ -57,12 +57,12 @@ namespace Improved_Need_Indicator
         private static string HandleAwake(Need_Rest need, string originalTip)
         {
             Pawn pawn = (Pawn)f_pawn.GetValue(need);
-            string newTip = originalTip;
+            string newTip = originalTip + "\n";
             float curLevel = need.CurLevel;
 
             float changePerUpdate = NeedTunings.NeedUpdateInterval
-                * pawn.GetStatValue(StatDefOf.RestFallRateFactor)
-                * need.RestFallPerTick;
+                * need.RestFallPerTick
+                * pawn.GetStatValue(StatDefOf.RestFallRateFactor);
             if (changePerUpdate <= 0f)
                 return originalTip;
 
