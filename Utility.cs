@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using UnityEngine;
+using RimWorld;
 using Verse;
 
 namespace Improved_Need_Indicator
@@ -11,7 +12,7 @@ namespace Improved_Need_Indicator
             | BindingFlags.Static
             | BindingFlags.Public
             | BindingFlags.NonPublic;
-        public static float TicksTo(float updatesTo, Thing thing)
+        public static int TicksTo(float updatesTo, Thing thing)
         {
             // Given a float of the number of needed updates
             //   and a Thing's id (for update hash)
@@ -32,29 +33,17 @@ namespace Improved_Need_Indicator
             //   to make the range of the modulo -1~-150
             //   this will correct for the over-counting
             // We also +1 before the remainder to avoid racing with the updatesTo
-            float remainder = (thing.HashOffsetTicks() + 1) % 150;
-            return Mathf.Ceil(updatesTo) * 150f - remainder 
-                - (remainder <= 0f ? 150f : 1f);
+            const int interval = NeedTunings.NeedUpdateInterval;
+            int remainder = (thing.HashOffsetTicks() + 1) % interval;
+            return Mathf.CeilToInt(updatesTo) * interval - remainder 
+                - (remainder <= 0 ? interval : 1);
         }
-        public static string TimeString(float ticksTo)
-        {
-            // Given the number of ticks till target
-            // return a string describing the time remaining
-
-            // Use real seconds if less than 10 seconds left, round to 1 decimal place
-            // Otherwise use game hours, round to 2 decimal places
-            if (ticksTo < 600f)
-                return string.Concat((ticksTo / 60f).ToString("N1"), " seconds.");
-            else
-                return string.Concat((ticksTo / 2500f).ToString("N2"), " hours.");
-        }
-        public static string TimeString(float updatesTo, Thing thing)
+        public static string PeriodTo(this float updatesTo, Thing thing)
         {
             // Given a float of the number of needed updates
             //   and a Thing's id (for update hash)
             // return a string describing the time remaining
-
-            return TimeString(TicksTo(updatesTo, thing));
+            return TicksTo(updatesTo, thing).ToStringTicksToPeriod();
         }
     }
 }
