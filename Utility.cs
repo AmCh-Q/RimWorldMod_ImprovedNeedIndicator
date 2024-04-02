@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using System.Reflection;
+﻿using System.Reflection;
 using UnityEngine;
 using Verse;
 
@@ -26,12 +25,15 @@ namespace Improved_Need_Indicator
             //   the true number of ticks that has passed
             //   we do so by using HashOffsetTicks() with a modulo
             //     Vanilla use it to determine which tick to update a Thing
-            // Since the HashOffset is negative, the range of modulo is -149~0
-            //   We +1, mod, negate, then -149
+            // C# does not have true Euclidean modulo, % is actually remainder
+            // Since the HashOffset is negative,
+            //   the range of HashOffsetTicks() % 150 is -149~149
+            //   We take remainder, conditionally +150 or +1
             //     to make the range of the modulo -1~-150
-            //     this will count down and correct for the over-counting
-            return Mathf.Ceil(updatesTo) * 150f 
-                - 149f - ((uint)(thing.HashOffsetTicks() + 1) % 150);
+            //     this will correct for the over-counting
+            float remainder = thing.HashOffsetTicks() % 150;
+            return Mathf.Ceil(updatesTo) * 150f
+                - (remainder <= 0f ? remainder + 150f : remainder + 1f);
         }
         public static string TimeString(float ticksTo)
         {
