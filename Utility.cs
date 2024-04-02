@@ -28,12 +28,13 @@ namespace Improved_Need_Indicator
             // C# does not have true Euclidean modulo, % is actually remainder
             // Since the HashOffset is negative,
             //   the range of HashOffsetTicks() % 150 is -149~149
-            //   We take remainder, conditionally +150 or +1
-            //     to make the range of the modulo -1~-150
-            //     this will correct for the over-counting
-            float remainder = thing.HashOffsetTicks() % 150;
-            return Mathf.Ceil(updatesTo) * 150f
-                - (remainder <= 0f ? remainder + 150f : remainder + 1f);
+            // We subtract remainder, then conditionally -150 or -1
+            //   to make the range of the modulo -1~-150
+            //   this will correct for the over-counting
+            // We also +1 before the remainder to avoid racing with the updatesTo
+            float remainder = (thing.HashOffsetTicks() + 1) % 150;
+            return Mathf.Ceil(updatesTo) * 150f - remainder 
+                - (remainder <= 0f ? 150f : 1f);
         }
         public static string TimeString(float ticksTo)
         {
