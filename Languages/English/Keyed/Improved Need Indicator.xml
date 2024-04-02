@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <INI.Name>Improved Need Indicator</INI.Name>
+
+  <INI.Rest.Rested>\nWill be fully rested in {0}</INI.Rest.Rested>
+  <INI.Rest.Tired>\nStart to fell tired in {0}</INI.Rest.Tired>
+  <INI.Rest.VeryTired>\nStart to fell very tired in {0}</INI.Rest.VeryTired>
+  <INI.Rest.Exhausted>\nBecomes exhausted in {0}</INI.Rest.Exhausted>
+</LanguageData>

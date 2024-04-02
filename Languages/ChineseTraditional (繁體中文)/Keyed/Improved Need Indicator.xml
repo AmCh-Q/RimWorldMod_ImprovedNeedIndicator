@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <INI.Name>更多需求條信息</INI.Name>
+
+  <INI.Rest.Rested>\n{0}后睡飽</INI.Rest.Rested>
+  <INI.Rest.Tired>\n{0}后感到昏昏欲睡</INI.Rest.Tired>
+  <INI.Rest.VeryTired>\n{0}后感到疲憊不堪</INI.Rest.VeryTired>
+  <INI.Rest.Exhausted>\n{0}后精疲力盡</INI.Rest.Exhausted>
+</LanguageData>

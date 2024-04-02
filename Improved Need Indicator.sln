@@ -7,14 +7,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Improved Need Indicator", "
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		1.2|Any CPU = 1.2|Any CPU
+		1.3|Any CPU = 1.3|Any CPU
+		1.4|Any CPU = 1.4|Any CPU
+		1.5_Debug|Any CPU = 1.5_Debug|Any CPU
+		1.5_Release|Any CPU = 1.5_Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{824243AA-ADE5-469B-81E3-936566F0A59E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{824243AA-ADE5-469B-81E3-936566F0A59E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{824243AA-ADE5-469B-81E3-936566F0A59E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{824243AA-ADE5-469B-81E3-936566F0A59E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{824243AA-ADE5-469B-81E3-936566F0A59E}.1.2|Any CPU.ActiveCfg = 1.2|Any CPU
+		{824243AA-ADE5-469B-81E3-936566F0A59E}.1.2|Any CPU.Build.0 = 1.2|Any CPU
+		{824243AA-ADE5-469B-81E3-936566F0A59E}.1.3|Any CPU.ActiveCfg = 1.3|Any CPU
+		{824243AA-ADE5-469B-81E3-936566F0A59E}.1.3|Any CPU.Build.0 = 1.3|Any CPU
+		{824243AA-ADE5-469B-81E3-936566F0A59E}.1.4|Any CPU.ActiveCfg = 1.4|Any CPU
+		{824243AA-ADE5-469B-81E3-936566F0A59E}.1.4|Any CPU.Build.0 = 1.4|Any CPU
+		{824243AA-ADE5-469B-81E3-936566F0A59E}.1.5_Debug|Any CPU.ActiveCfg = 1.5_Release|Any CPU
+		{824243AA-ADE5-469B-81E3-936566F0A59E}.1.5_Debug|Any CPU.Build.0 = 1.5_Release|Any CPU
+		{824243AA-ADE5-469B-81E3-936566F0A59E}.1.5_Release|Any CPU.ActiveCfg = 1.5_Release|Any CPU
+		{824243AA-ADE5-469B-81E3-936566F0A59E}.1.5_Release|Any CPU.Build.0 = 1.5_Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
