@@ -22,7 +22,7 @@ namespace Improved_Need_Indicator
         {
             // Skip if need type is not rest
             if (__instance is Need_Rest need)
-                __result = Rest.ProcessNeed(need, __result);
+                __result += Rest.ProcessNeed(need);
         }
     }
 }
