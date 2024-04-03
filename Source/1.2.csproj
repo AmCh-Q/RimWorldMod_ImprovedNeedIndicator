@@ -3,16 +3,16 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
 
   <PropertyGroup>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Improved Need Indicator</AssemblyName>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Deterministic>true</Deterministic>
-    <FileAlignment>512</FileAlignment>
-    <OutputType>Library</OutputType>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{824243AA-ADE5-469B-81E3-936566F0A59E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Improved_Need_Indicator</RootNamespace>
+    <AssemblyName>Improved Need Indicator</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <ProjectGuid>{DBFB10F5-1AAA-49F2-83D7-F18E427B72FB}</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;v1_2</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <Optimize>false</Optimize>
-    <OutputPath>..\Assemblies\</OutputPath>
+    <OutputPath>..\1.2\Assemblies\</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
@@ -30,7 +30,7 @@
     <DefineConstants>v1_2</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <Optimize>true</Optimize>
-    <OutputPath>..\Assemblies\</OutputPath>
+    <OutputPath>..\1.2\Assemblies\</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
@@ -46,15 +46,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\Common\Source\ImprovedNeedIndicator.cs" />
-    <Compile Include="..\..\Common\Source\Properties\AssemblyInfo.cs" />
-    <Compile Include="..\..\Common\Source\Rest.cs" />
-    <Compile Include="..\..\Common\Source\Utility.cs" />
+    <Compile Include="ImprovedNeedIndicator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rest.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">
-      <Version>1.5.4052-beta</Version>
+      <Version>1.2.3062</Version>
     </PackageReference>
 
     <PackageReference Include="Lib.Harmony">

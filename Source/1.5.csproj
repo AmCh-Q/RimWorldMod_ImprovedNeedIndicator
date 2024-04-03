@@ -3,34 +3,34 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
 
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Improved_Need_Indicator</RootNamespace>
     <AssemblyName>Improved Need Indicator</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Deterministic>true</Deterministic>
-    <ProjectGuid>{F8D7A569-CE32-4137-BBA8-9E7CDBD34956}</ProjectGuid>
+    <FileAlignment>512</FileAlignment>
+    <OutputType>Library</OutputType>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{824243AA-ADE5-469B-81E3-936566F0A59E}</ProjectGuid>
+    <RootNamespace>Improved_Need_Indicator</RootNamespace>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
-    <DefineConstants>DEBUG;v1_2</DefineConstants>
+    <DefineConstants>DEBUG;v1_5</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <Optimize>false</Optimize>
-    <OutputPath>..\Assemblies\</OutputPath>
+    <OutputPath>..\1.5\Assemblies\</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
-    <DefineConstants>v1_2</DefineConstants>
+    <DefineConstants>v1_5</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <Optimize>true</Optimize>
-    <OutputPath>..\Assemblies\</OutputPath>
+    <OutputPath>..\1.5\Assemblies\</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
@@ -46,15 +46,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\Common\Source\ImprovedNeedIndicator.cs" />
-    <Compile Include="..\..\Common\Source\Properties\AssemblyInfo.cs" />
-    <Compile Include="..\..\Common\Source\Rest.cs" />
-    <Compile Include="..\..\Common\Source\Utility.cs" />
+    <Compile Include="ImprovedNeedIndicator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rest.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">
-      <Version>1.3.3389</Version>
+      <Version>1.5.4052-beta</Version>
     </PackageReference>
 
     <PackageReference Include="Lib.Harmony">
