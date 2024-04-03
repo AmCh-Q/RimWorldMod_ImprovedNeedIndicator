@@ -10,22 +10,16 @@ namespace Improved_Need_Indicator
         private static int tickCache = -1;
         private static float levelCache = -1f;
         private static int pawnIdCache = -1;
-        private static string tipMsgCache = null;
+        private static string tipMsgCache = string.Empty;
 
         private static readonly FieldInfo
             f_lastRestEffectiveness = typeof(Need_Rest).GetField("lastRestEffectiveness", Utility.flags),
             f_pawn = typeof(Need).GetField("pawn", Utility.flags);
-        public static string ProcessNeed(Need_Rest need, string originalTip)
+        public static string ProcessNeed(Need_Rest need)
         {
-            // Range check
-            bool resting = need.Resting;
-            float curLevel = need.CurLevel;
-            if ((resting && curLevel >= 1f) ||
-                (!resting && curLevel <= 0f))
-                return originalTip;
-
             // Use cached string if need level and tick match
             int currTick = Find.TickManager.TicksGame;
+            float curLevel = need.CurLevel;
             Pawn pawn = (Pawn)f_pawn.GetValue(need);
             if (currTick == tickCache &&
                 curLevel == levelCache &&
@@ -35,12 +29,12 @@ namespace Improved_Need_Indicator
             levelCache = curLevel;
             pawnIdCache = pawn.thingIDNumber;
 
-            string newTip = originalTip + "\n";
-            // Using "|" to avoid short circuiting
+            string newTip = "\n";
+            // Using "|" to avoid short-circuiting
             if (HandleResting(need, pawn, ref newTip) |
                 HandleAwake(need, pawn, ref newTip))
                 return tipMsgCache = newTip;
-            return tipMsgCache = originalTip;
+            return tipMsgCache = string.Empty;
         }
 
         private static bool HandleResting(Need_Rest need, Pawn pawn, ref string tipMsg)
