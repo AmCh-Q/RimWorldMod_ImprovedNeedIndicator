@@ -71,26 +71,30 @@ namespace Improved_Need_Indicator
 
             float updatesTo;
             float curLevel = need.CurLevel;
+            int ticksTo = 0;
             pawn = need.Resting ? null : pawn;
             if (curLevel >= Need_Rest.ThreshTired)
             {
                 updatesTo = (curLevel - Need_Rest.ThreshTired) / changePerUpdate;
+                ticksTo += updatesTo.TicksTo(pawn);
+                tipMsg += "INI.Rest.Tired".Translate(ticksTo.ToStringTicksToPeriod());
                 curLevel -= Mathf.Ceil(updatesTo) * changePerUpdate;
-                tipMsg += "INI.Rest.Tired".Translate(updatesTo.PeriodTo(pawn));
                 changePerUpdate *= 0.7f; // rest will fall slower
             }
             if (curLevel >= Need_Rest.ThreshVeryTired)
             {
                 updatesTo = (curLevel - Need_Rest.ThreshVeryTired) / changePerUpdate;
+                ticksTo += updatesTo.TicksTo(pawn);
+                tipMsg += "INI.Rest.VeryTired".Translate(ticksTo.ToStringTicksToPeriod());
                 curLevel -= Mathf.Ceil(updatesTo) * changePerUpdate;
-                tipMsg += "INI.Rest.VeryTired".Translate(updatesTo.PeriodTo(pawn));
                 changePerUpdate *= 0.3f / 0.7f; // rest will fall slower
             }
-            if (curLevel < 0f)
-                curLevel = 0f;
-
-            updatesTo = curLevel / changePerUpdate;
-            tipMsg += "INI.Rest.Exhausted".Translate(updatesTo.PeriodTo(pawn));
+            if (curLevel > 0f)
+            {
+                updatesTo = curLevel / changePerUpdate;
+                ticksTo += updatesTo.TicksTo(pawn);
+            }
+            tipMsg += "INI.Rest.Exhausted".Translate(ticksTo.ToStringTicksToPeriod());
             return true;
         }
     }
