@@ -9,6 +9,7 @@ namespace Improved_Need_Indicator
     {
         private static int tickCache = -1;
         private static float levelCache = -1f;
+        private static int pawnIdCache = -1;
         private static string tipMsgCache = null;
 
         private static readonly FieldInfo
@@ -25,67 +26,72 @@ namespace Improved_Need_Indicator
 
             // Use cached string if need level and tick match
             int currTick = Find.TickManager.TicksGame;
+            Pawn pawn = (Pawn)f_pawn.GetValue(need);
             if (currTick == tickCache &&
-                curLevel == levelCache)
+                curLevel == levelCache &&
+                pawnIdCache == pawn.thingIDNumber)
                 return tipMsgCache;
             tickCache = currTick;
             levelCache = curLevel;
+            pawnIdCache = pawn.thingIDNumber;
 
-            if (resting)
-                return HandleResting(need, originalTip);
-            else
-                return HandleAwake(need, originalTip);
+            string newTip = originalTip + "\n";
+            // Using "|" to avoid short circuiting
+            if (HandleResting(need, pawn, ref newTip) |
+                HandleAwake(need, pawn, ref newTip))
+                return tipMsgCache = newTip;
+            return tipMsgCache = originalTip;
         }
 
-        private static string HandleResting(Need_Rest need, string originalTip)
+        private static bool HandleResting(Need_Rest need, Pawn pawn, ref string tipMsg)
         {
-            Pawn pawn = (Pawn)f_pawn.GetValue(need);
-            string newTip = originalTip + "\n";
-            float curLevel = need.CurLevel;
-
             float changePerUpdate = NeedTunings.NeedUpdateInterval
                 * Need_Rest.BaseRestGainPerTick
                 * (float)f_lastRestEffectiveness.GetValue(need)
                 * pawn.GetStatValue(StatDefOf.RestRateMultiplier);
             if (changePerUpdate <= 0f)
-                return originalTip;
+                return false;
+
+            float curLevel = need.CurLevel;
+            if (curLevel > 1f)
+                curLevel = 1f;
 
             float updatesTo = (1f - curLevel) / changePerUpdate;
-            newTip += "INI.Rest.Rested".Translate(updatesTo.PeriodTo(pawn));
-            return tipMsgCache = newTip; // Update cache
+            tipMsg += "INI.Rest.Rested".Translate(
+                updatesTo.PeriodTo(need.Resting ? pawn : null));
+            return true;
         }
-        private static string HandleAwake(Need_Rest need, string originalTip)
+        private static bool HandleAwake(Need_Rest need, Pawn pawn, ref string tipMsg)
         {
-            Pawn pawn = (Pawn)f_pawn.GetValue(need);
-            string newTip = originalTip + "\n";
-            float curLevel = need.CurLevel;
-
             float changePerUpdate = NeedTunings.NeedUpdateInterval
                 * need.RestFallPerTick
                 * pawn.GetStatValue(StatDefOf.RestFallRateFactor);
             if (changePerUpdate <= 0f)
-                return originalTip;
+                return false;
 
+            float updatesTo;
+            float curLevel = need.CurLevel;
+            pawn = need.Resting ? null : pawn;
             if (curLevel >= Need_Rest.ThreshTired)
             {
-                float updatesTo = (curLevel - Need_Rest.ThreshTired) / changePerUpdate;
+                updatesTo = (curLevel - Need_Rest.ThreshTired) / changePerUpdate;
                 curLevel -= Mathf.Ceil(updatesTo) * changePerUpdate;
-                newTip += "INI.Rest.Tired".Translate(updatesTo.PeriodTo(pawn));
+                tipMsg += "INI.Rest.Tired".Translate(updatesTo.PeriodTo(pawn));
                 changePerUpdate *= 0.7f; // rest will fall slower
             }
             if (curLevel >= Need_Rest.ThreshVeryTired)
             {
-                float updatesTo = (curLevel - Need_Rest.ThreshVeryTired) / changePerUpdate;
+                updatesTo = (curLevel - Need_Rest.ThreshVeryTired) / changePerUpdate;
                 curLevel -= Mathf.Ceil(updatesTo) * changePerUpdate;
-                newTip += "INI.Rest.VeryTired".Translate(updatesTo.PeriodTo(pawn));
+                tipMsg += "INI.Rest.VeryTired".Translate(updatesTo.PeriodTo(pawn));
                 changePerUpdate *= 0.3f / 0.7f; // rest will fall slower
             }
-            if (curLevel > 0)
-            {
-                float updatesTo = curLevel / changePerUpdate;
-                newTip += "INI.Rest.Exhausted".Translate(updatesTo.PeriodTo(pawn));
-            }
-            return tipMsgCache = newTip; // Update cache
+            if (curLevel < 0f)
+                curLevel = 0f;
+
+            updatesTo = curLevel / changePerUpdate;
+            tipMsg += "INI.Rest.Exhausted".Translate(updatesTo.PeriodTo(pawn));
+            return true;
         }
     }
 }
