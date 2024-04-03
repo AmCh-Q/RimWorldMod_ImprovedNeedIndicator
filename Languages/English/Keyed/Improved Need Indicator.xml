@@ -2,8 +2,8 @@
 <LanguageData>
   <INI.Name>Improved Need Indicator</INI.Name>
 
-  <INI.Rest.Rested>\nWill be fully rested in {0}.</INI.Rest.Rested>
-  <INI.Rest.Tired>\nStarts to feel tired in {0}.</INI.Rest.Tired>
-  <INI.Rest.VeryTired>\nStarts to feel very tired in {0}.</INI.Rest.VeryTired>
+  <INI.Rest.Rested>\nSleep needed: {0}.</INI.Rest.Rested>
+  <INI.Rest.Tired>\nFeels tired in {0}.</INI.Rest.Tired>
+  <INI.Rest.VeryTired>\nFeels very tired in {0}.</INI.Rest.VeryTired>
   <INI.Rest.Exhausted>\nBecomes exhausted in {0}.</INI.Rest.Exhausted>
 </LanguageData>

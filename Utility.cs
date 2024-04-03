@@ -12,14 +12,14 @@ namespace Improved_Need_Indicator
             | BindingFlags.Static
             | BindingFlags.Public
             | BindingFlags.NonPublic;
-        public static int TicksTo(float updatesTo, Thing thing)
+        public static int TicksTo(float updatesTo, Thing thing = null)
         {
             // Given a float of the number of needed updates
             //   and a Thing's id (for update hash)
             // return the exact integer number of ticks till target
 
             // We count the number of updates needed by Mathf.Ceil
-            //   but we also over-count time by at least one tick
+            //   but we also over-count time by at least 1 tick
             //   because at least 1 tick, at most all 150 ticks of
             //   our current update interval has passed already
             // We correct for this over-counting by finding
@@ -34,11 +34,13 @@ namespace Improved_Need_Indicator
             //   this will correct for the over-counting
             // We also +1 before the remainder to avoid racing with the updatesTo
             const int interval = NeedTunings.NeedUpdateInterval;
+            int ticksTo = Mathf.CeilToInt(updatesTo) * interval;
+            if (thing == null)
+                return ticksTo;
             int remainder = (thing.HashOffsetTicks() + 1) % interval;
-            return Mathf.CeilToInt(updatesTo) * interval - remainder 
-                - (remainder <= 0 ? interval : 1);
+            return ticksTo - remainder - (remainder <= 0 ? interval : 1);
         }
-        public static string PeriodTo(this float updatesTo, Thing thing)
+        public static string PeriodTo(this float updatesTo, Thing thing = null)
         {
             // Given a float of the number of needed updates
             //   and a Thing's id (for update hash)
