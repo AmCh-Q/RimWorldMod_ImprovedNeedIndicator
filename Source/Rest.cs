@@ -39,70 +39,70 @@ namespace Improved_Need_Indicator
 #else
             bool resting = need.Resting;
 #endif
-
             string newTip = "\n";
+            int tickCorrection = pawn.IntervalCorretion();
             // Using "|" to avoid short-circuiting
-            if (HandleResting(need, pawn, resting, ref newTip) |
-                HandleAwake(need, pawn, resting, ref newTip))
+            if (HandleResting(need, pawn, resting ? tickCorrection : 0, ref newTip) |
+                HandleAwake(need, pawn, resting ? 0 : tickCorrection, ref newTip))
                 return tipMsgCache = newTip;
             return tipMsgCache = string.Empty;
         }
 
-        private static bool HandleResting(Need_Rest need, Pawn pawn, bool resting, ref string tipMsg)
+        private static bool HandleResting(
+            Need_Rest need, Pawn pawn, int tickCorrection, ref string tipMsg)
         {
-            float changePerUpdate = NeedTunings.NeedUpdateInterval
-                * Need_Rest.BaseRestGainPerTick
+            float changePerTick = Need_Rest.BaseRestGainPerTick
                 * (float)f_lastRestEffectiveness.GetValue(need)
                 * pawn.GetStatValue(StatDefOf.RestRateMultiplier);
-            if (changePerUpdate <= 0f)
+            if (changePerTick <= 0f)
                 return false;
 
             float curLevel = need.CurLevel;
-            if (curLevel > 1f)
-                curLevel = 1f;
+            float ticksTo = (1f - curLevel) / changePerTick;
+            int ticksToInt = (ticksTo <= 0f) ? 0 : ticksTo.CeilToUpdate();
+            ticksToInt += tickCorrection;
 
-            float updatesTo = (1f - curLevel) / changePerUpdate;
             tipMsg += "INI.Rest.Rested".Translate(
-                updatesTo.PeriodTo(resting ? pawn : null));
+                ticksToInt.TicksToPeriod());
             return true;
         }
-        private static bool HandleAwake(Need_Rest need, Pawn pawn, bool resting, ref string tipMsg)
+        private static bool HandleAwake(
+            Need_Rest need, Pawn pawn, int tickCorrection, ref string tipMsg)
         {
-            float changePerUpdate = NeedTunings.NeedUpdateInterval
+            float changePerTick = need.RestFallPerTick;
 #if (!v1_2 && !v1_3)
-                // StatDef did not exist back in 1.2/1.3
-                * pawn.GetStatValue(StatDefOf.RestFallRateFactor)
+            // StatDef did not exist back in 1.2/1.3
+            changePerTick *= pawn.GetStatValue(StatDefOf.RestFallRateFactor);
 #endif
-                * need.RestFallPerTick;
-            if (changePerUpdate <= 0f)
+            if (changePerTick <= 0f)
                 return false;
 
-            float updatesTo;
             float curLevel = need.CurLevel;
-            int ticksTo = 0;
-            pawn = resting ? null : pawn;
+            float ticksTo;
+            int ticksToInt = tickCorrection;
             if (curLevel >= Need_Rest.ThreshTired)
             {
-                updatesTo = (curLevel - Need_Rest.ThreshTired) / changePerUpdate;
-                ticksTo += updatesTo.TicksTo(pawn);
-                tipMsg += "INI.Rest.Tired".Translate(ticksTo.ToStringTicksToPeriod());
-                curLevel -= Mathf.Ceil(updatesTo) * changePerUpdate;
-                changePerUpdate *= 0.7f; // rest will fall slower
+                ticksTo = (curLevel - Need_Rest.ThreshTired) / changePerTick;
+                ticksToInt += ticksTo.CeilToUpdate();
+                tipMsg += "INI.Rest.Tired".Translate(ticksToInt.TicksToPeriod());
+                curLevel -= ticksTo.CeilToUpdate() * changePerTick;
+                changePerTick *= 0.7f; // rest will fall slower
             }
             if (curLevel >= Need_Rest.ThreshVeryTired)
             {
-                updatesTo = (curLevel - Need_Rest.ThreshVeryTired) / changePerUpdate;
-                ticksTo += updatesTo.TicksTo(pawn);
-                tipMsg += "INI.Rest.VeryTired".Translate(ticksTo.ToStringTicksToPeriod());
-                curLevel -= Mathf.Ceil(updatesTo) * changePerUpdate;
-                changePerUpdate *= 0.3f / 0.7f; // rest will fall slower
+                ticksTo = (curLevel - Need_Rest.ThreshVeryTired) / changePerTick;
+                ticksToInt += ticksTo.CeilToUpdate();
+                tipMsg += "INI.Rest.VeryTired".Translate(ticksToInt.TicksToPeriod());
+                curLevel -= ticksTo.CeilToUpdate() * changePerTick;
+                changePerTick *= 0.3f / 0.7f; // rest will fall slower
             }
             if (curLevel > 0f)
             {
-                updatesTo = curLevel / changePerUpdate;
-                ticksTo += updatesTo.TicksTo(pawn);
+                ticksTo = curLevel / changePerTick;
+                ticksToInt += ticksTo.CeilToUpdate();
             }
-            tipMsg += "INI.Rest.Exhausted".Translate(ticksTo.ToStringTicksToPeriod());
+            tipMsg += "INI.Rest.Exhausted".Translate(
+                ticksToInt.TicksToPeriod());
             return true;
         }
     }

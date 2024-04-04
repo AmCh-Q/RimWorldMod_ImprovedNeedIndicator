@@ -7,27 +7,22 @@ namespace Improved_Need_Indicator
 {
     public static class Utility
     {
+        public const int interval = NeedTunings.NeedUpdateInterval;
         public const BindingFlags flags
             = BindingFlags.Instance
             | BindingFlags.Static
             | BindingFlags.Public
             | BindingFlags.NonPublic;
-        public static int TicksTo(this float updatesTo, Thing thing = null)
+        public static int CeilToUpdate(this float ticksTo)
         {
-            // Given a float of the number of needed updates
-            //   and a Thing's id (for update hash)
-            // return the exact integer number of ticks till target
-
-            // We count the number of updates needed by Mathf.Ceil
+            // We count the number of updates needed by Mathf.CeilToInt
             //   but we also over-count time by at least 1 tick
             //   because at least 1 tick, at most all 150 ticks of
             //   our current update interval has passed already
-            // If the number is >= 10 seconds, we don't care about that
-            const int interval = NeedTunings.NeedUpdateInterval;
-            int ticksTo = Mathf.CeilToInt(updatesTo) * interval;
-            if (thing == null || ticksTo >= 600)
-                return ticksTo;
-
+            return Mathf.CeilToInt(ticksTo / interval) * interval;
+        }
+        public static int IntervalCorretion(this Thing thing)
+        {
             // We correct for this over-counting by finding
             //   the true number of ticks that has passed
             //   we do so by using HashOffsetTicks() with a modulo
@@ -35,19 +30,17 @@ namespace Improved_Need_Indicator
             // C# does not have true Euclidean modulo, % is actually remainder
             // Since the HashOffset is negative,
             //   the range of HashOffsetTicks() % 150 is -149~149
-            // We subtract remainder, then conditionally -150 or -1
-            //   to make the range of the modulo -1~-150
+            // We subtract remainder, then conditionally -149
+            //   to make the range of the modulo 0~-149
             //   this will correct for the over-counting
             // We also +1 before the remainder to avoid racing with the updatesTo
             int remainder = (thing.HashOffsetTicks() + 1) % interval;
-            return ticksTo - remainder - (remainder <= 0 ? interval : 1);
+            return - remainder - (remainder <= 0 ? interval - 1 : 0);
         }
-        public static string PeriodTo(this float updatesTo, Thing thing = null)
+        public static string TicksToPeriod(this int ticksTo)
         {
-            // Given a float of the number of needed updates
-            //   and a Thing's id (for update hash)
-            // return a string describing the time remaining
-            return TicksTo(updatesTo, thing).ToStringTicksToPeriod();
+            ticksTo = ticksTo <= 0 ? 0 : ticksTo;
+            return ticksTo.ToStringTicksToPeriod();
         }
     }
 }
