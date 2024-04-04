@@ -1,37 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Improved_Need_Indicator</RootNamespace>
     <AssemblyName>Improved Need Indicator</AssemblyName>
+    <ProjectGuid>{F8D7A569-CE32-4137-BBA8-9E7CDBD34956}</ProjectGuid>
+    <OutputPath>..\1.3\Assemblies\</OutputPath>
+    <BaseIntermediateOutputPath>obj\1.3\</BaseIntermediateOutputPath>
+    <MSBUildProjectExtensionsPath>obj\1.3\</MSBUildProjectExtensionsPath>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <OutputType>Library</OutputType>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <ProjectGuid>{F8D7A569-CE32-4137-BBA8-9E7CDBD34956}</ProjectGuid>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
-    <DefineConstants>DEBUG;v1_3</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <Optimize>false</Optimize>
-    <OutputPath>..\1.3\Assemblies\</OutputPath>
-    <BaseIntermediateOutputPath>obj\1.3\</BaseIntermediateOutputPath>
-    <MSBUildProjectExtensionsPath>obj\1.3\</MSBUildProjectExtensionsPath>
     <WarningLevel>4</WarningLevel>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DefineConstants>DEBUG;v1_3</DefineConstants>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DefineConstants>v1_3</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
     <Optimize>true</Optimize>
-    <OutputPath>..\1.3\Assemblies\</OutputPath>
-    <BaseIntermediateOutputPath>obj\1.3\</BaseIntermediateOutputPath>
-    <MSBUildProjectExtensionsPath>obj\1.3\</MSBUildProjectExtensionsPath>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <ItemGroup>
@@ -41,14 +36,9 @@
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Krafs.Rimworld.Ref">
-      <Version>1.3.3389</Version>
-    </PackageReference>
-    <PackageReference Include="Lib.Harmony">
-      <Version>2.3.3</Version>
-      <PrivateAssets>all</PrivateAssets>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.*-*" />
+    <PackageReference Include="Lib.Harmony" Version="2.3.*" ExcludeAssets="runtime" />
+		<None Include="..\LICENSE" Pack="true" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
