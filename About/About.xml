@@ -12,12 +12,12 @@
 [h1]What[/h1]
 Adds tooltip text to inform the player how long a pawn has until mood debuffs.
 
-[h2]Need Indicators Implemented[/h2]
+[h2]Needs Indicators Implemented[/h2]
 [list]
 [*] Sleep
 [/list]
 
-[h2]Need Indicators On Deck[/h2]
+[h2]Needs Indicators On Deck[/h2]
 [list]
 [*] Food
 [/list]
@@ -31,6 +31,12 @@ Adds tooltip text to inform the player how long a pawn has until mood debuffs.
 Because I spent three hours building a spreadsheet to figure out how long my pawns sleep and just knew there had to be a better way. Sleep alone is a complicated formula using the pawn's own 'Rest Rate Multiplier', bed type, bed material, bed quality, and number of sleep accelorators. Did you know making the bed out of marble to get that sweet beauty bonus makes your pawn sleep longer? Or that Jade doesn't count as stone and works the same as wood? Who knew?! I fricken didn't.
 
 Don't fall down the same rabbit hole I did. We've done the work for you here. Install the mod, shower us with praise, and sleep better than ever.
+
+[h1]Who[/h1]
+AmCh: Coding and Language Translations
+Missionz3r0: Coding and DevOps
+
+I (missionz3r0) want to convey my thanks to AmCh. They did the lions share of the coding in this mod. Be sure to shower them with adulations.
 
 [h1]GitHub[/h1]
 [url=https://github.com/AmCh-Q/RimWorldMod_ImprovedNeedIndicator] Did I mention it's open source too? [/url] 
