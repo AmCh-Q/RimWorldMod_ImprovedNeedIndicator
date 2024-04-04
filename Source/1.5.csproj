@@ -38,7 +38,7 @@
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.*-*" />
     <PackageReference Include="Lib.Harmony" Version="2.3.*" ExcludeAssets="runtime" />
-		<None Include="..\LICENSE" Pack="true" />
+    <None Include="..\LICENSE" Pack="true" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
