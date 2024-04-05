@@ -58,7 +58,7 @@ namespace Improved_Need_Indicator
 
 
             ticksToThresholdUpdateTick = tickOffset;
-            ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(1f, perTickRestGain, levelOfNeed);
+            ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(1f, levelOfNeed, perTickRestGain);
             tipStringAddendum += "\n";
             tipStringAddendum += "INI.Rest.Rested".Translate(ticksToThresholdUpdateTick.TicksToPeriod());
 
@@ -68,7 +68,7 @@ namespace Improved_Need_Indicator
 
             if (levelOfNeed >= Need_Rest.ThreshTired)
             {
-                ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(levelOfNeed, perTickRestFall, Need_Rest.ThreshTired);
+                ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(levelOfNeed, Need_Rest.ThreshTired, perTickRestFall);
 
                 tipStringAddendum += "\n";
                 tipStringAddendum += "INI.Rest.Tired".Translate(ticksToThresholdUpdateTick.TicksToPeriod());
@@ -81,7 +81,7 @@ namespace Improved_Need_Indicator
 
             if (levelOfNeed >= Need_Rest.ThreshVeryTired)
             {
-                ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(levelOfNeed, perTickRestFall, Need_Rest.ThreshVeryTired);
+                ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(levelOfNeed, Need_Rest.ThreshVeryTired, perTickRestFall);
 
                 tipStringAddendum += "\n";
                 tipStringAddendum += "INI.Rest.VeryTired".Translate(ticksToThresholdUpdateTick.TicksToPeriod());
@@ -94,7 +94,7 @@ namespace Improved_Need_Indicator
 
             if (levelOfNeed > 0)
             {
-                ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(levelOfNeed, perTickRestFall, 0f);
+                ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(levelOfNeed, 0f, perTickRestFall);
 
                 tipStringAddendum += "\n";
                 tipStringAddendum += "INI.Rest.Exhausted".Translate(ticksToThresholdUpdateTick.TicksToPeriod());
@@ -120,7 +120,7 @@ namespace Improved_Need_Indicator
                 * pawn.GetStatValue(StatDefOf.RestRateMultiplier);
         }
 
-        private static int TicksToNeedThresholdUpdateTick(float levelOfNeed, float perTickLevelChange, float threshold)
+        private static int TicksToNeedThresholdUpdateTick(float levelOfNeed, float threshold, float perTickLevelChange)
         {
             float levelDeltaToThreshold = (levelOfNeed - threshold);
             float ticksToNeedThreshold = levelDeltaToThreshold / perTickLevelChange;

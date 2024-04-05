@@ -18,7 +18,7 @@ namespace Improved_Need_Indicator
             return System.Math.Abs(a - b) < margin;
         }
 
-        public static int TicksToIntervalAdjustedTicks(this float ticksTo, int interval)
+        public static int RoundUpTickToMultipleOfInterval(this float ticksTo, int interval)
         {
             // Round up to multiples of interval ticks
             return Mathf.CeilToInt(ticksTo / interval) * interval;
