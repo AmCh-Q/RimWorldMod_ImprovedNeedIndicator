@@ -23,22 +23,19 @@ namespace Improved_Need_Indicator
 
         public static string ProcessNeed(Need_Rest need)
         {
-            string tipStringAddendum;
+            Pawn pawn = (Pawn)f_pawn.GetValue(need);
+            int tickNow = Find.TickManager.TicksGame;
+
 
             float levelOfNeed;
-            int tickNow;
-            Pawn pawn;
-
             float perTickRestGain;
             float perTickRestFall;
-
             int tickOffset;
             int ticksToThresholdUpdateTick;
+            string tipStringAddendum;
 
 
-            tickNow = Find.TickManager.TicksGame;
             levelOfNeed = need.CurLevel;
-            pawn = (Pawn)f_pawn.GetValue(need);
 
             if (cachedPawnId == pawn.thingIDNumber &&
                 tickNow == cachedTickNow &&
@@ -128,7 +125,7 @@ namespace Improved_Need_Indicator
             float levelDeltaToThreshold = (levelOfNeed - threshold);
             float ticksToNeedThreshold = levelDeltaToThreshold / perTickLevelChange;
 
-            return ticksToNeedThreshold.TicksToIntervalAdjustedTicks(NeedTunings.NeedUpdateInterval);
+            return ticksToNeedThreshold.RoundUpTickToMultipleOfInterval(NeedTunings.NeedUpdateInterval);
         }
     }
 }
