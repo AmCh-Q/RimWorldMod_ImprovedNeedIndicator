@@ -6,117 +6,130 @@ namespace Improved_Need_Indicator
 {
     public static class Rest
     {
-        private static int tickCache = -1;
-        private static float levelCache = -1f;
-        private static int pawnIdCache = -1;
-        private static float fallPerTick = 0f;
-        private static float gainPerTick = 0f;
-        private static string tipMsgCache = string.Empty;
+        private static float cachedLevelOfNeed = -1f;
+        private static int cachedPawnId = -1;
+        private static int cachedTickNow = -1;
+        private static string cachedTipStringAddendum = string.Empty;
 
-        private static readonly FieldInfo
 #if (v1_2 || v1_3)
         // Need.Resting used to be private in 1.2/1.3
         //   we will copy its implementation using field Need.lastRestTick
-            f_lastRestTick = typeof(Need_Rest).GetField("lastRestTick", Utility.flags),
+        private static readonly FieldInfo
+            f_lastRestTick = typeof(Need_Rest).GetField("lastRestTick", Utility.flags);
 #endif
+        private static readonly FieldInfo
             f_lastRestEffectiveness = typeof(Need_Rest).GetField("lastRestEffectiveness", Utility.flags),
             f_pawn = typeof(Need).GetField("pawn", Utility.flags);
+
         public static string ProcessNeed(Need_Rest need)
         {
-            // Use cached string if need level and tick match
-            int currTick = Find.TickManager.TicksGame;
-            float curLevel = need.CurLevel;
-            Pawn pawn = (Pawn)f_pawn.GetValue(need);
-            if (currTick == tickCache &&
-                curLevel == levelCache &&
-                pawnIdCache == pawn.thingIDNumber)
-                return tipMsgCache;
-            // If different pawn or too long since update
-            //   update change per tick
-            if (pawnIdCache != pawn.thingIDNumber ||
-                currTick - tickCache > Utility.interval)
-                UpdateChangePerTick(need, pawn);
-            tickCache = currTick;
-            levelCache = curLevel;
-            pawnIdCache = pawn.thingIDNumber;
+            string tipStringAddendum;
 
-#if (v1_2 || v1_3)
-            bool resting = Find.TickManager.TicksGame < (int)f_lastRestTick.GetValue(need) + 2;
-#else
-            bool resting = need.Resting;
-#endif
-            string newTip = "\n";
-            int tickCorrection = -pawn.TickSinceUpdate();
-            if (tickCorrection == 0)
-                UpdateChangePerTick(need, pawn);
-            // When time is ticking up, use 0 (disable correction)
-            int restingCorrection = resting ? tickCorrection : 0;
-            int awakeCorrection = resting ? 0 : tickCorrection;
+            float levelOfNeed;
+            int tickNow;
+            Pawn pawn;
 
-            // Using "|" to avoid short-circuiting
-            if (HandleResting(curLevel, restingCorrection, ref newTip) |
-                HandleAwake(curLevel, awakeCorrection, ref newTip))
-                return tipMsgCache = newTip;
-            return tipMsgCache = string.Empty;
+            float perTickRestGain;
+            float perTickRestFall;
+
+            int ticksToFullRestUpdateTick;
+            int ticksToTiredUpdateTick;
+            int ticksToVeryTiredUpdateTick;
+            int ticksToExhaustedUpdateTick;
+
+
+            tickNow = Find.TickManager.TicksGame;
+            levelOfNeed = need.CurLevel;
+            pawn = (Pawn)f_pawn.GetValue(need);
+
+            if (cachedPawnId == pawn.thingIDNumber)
+            {
+                if (pawn.IsHashIntervalTick(NeedTunings.NeedUpdateInterval) == false)
+                    return cachedTipStringAddendum;
+
+                // Use cached string if need level and tick match
+                if (tickNow == cachedTickNow &&
+                    levelOfNeed.IsCloseTo(cachedLevelOfNeed, 0.0001f))
+                    return cachedTipStringAddendum;
+            }
+
+            cachedTickNow = tickNow;
+            cachedLevelOfNeed = levelOfNeed;
+            cachedPawnId = pawn.thingIDNumber;
+
+            perTickRestFall = RestFallPerTick(need, pawn);
+            perTickRestGain = RestGainPerTick(need, pawn);
+
+            tipStringAddendum = "\n";
+
+            ticksToFullRestUpdateTick = TicksToNeedThresholdUpdateTick(1f, perTickRestGain, levelOfNeed);
+            tipStringAddendum += "\n";
+            tipStringAddendum += "INI.Rest.Rested".Translate(ticksToFullRestUpdateTick.TicksToPeriod());
+
+            if (levelOfNeed >= Need_Rest.ThreshTired)
+            {
+                ticksToTiredUpdateTick = TicksToNeedThresholdUpdateTick(levelOfNeed, perTickRestFall, Need_Rest.ThreshTired);
+                ticksToVeryTiredUpdateTick = (
+                    ticksToTiredUpdateTick +
+                    TicksToNeedThresholdUpdateTick(Need_Rest.ThreshTired, perTickRestFall * 0.7f, Need_Rest.ThreshVeryTired));
+                ticksToExhaustedUpdateTick = (
+                    ticksToVeryTiredUpdateTick +
+                    TicksToNeedThresholdUpdateTick(Need_Rest.ThreshVeryTired, perTickRestFall * 0.3f, 0f));
+
+                tipStringAddendum += "\n";
+                tipStringAddendum += "INI.Rest.Tired".Translate(ticksToTiredUpdateTick.TicksToPeriod());
+                tipStringAddendum += "\n";
+                tipStringAddendum += "INI.Rest.VeryTired".Translate(ticksToVeryTiredUpdateTick.TicksToPeriod());
+                tipStringAddendum += "\n";
+                tipStringAddendum += "INI.Rest.Exhausted".Translate(ticksToExhaustedUpdateTick.TicksToPeriod());
+
+            } else if (levelOfNeed >= Need_Rest.ThreshVeryTired)
+            {
+                ticksToVeryTiredUpdateTick = TicksToNeedThresholdUpdateTick(levelOfNeed, perTickRestFall, Need_Rest.ThreshVeryTired);
+                ticksToExhaustedUpdateTick = (
+                    ticksToVeryTiredUpdateTick +
+                    TicksToNeedThresholdUpdateTick(Need_Rest.ThreshVeryTired, perTickRestFall * (0.3f/0.7f), 0f));
+
+                tipStringAddendum += "\n";
+                tipStringAddendum += "INI.Rest.VeryTired".Translate(ticksToVeryTiredUpdateTick.TicksToPeriod());
+                tipStringAddendum += "\n";
+                tipStringAddendum += "INI.Rest.Exhausted".Translate(ticksToExhaustedUpdateTick.TicksToPeriod());
+
+            } else
+            {
+                ticksToExhaustedUpdateTick = TicksToNeedThresholdUpdateTick(levelOfNeed, perTickRestFall, 0f);
+
+                tipStringAddendum += "\n";
+                tipStringAddendum += "INI.Rest.Exhausted".Translate(ticksToExhaustedUpdateTick.TicksToPeriod());
+            }
+
+
+            return cachedTipStringAddendum = tipStringAddendum;
         }
 
-        private static void UpdateChangePerTick(Need_Rest need, Pawn pawn)
+        private static float RestFallPerTick(Need_Rest need, Pawn pawn)
         {
-            gainPerTick = Need_Rest.BaseRestGainPerTick
+#if (v1_2 || v1_3)
+            // StatDefOf.RestFallRateFactor did not exist back in 1.2/1.3
+            return need.RestFallPerTick;
+#else
+            return need.RestFallPerTick * pawn.GetStatValue(StatDefOf.RestFallRateFactor);
+#endif
+        }
+
+        private static float RestGainPerTick(Need_Rest need, Pawn pawn)
+        {
+            return Need_Rest.BaseRestGainPerTick
                 * (float)f_lastRestEffectiveness.GetValue(need)
                 * pawn.GetStatValue(StatDefOf.RestRateMultiplier);
-            fallPerTick = need.RestFallPerTick;
-#if (!v1_2 && !v1_3)
-            // StatDef did not exist back in 1.2/1.3
-            fallPerTick *= pawn.GetStatValue(StatDefOf.RestFallRateFactor);
-#endif
         }
-        private static bool HandleResting(
-            float curLevel, int tickCorrection, ref string tipMsg)
+
+        private static int TicksToNeedThresholdUpdateTick(float levelOfNeed, float perTickLevelChange, float threshold)
         {
-            if (gainPerTick <= 0f)
-                return false;
+            float levelDeltaToThreshold = (levelOfNeed - threshold);
+            float ticksToNeedThreshold = levelDeltaToThreshold / perTickLevelChange;
 
-            int ticksToTotal = tickCorrection;
-            int ticksToUpdate = ((1f - curLevel) / gainPerTick).CeilToUpdate();
-            ticksToTotal += ticksToUpdate;
-
-            tipMsg += "INI.Rest.Rested".Translate(
-                ticksToTotal.TicksToPeriod());
-            return true;
-        }
-        private static bool HandleAwake(
-            float curLevel, int tickCorrection, ref string tipMsg)
-        {
-            if (Rest.fallPerTick <= 0f)
-                return false;
-            float fallPerTick = Rest.fallPerTick;
-
-            int ticksToTotal = tickCorrection;
-            if (curLevel >= Need_Rest.ThreshTired)
-            {
-                int ticksToUpdate = ((curLevel - Need_Rest.ThreshTired) / fallPerTick).CeilToUpdate();
-                ticksToTotal += ticksToUpdate;
-                tipMsg += "INI.Rest.Tired".Translate(ticksToTotal.TicksToPeriod());
-                curLevel -= ticksToUpdate * fallPerTick;
-                fallPerTick *= 0.7f; // rest will fall slower
-            }
-            if (curLevel >= Need_Rest.ThreshVeryTired)
-            {
-                int ticksToUpdate = ((curLevel - Need_Rest.ThreshVeryTired) / fallPerTick).CeilToUpdate();
-                ticksToTotal += ticksToUpdate;
-                tipMsg += "INI.Rest.VeryTired".Translate(ticksToTotal.TicksToPeriod());
-                curLevel -= ticksToUpdate * fallPerTick;
-                fallPerTick *= 0.3f / 0.7f; // rest will fall slower
-            }
-            if (curLevel > 0f)
-            {
-                int ticksToUpdate = (curLevel / fallPerTick).CeilToUpdate();
-                ticksToTotal += ticksToUpdate;
-            }
-            tipMsg += "INI.Rest.Exhausted".Translate(
-                ticksToTotal.TicksToPeriod());
-            return true;
+            return ticksToNeedThreshold.TicksToIntervalAdjustedTicks(NeedTunings.NeedUpdateInterval);
         }
     }
 }
