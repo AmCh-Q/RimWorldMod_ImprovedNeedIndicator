@@ -18,13 +18,13 @@ namespace Improved_Need_Indicator
             return System.Math.Abs(a - b) < margin;
         }
 
-        public static int RoundUpTickToMultipleOfInterval(this float ticksTo, int interval)
+        public static int RoundUpTickToMultipleOfInterval(this float ticksTo)
         {
             // Round up to multiples of interval ticks
-            return Mathf.CeilToInt(ticksTo / interval) * interval;
+            return Mathf.CeilToInt(ticksTo / NeedTunings.NeedUpdateInterval) * NeedTunings.NeedUpdateInterval;
         }
 
-        public static int TicksToNextUpdateTick(this Thing thing, int interval)
+        public static int TicksToNextUpdateTick(this Thing thing)
         {
             // In vanilla, need updates are made when
             //   thing.HashOffsetTicks() % interval == 0
@@ -35,7 +35,7 @@ namespace Improved_Need_Indicator
 
             // We first calculate the remainder
             //   by doing the same thing as vanilla w/o comparison
-            int result = (thing.HashOffsetTicks()) % interval;
+            int result = (thing.HashOffsetTicks()) % NeedTunings.NeedUpdateInterval;
 
             // In vanilla, "to be zero or not to be zero"
             //   was all that mattered
@@ -46,7 +46,7 @@ namespace Improved_Need_Indicator
             // To actually get modulo, we +150 if it's negative
             //   then we are ready to return
             if (result < 0)
-                return result + interval;
+                return result + NeedTunings.NeedUpdateInterval;
             else
                 return result;
         }

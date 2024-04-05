@@ -50,7 +50,7 @@ namespace Improved_Need_Indicator
             cachedLevelOfNeed = levelOfNeed;
             cachedPawnId = pawn.thingIDNumber;
 
-            tickOffset = pawn.TicksToNextUpdateTick(NeedTunings.NeedUpdateInterval);
+            tickOffset = pawn.TicksToNextUpdateTick();
 
             perTickRestFall = RestFallPerTick(need, pawn);
             perTickRestGain = RestGainPerTick(need, pawn);
@@ -117,7 +117,7 @@ namespace Improved_Need_Indicator
             float levelDeltaToThreshold = (levelOfNeed - threshold);
             float ticksToNeedThreshold = levelDeltaToThreshold / perTickLevelChange;
 
-            return ticksToNeedThreshold.RoundUpTickToMultipleOfInterval(NeedTunings.NeedUpdateInterval);
+            return ticksToNeedThreshold.RoundUpTickToMultipleOfInterval();
         }
     }
 }
