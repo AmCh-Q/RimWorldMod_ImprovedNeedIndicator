@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using UnityEngine;
 using RimWorld;
 using Verse;
 
@@ -10,6 +9,8 @@ namespace Improved_Need_Indicator
         private static int tickCache = -1;
         private static float levelCache = -1f;
         private static int pawnIdCache = -1;
+        private static float fallPerTick = 0f;
+        private static float gainPerTick = 0f;
         private static string tipMsgCache = string.Empty;
 
         private static readonly FieldInfo
@@ -30,6 +31,11 @@ namespace Improved_Need_Indicator
                 curLevel == levelCache &&
                 pawnIdCache == pawn.thingIDNumber)
                 return tipMsgCache;
+            // If different pawn or too long since update
+            //   update change per tick
+            if (pawnIdCache != pawn.thingIDNumber ||
+                currTick - tickCache > Utility.interval)
+                UpdateChangePerTick(need, pawn);
             tickCache = currTick;
             levelCache = curLevel;
             pawnIdCache = pawn.thingIDNumber;
@@ -40,69 +46,76 @@ namespace Improved_Need_Indicator
             bool resting = need.Resting;
 #endif
             string newTip = "\n";
-            int tickCorrection = pawn.IntervalCorretion();
+            int tickCorrection = -pawn.TickSinceUpdate();
+            if (tickCorrection == 0)
+                UpdateChangePerTick(need, pawn);
+            // When time is ticking up, use 0 (disable correction)
+            int restingCorrection = resting ? tickCorrection : 0;
+            int awakeCorrection = resting ? 0 : tickCorrection;
+
             // Using "|" to avoid short-circuiting
-            if (HandleResting(need, pawn, resting ? tickCorrection : 0, ref newTip) |
-                HandleAwake(need, pawn, resting ? 0 : tickCorrection, ref newTip))
+            if (HandleResting(curLevel, restingCorrection, ref newTip) |
+                HandleAwake(curLevel, awakeCorrection, ref newTip))
                 return tipMsgCache = newTip;
             return tipMsgCache = string.Empty;
         }
 
-        private static bool HandleResting(
-            Need_Rest need, Pawn pawn, int tickCorrection, ref string tipMsg)
+        private static void UpdateChangePerTick(Need_Rest need, Pawn pawn)
         {
-            float changePerTick = Need_Rest.BaseRestGainPerTick
+            gainPerTick = Need_Rest.BaseRestGainPerTick
                 * (float)f_lastRestEffectiveness.GetValue(need)
                 * pawn.GetStatValue(StatDefOf.RestRateMultiplier);
-            if (changePerTick <= 0f)
+            fallPerTick = need.RestFallPerTick;
+#if (!v1_2 && !v1_3)
+            // StatDef did not exist back in 1.2/1.3
+            fallPerTick *= pawn.GetStatValue(StatDefOf.RestFallRateFactor);
+#endif
+        }
+        private static bool HandleResting(
+            float curLevel, int tickCorrection, ref string tipMsg)
+        {
+            if (gainPerTick <= 0f)
                 return false;
 
-            float curLevel = need.CurLevel;
-            float ticksTo = (1f - curLevel) / changePerTick;
-            int ticksToInt = (ticksTo <= 0f) ? 0 : ticksTo.CeilToUpdate();
-            ticksToInt += tickCorrection;
+            int ticksToTotal = tickCorrection;
+            int ticksToUpdate = ((1f - curLevel) / gainPerTick).CeilToUpdate();
+            ticksToTotal += ticksToUpdate;
 
             tipMsg += "INI.Rest.Rested".Translate(
-                ticksToInt.TicksToPeriod());
+                ticksToTotal.TicksToPeriod());
             return true;
         }
         private static bool HandleAwake(
-            Need_Rest need, Pawn pawn, int tickCorrection, ref string tipMsg)
+            float curLevel, int tickCorrection, ref string tipMsg)
         {
-            float changePerTick = need.RestFallPerTick;
-#if (!v1_2 && !v1_3)
-            // StatDef did not exist back in 1.2/1.3
-            changePerTick *= pawn.GetStatValue(StatDefOf.RestFallRateFactor);
-#endif
-            if (changePerTick <= 0f)
+            if (Rest.fallPerTick <= 0f)
                 return false;
+            float fallPerTick = Rest.fallPerTick;
 
-            float curLevel = need.CurLevel;
-            float ticksTo;
-            int ticksToInt = tickCorrection;
+            int ticksToTotal = tickCorrection;
             if (curLevel >= Need_Rest.ThreshTired)
             {
-                ticksTo = (curLevel - Need_Rest.ThreshTired) / changePerTick;
-                ticksToInt += ticksTo.CeilToUpdate();
-                tipMsg += "INI.Rest.Tired".Translate(ticksToInt.TicksToPeriod());
-                curLevel -= ticksTo.CeilToUpdate() * changePerTick;
-                changePerTick *= 0.7f; // rest will fall slower
+                int ticksToUpdate = ((curLevel - Need_Rest.ThreshTired) / fallPerTick).CeilToUpdate();
+                ticksToTotal += ticksToUpdate;
+                tipMsg += "INI.Rest.Tired".Translate(ticksToTotal.TicksToPeriod());
+                curLevel -= ticksToUpdate * fallPerTick;
+                fallPerTick *= 0.7f; // rest will fall slower
             }
             if (curLevel >= Need_Rest.ThreshVeryTired)
             {
-                ticksTo = (curLevel - Need_Rest.ThreshVeryTired) / changePerTick;
-                ticksToInt += ticksTo.CeilToUpdate();
-                tipMsg += "INI.Rest.VeryTired".Translate(ticksToInt.TicksToPeriod());
-                curLevel -= ticksTo.CeilToUpdate() * changePerTick;
-                changePerTick *= 0.3f / 0.7f; // rest will fall slower
+                int ticksToUpdate = ((curLevel - Need_Rest.ThreshVeryTired) / fallPerTick).CeilToUpdate();
+                ticksToTotal += ticksToUpdate;
+                tipMsg += "INI.Rest.VeryTired".Translate(ticksToTotal.TicksToPeriod());
+                curLevel -= ticksToUpdate * fallPerTick;
+                fallPerTick *= 0.3f / 0.7f; // rest will fall slower
             }
             if (curLevel > 0f)
             {
-                ticksTo = curLevel / changePerTick;
-                ticksToInt += ticksTo.CeilToUpdate();
+                int ticksToUpdate = (curLevel / fallPerTick).CeilToUpdate();
+                ticksToTotal += ticksToUpdate;
             }
             tipMsg += "INI.Rest.Exhausted".Translate(
-                ticksToInt.TicksToPeriod());
+                ticksToTotal.TicksToPeriod());
             return true;
         }
     }
