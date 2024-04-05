@@ -35,7 +35,6 @@ namespace Improved_Need_Indicator
             float perTickRestFall;
             int tickOffset;
             int ticksToThresholdUpdateTick;
-            string tipStringAddendum;
 
 
             levelOfNeed = need.CurLevel;
