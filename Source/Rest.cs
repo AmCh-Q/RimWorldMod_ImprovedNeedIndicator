@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using RimWorld;
 using Verse;
 
@@ -23,6 +24,8 @@ namespace Improved_Need_Indicator
 
         public static string ProcessNeed(Need_Rest need)
         {
+            List<string> tipAddendums = new List<string>();
+
             Pawn pawn = (Pawn)f_pawn.GetValue(need);
             int tickNow = Find.TickManager.TicksGame;
 
@@ -54,13 +57,9 @@ namespace Improved_Need_Indicator
             perTickRestGain = RestGainPerTick(need, pawn);
 
 
-            tipStringAddendum = "\n";
-
-
             ticksToThresholdUpdateTick = tickOffset;
             ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(1f, levelOfNeed, perTickRestGain);
-            tipStringAddendum += "\n";
-            tipStringAddendum += "INI.Rest.Rested".Translate(ticksToThresholdUpdateTick.TicksToPeriod());
+            tipAddendums.Add("INI.Rest.Rested".Translate(ticksToThresholdUpdateTick.TicksToPeriod()));
 
 
             ticksToThresholdUpdateTick = tickOffset;
@@ -69,9 +68,7 @@ namespace Improved_Need_Indicator
             if (levelOfNeed >= Need_Rest.ThreshTired)
             {
                 ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(levelOfNeed, Need_Rest.ThreshTired, perTickRestFall);
-
-                tipStringAddendum += "\n";
-                tipStringAddendum += "INI.Rest.Tired".Translate(ticksToThresholdUpdateTick.TicksToPeriod());
+                tipAddendums.Add("INI.Rest.Tired".Translate(ticksToThresholdUpdateTick.TicksToPeriod()));
 
                 // Set need and perTickRestFall fall so VeryTired can calculate from
                 // the edge of where Tired leaves off.
@@ -82,9 +79,7 @@ namespace Improved_Need_Indicator
             if (levelOfNeed >= Need_Rest.ThreshVeryTired)
             {
                 ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(levelOfNeed, Need_Rest.ThreshVeryTired, perTickRestFall);
-
-                tipStringAddendum += "\n";
-                tipStringAddendum += "INI.Rest.VeryTired".Translate(ticksToThresholdUpdateTick.TicksToPeriod());
+                tipAddendums.Add("INI.Rest.VeryTired".Translate(ticksToThresholdUpdateTick.TicksToPeriod()));
 
                 // Set need and perTickRestFall so Exhausted can calculate from
                 // the edge of where VeryTired leaves off.
@@ -95,12 +90,10 @@ namespace Improved_Need_Indicator
             if (levelOfNeed > 0)
             {
                 ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(levelOfNeed, 0f, perTickRestFall);
-
-                tipStringAddendum += "\n";
-                tipStringAddendum += "INI.Rest.Exhausted".Translate(ticksToThresholdUpdateTick.TicksToPeriod());
+                tipAddendums.Add("INI.Rest.Exhausted".Translate(ticksToThresholdUpdateTick.TicksToPeriod()));
             }
 
-            return cachedTipStringAddendum = tipStringAddendum;
+            return cachedTipStringAddendum = "\n" + string.Join("\n", tipAddendums);
         }
 
         private static float RestFallPerTick(Need_Rest need, Pawn pawn)
