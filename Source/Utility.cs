@@ -7,7 +7,6 @@ namespace Improved_Need_Indicator
 {
     public static class Utility
     {
-
         public const BindingFlags flags
             = BindingFlags.Instance
             | BindingFlags.Static
