@@ -56,13 +56,18 @@ namespace Improved_Need_Indicator
             perTickRestFall = RestFallPerTick(need, pawn);
             perTickRestGain = RestGainPerTick(need, pawn);
 
+
             tipStringAddendum = "\n";
 
-            ticksToThresholdUpdateTick = tickOffset + TicksToNeedThresholdUpdateTick(1f, perTickRestGain, levelOfNeed);
+
+            ticksToThresholdUpdateTick = tickOffset;
+            ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(1f, perTickRestGain, levelOfNeed);
             tipStringAddendum += "\n";
             tipStringAddendum += "INI.Rest.Rested".Translate(ticksToThresholdUpdateTick.TicksToPeriod());
 
+
             ticksToThresholdUpdateTick = tickOffset;
+
 
             if (levelOfNeed >= Need_Rest.ThreshTired)
             {
