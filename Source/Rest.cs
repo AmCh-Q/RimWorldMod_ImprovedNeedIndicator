@@ -32,77 +32,71 @@ namespace Improved_Need_Indicator
             float perTickRestGain;
             float perTickRestFall;
 
-            int ticksToFullRestUpdateTick;
-            int ticksToTiredUpdateTick;
-            int ticksToVeryTiredUpdateTick;
-            int ticksToExhaustedUpdateTick;
+            int tickOffset;
+            int ticksToThresholdUpdateTick;
 
 
             tickNow = Find.TickManager.TicksGame;
             levelOfNeed = need.CurLevel;
             pawn = (Pawn)f_pawn.GetValue(need);
 
-            if (cachedPawnId == pawn.thingIDNumber)
+            if (cachedPawnId == pawn.thingIDNumber &&
+                tickNow == cachedTickNow &&
+                levelOfNeed.IsCloseTo(cachedLevelOfNeed, 0.0001f))
             {
-                if (pawn.IsHashIntervalTick(NeedTunings.NeedUpdateInterval) == false)
-                    return cachedTipStringAddendum;
-
-                // Use cached string if need level and tick match
-                if (tickNow == cachedTickNow &&
-                    levelOfNeed.IsCloseTo(cachedLevelOfNeed, 0.0001f))
-                    return cachedTipStringAddendum;
+                return cachedTipStringAddendum;
             }
 
             cachedTickNow = tickNow;
             cachedLevelOfNeed = levelOfNeed;
             cachedPawnId = pawn.thingIDNumber;
 
+            tickOffset = pawn.TicksToNextUpdateTick(NeedTunings.NeedUpdateInterval);
+
             perTickRestFall = RestFallPerTick(need, pawn);
             perTickRestGain = RestGainPerTick(need, pawn);
 
             tipStringAddendum = "\n";
 
-            ticksToFullRestUpdateTick = TicksToNeedThresholdUpdateTick(1f, perTickRestGain, levelOfNeed);
+            ticksToThresholdUpdateTick = tickOffset + TicksToNeedThresholdUpdateTick(1f, perTickRestGain, levelOfNeed);
             tipStringAddendum += "\n";
-            tipStringAddendum += "INI.Rest.Rested".Translate(ticksToFullRestUpdateTick.TicksToPeriod());
+            tipStringAddendum += "INI.Rest.Rested".Translate(ticksToThresholdUpdateTick.TicksToPeriod());
+
+            ticksToThresholdUpdateTick = tickOffset;
 
             if (levelOfNeed >= Need_Rest.ThreshTired)
             {
-                ticksToTiredUpdateTick = TicksToNeedThresholdUpdateTick(levelOfNeed, perTickRestFall, Need_Rest.ThreshTired);
-                ticksToVeryTiredUpdateTick = (
-                    ticksToTiredUpdateTick +
-                    TicksToNeedThresholdUpdateTick(Need_Rest.ThreshTired, perTickRestFall * 0.7f, Need_Rest.ThreshVeryTired));
-                ticksToExhaustedUpdateTick = (
-                    ticksToVeryTiredUpdateTick +
-                    TicksToNeedThresholdUpdateTick(Need_Rest.ThreshVeryTired, perTickRestFall * 0.3f, 0f));
+                ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(levelOfNeed, perTickRestFall, Need_Rest.ThreshTired);
 
                 tipStringAddendum += "\n";
-                tipStringAddendum += "INI.Rest.Tired".Translate(ticksToTiredUpdateTick.TicksToPeriod());
-                tipStringAddendum += "\n";
-                tipStringAddendum += "INI.Rest.VeryTired".Translate(ticksToVeryTiredUpdateTick.TicksToPeriod());
-                tipStringAddendum += "\n";
-                tipStringAddendum += "INI.Rest.Exhausted".Translate(ticksToExhaustedUpdateTick.TicksToPeriod());
+                tipStringAddendum += "INI.Rest.Tired".Translate(ticksToThresholdUpdateTick.TicksToPeriod());
 
-            } else if (levelOfNeed >= Need_Rest.ThreshVeryTired)
-            {
-                ticksToVeryTiredUpdateTick = TicksToNeedThresholdUpdateTick(levelOfNeed, perTickRestFall, Need_Rest.ThreshVeryTired);
-                ticksToExhaustedUpdateTick = (
-                    ticksToVeryTiredUpdateTick +
-                    TicksToNeedThresholdUpdateTick(Need_Rest.ThreshVeryTired, perTickRestFall * (0.3f/0.7f), 0f));
-
-                tipStringAddendum += "\n";
-                tipStringAddendum += "INI.Rest.VeryTired".Translate(ticksToVeryTiredUpdateTick.TicksToPeriod());
-                tipStringAddendum += "\n";
-                tipStringAddendum += "INI.Rest.Exhausted".Translate(ticksToExhaustedUpdateTick.TicksToPeriod());
-
-            } else
-            {
-                ticksToExhaustedUpdateTick = TicksToNeedThresholdUpdateTick(levelOfNeed, perTickRestFall, 0f);
-
-                tipStringAddendum += "\n";
-                tipStringAddendum += "INI.Rest.Exhausted".Translate(ticksToExhaustedUpdateTick.TicksToPeriod());
+                // Set need and perTickRestFall fall so VeryTired can calculate from
+                // the edge of where Tired leaves off.
+                levelOfNeed -= ticksToThresholdUpdateTick * perTickRestFall;
+                perTickRestFall *= 0.7f;
             }
 
+            if (levelOfNeed >= Need_Rest.ThreshVeryTired)
+            {
+                ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(levelOfNeed, perTickRestFall, Need_Rest.ThreshVeryTired);
+
+                tipStringAddendum += "\n";
+                tipStringAddendum += "INI.Rest.VeryTired".Translate(ticksToThresholdUpdateTick.TicksToPeriod());
+
+                // Set need and perTickRestFall so Exhausted can calculate from
+                // the edge of where VeryTired leaves off.
+                levelOfNeed -= ticksToThresholdUpdateTick * perTickRestFall;
+                perTickRestFall *= (0.3f/0.7f);
+            }
+
+            if (levelOfNeed > 0)
+            {
+                ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(levelOfNeed, perTickRestFall, 0f);
+
+                tipStringAddendum += "\n";
+                tipStringAddendum += "INI.Rest.Exhausted".Translate(ticksToThresholdUpdateTick.TicksToPeriod());
+            }
 
             return cachedTipStringAddendum = tipStringAddendum;
         }
