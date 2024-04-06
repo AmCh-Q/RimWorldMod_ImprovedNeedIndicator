@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using RimWorld;
 using Verse;
@@ -49,6 +50,29 @@ namespace Improved_Need_Indicator
                 return result + NeedTunings.NeedUpdateInterval;
 
             return result;
+        }
+
+        public static bool TickUpdateToThreshold(
+            ref float levelOfNeed, float threshold, float signedChangePerTick,
+            ref int tickAccumulator, string thresholdName, List<string> tipAddendums)
+        {
+            // Simulate the ticking to past the threshold
+            //   And add the taken number of ticks to accumulator
+            // Return true if the update were executed
+            // If need level is decreasing, signedChangePerTick should be negative, vice versa
+
+            // Skip if change is 0, or if levelOfNeed is already past the threshold
+            if (signedChangePerTick == 0f || 
+                (levelOfNeed - threshold) * signedChangePerTick > 0f)
+                return false;
+
+            float deltaToThreshold = levelOfNeed - threshold;
+            int ticksToThreshold = Mathf.CeilToInt(deltaToThreshold / signedChangePerTick);
+
+            tickAccumulator += ticksToThreshold;
+            levelOfNeed -= ticksToThreshold * signedChangePerTick;
+            tipAddendums.Add(thresholdName.Translate(tickAccumulator.TicksToPeriod()));
+            return true;
         }
 
         public static string TicksToPeriod(this int ticksTo)

@@ -8,7 +8,7 @@
     <BaseIntermediateOutputPath>obj\1.5\</BaseIntermediateOutputPath>
     <MSBUildProjectExtensionsPath>obj\1.5\</MSBUildProjectExtensionsPath>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <OutputType>Library</OutputType>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -31,6 +31,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <ItemGroup>
     <Compile Include="ImprovedNeedIndicator.cs" />
+    <Compile Include="Joy.cs" />
     <Compile Include="Properties\AssemblyInfo_1.5.cs" />
     <Compile Include="Food.cs" />
     <Compile Include="Rest.cs" />
