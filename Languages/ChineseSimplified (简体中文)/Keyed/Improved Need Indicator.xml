@@ -2,8 +2,8 @@
 <LanguageData>
   <INI.Name>更多需求条信息</INI.Name>
 
-  <INI.Rest.Rested>\n{0}后睡饱</INI.Rest.Rested>
-  <INI.Rest.Tired>\n{0}后感到疲劳</INI.Rest.Tired>
-  <INI.Rest.VeryTired>\n{0}后感到非常疲劳</INI.Rest.VeryTired>
-  <INI.Rest.Exhausted>\n{0}后精疲力竭</INI.Rest.Exhausted>
+  <INI.Rest.Rested>{0}后睡饱</INI.Rest.Rested>
+  <INI.Rest.Tired>{0}后感到疲劳</INI.Rest.Tired>
+  <INI.Rest.VeryTired>{0}后感到非常疲劳</INI.Rest.VeryTired>
+  <INI.Rest.Exhausted>{0}后精疲力竭</INI.Rest.Exhausted>
 </LanguageData>
