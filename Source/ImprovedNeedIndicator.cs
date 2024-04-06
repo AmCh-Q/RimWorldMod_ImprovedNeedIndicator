@@ -7,8 +7,11 @@ namespace Improved_Need_Indicator
 {
     public class ImprovedNeedIndicator : Mod
     {
-        public static readonly Harmony harmony
-            = new Harmony(id: "AmCh.ImprovedNeedIndicator");
+        private static readonly FieldInfo
+            f_pawn = typeof(Need).GetField("pawn", Utility.flags);
+
+        public static readonly Harmony
+            harmony = new Harmony(id: "AmCh.ImprovedNeedIndicator");
 
         private delegate void ActionRef_r2<T1, T2>(T1 t1, ref T2 t2);
 
@@ -25,9 +28,14 @@ namespace Improved_Need_Indicator
 
         private static void Postfix(Need __instance, ref string __result)
         {
-            // Skip if need type is not rest
-            if (__instance is Need_Rest need)
-                __result += Rest.ProcessNeed(need);
+            Pawn pawn = (Pawn)f_pawn.GetValue(__instance);
+            int tickNow = Find.TickManager.TicksGame;
+
+            // Skip if need type is not supported yet
+            if (__instance is Need_Food)
+                __result += Food.ProcessNeed(pawn, (Need_Food) __instance, tickNow);
+            else if (__instance is Need_Rest)
+                __result += Rest.ProcessNeed(pawn, (Need_Rest) __instance, tickNow);
         }
     }
 }

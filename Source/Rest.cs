@@ -19,16 +19,11 @@ namespace Improved_Need_Indicator
             f_lastRestTick = typeof(Need_Rest).GetField("lastRestTick", Utility.flags);
 #endif
         private static readonly FieldInfo
-            f_lastRestEffectiveness = typeof(Need_Rest).GetField("lastRestEffectiveness", Utility.flags),
-            f_pawn = typeof(Need).GetField("pawn", Utility.flags);
+            f_lastRestEffectiveness = typeof(Need_Rest).GetField("lastRestEffectiveness", Utility.flags);
 
-        public static string ProcessNeed(Need_Rest need)
+        public static string ProcessNeed(Pawn pawn, Need_Rest need, int tickNow)
         {
             List<string> tipAddendums = new List<string>();
-
-            Pawn pawn = (Pawn)f_pawn.GetValue(need);
-            int tickNow = Find.TickManager.TicksGame;
-
 
             bool pawnIsResting;
             float levelOfNeed;
@@ -36,8 +31,6 @@ namespace Improved_Need_Indicator
             float perTickRestFall;
             int tickOffset;
             int tickAccumulator;
-            int tickAwakeOffset;
-            int tickRestingOffset;
             int ticksToThresholdUpdateTick;
 
 
@@ -60,19 +53,21 @@ namespace Improved_Need_Indicator
             pawnIsResting = need.Resting;
 #endif
 
-            tickOffset = -pawn.TicksToNextUpdateTick();
-            tickAwakeOffset = pawnIsResting ? 0 : tickOffset;
-            tickRestingOffset = pawnIsResting ? tickOffset : 0;
 
             perTickRestFall = RestFallPerTick(need, pawn);
             perTickRestGain = RestGainPerTick(need, pawn);
+            tickOffset = pawn.TicksToNextUpdateTick();
+
+            if (pawnIsResting)
+                levelOfNeed += tickOffset * perTickRestGain;
+            else
+                levelOfNeed -= tickOffset * perTickRestFall;
 
 
-            ticksToThresholdUpdateTick = tickRestingOffset;
-            ticksToThresholdUpdateTick += TicksToNeedThresholdUpdateTick(1f - levelOfNeed, 0f, perTickRestGain);
-            tipAddendums.Add("INI.Rest.Rested".Translate(ticksToThresholdUpdateTick.TicksToPeriod()));
+            ticksToThresholdUpdateTick = TicksToNeedThresholdUpdateTick(1f, levelOfNeed, perTickRestGain);
+            tipAddendums.Add("INI.Rest.Rested".Translate((ticksToThresholdUpdateTick).TicksToPeriod()));
 
-            tickAccumulator = tickAwakeOffset;
+            tickAccumulator = 0;
 
             if (levelOfNeed >= Need_Rest.ThreshTired)
             {
@@ -130,7 +125,7 @@ namespace Improved_Need_Indicator
             float levelDeltaToThreshold = (levelOfNeed - threshold);
             float ticksToNeedThreshold = levelDeltaToThreshold / perTickLevelChange;
 
-            return ticksToNeedThreshold.RoundUpTickToMultipleOfInterval();
+            return UnityEngine.Mathf.CeilToInt(ticksToNeedThreshold);
         }
     }
 }

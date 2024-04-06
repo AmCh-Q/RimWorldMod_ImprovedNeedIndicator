@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="ImprovedNeedIndicator.cs" />
     <Compile Include="Properties\AssemblyInfo_1.3.cs" />
+    <Compile Include="Food.cs" />
     <Compile Include="Rest.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>

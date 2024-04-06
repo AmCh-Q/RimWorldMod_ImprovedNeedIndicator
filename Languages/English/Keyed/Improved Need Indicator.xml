@@ -2,6 +2,10 @@
 <LanguageData>
   <INI.Name>Improved Need Indicator</INI.Name>
 
+  <INI.Food.Hungry>Hungry in {0}</INI.Food.Hungry>
+  <INI.Food.Ravenous>Ravenous in {0}</INI.Food.Ravenous>
+  <INI.Food.Malnourished>Malnourished in {0}</INI.Food.Malnourished>
+
   <INI.Rest.Rested>Sleep needed: {0}</INI.Rest.Rested>
   <INI.Rest.Tired>Drowsy in {0}</INI.Rest.Tired>
   <INI.Rest.VeryTired>Tired in {0}</INI.Rest.VeryTired>
