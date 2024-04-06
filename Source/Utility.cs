@@ -47,25 +47,30 @@ namespace Improved_Need_Indicator
             //   then we are ready to return
             if (result < 0)
                 return result + NeedTunings.NeedUpdateInterval;
-            else
-                return result;
+
+            return result;
         }
 
         public static string TicksToPeriod(this int ticksTo)
         {
+            string debugText = string.Empty;
+
+#if DEBUG
+            debugText += ticksTo.ToString() + ": ";
+#endif
             // If pawn's need level changed in a no-update tick
             // Such as by drugs, dev mode, or other mods
             // The input number may end up 0, so we fix that
             if (ticksTo <= 0)
-                return "PeriodSeconds".Translate("0.00");
+                return debugText + "PeriodSeconds".Translate("0.00");
 
             if (ticksTo < 600)
-                return "PeriodSeconds".Translate((ticksTo / 60f).ToString("N2"));
+                return debugText + "PeriodSeconds".Translate((ticksTo / 60f).ToString("N2"));
 
             if (ticksTo < 25000)
-                return "PeriodHours".Translate((ticksTo / 2500f).ToString("N2"));
+                return debugText + "PeriodHours".Translate((ticksTo / 2500f).ToString("N2"));
 
-            return ticksTo.ToStringTicksToPeriod();
+            return debugText + ticksTo.ToStringTicksToPeriod();
         }
     }
 }
