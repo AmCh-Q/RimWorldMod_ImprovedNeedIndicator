@@ -98,7 +98,7 @@ namespace Improved_Need_Indicator
                 perTickRestFall *= (0.3f/0.7f);
             }
 
-            if (levelOfNeed > 0)
+            if (levelOfNeed > 0f)
             {
                 ticksToThresholdUpdateTick = TicksToNeedThresholdUpdateTick(levelOfNeed, 0f, perTickRestFall);
                 tickAccumulator += ticksToThresholdUpdateTick;
