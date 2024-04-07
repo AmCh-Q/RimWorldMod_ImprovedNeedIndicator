@@ -14,7 +14,7 @@ namespace Improved_Need_Indicator
 
         public static string ProcessNeed(Pawn pawn, Need_Food need, int tickNow)
         {
-            List<string> tipAddendums = new List<string>();
+            List<string> tipAddendums = new List<string>() { string.Empty, string.Empty };
 
             HungerCategory hungerCategory;
             float levelOfNeed;
@@ -69,7 +69,7 @@ namespace Improved_Need_Indicator
                     break;
             }
 
-            return "\n" + string.Join("\n", tipAddendums);
+            return string.Join("\n", tipAddendums);
         }
 
         private static int TicksToNeedThreshold(float levelOfNeed, float threshold, float perTickLevelChange)
