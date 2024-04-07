@@ -24,7 +24,7 @@ namespace Improved_Need_Indicator
 
         public static string ProcessNeed(Pawn pawn, Need_Rest need, int tickNow)
         {
-            List<string> tipAddendums = new List<string>();
+            List<string> tipAddendums = new List<string>() { string.Empty, string.Empty };
 
             bool pawnIsResting;
             float levelOfNeed;
@@ -101,7 +101,7 @@ namespace Improved_Need_Indicator
                 tipAddendums.Add("INI.Rest.Exhausted".Translate(tickAccumulator.TicksToPeriod()));
             }
 
-            return cachedTipStringAddendum = "\n" + string.Join("\n", tipAddendums);
+            return cachedTipStringAddendum = ((TaggedString)string.Join("\n", tipAddendums)).Resolve();
         }
 
         private static float RestFallPerTick(Need_Rest need, Pawn pawn)
