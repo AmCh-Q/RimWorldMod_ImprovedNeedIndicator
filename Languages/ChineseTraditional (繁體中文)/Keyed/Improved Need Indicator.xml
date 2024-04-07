@@ -2,9 +2,9 @@
 <LanguageData>
   <INI.Name>更多需求條信息</INI.Name>
 
-  <INI.Food.Hungry>Hungry in {0}</INI.Food.Hungry>
-  <INI.Food.Ravenous>Ravenous in {0}</INI.Food.Ravenous>
-  <INI.Food.Malnourished>Malnourished in {0}</INI.Food.Malnourished>
+  <INI.Food.Hungry>{0}后感到餓</INI.Food.Hungry>
+  <INI.Food.Ravenous>{0}后非常餓</INI.Food.Ravenous>
+  <INI.Food.Malnourished>{0}后營養不良</INI.Food.Malnourished>
 
   <INI.Rest.Rested>{0}后睡飽</INI.Rest.Rested>
   <INI.Rest.Tired>{0}后感到昏昏欲睡</INI.Rest.Tired>
