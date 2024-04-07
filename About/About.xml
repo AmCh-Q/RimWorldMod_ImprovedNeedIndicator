@@ -2,7 +2,7 @@
 <ModMetaData>
   <packageId>AmCh.ImprovedNeedIndicator</packageId>
   <name>Improved Need Indicator</name>
-  <modVersion IgnoreIfNoMatchingField="True">0.9.1</modVersion>
+  <modVersion IgnoreIfNoMatchingField="True">0.10.0</modVersion>
   <authors>
     <li>AmCh</li>
     <li>Missionz3r0</li>
