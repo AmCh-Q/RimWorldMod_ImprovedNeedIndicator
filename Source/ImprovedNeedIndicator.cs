@@ -22,6 +22,7 @@ namespace Improved_Need_Indicator
 
         private static readonly HarmonyMethod
             postfix = new HarmonyMethod(((ActionRef_r2<Need, string>)Postfix).Method);
+
         private static readonly HarmonyMethod
             postfix_Need_Food = new HarmonyMethod(((ActionRef_r2<Need_Food, string>)Postfix_Need_Food).Method);
 
@@ -47,7 +48,6 @@ namespace Improved_Need_Indicator
         {
             Pawn pawn = (Pawn)f_pawn.GetValue(__instance);
             int tickNow = Find.TickManager.TicksGame;
-            __result += "\nThis is to test that the postfix worked, remove this.\n";
             __result += Food.ProcessNeed(pawn, __instance, tickNow);
         }
     }
