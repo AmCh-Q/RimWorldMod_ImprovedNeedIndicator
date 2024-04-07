@@ -10,4 +10,10 @@
   <INI.Rest.Tired>Drowsy in {0}</INI.Rest.Tired>
   <INI.Rest.VeryTired>Tired in {0}</INI.Rest.VeryTired>
   <INI.Rest.Exhausted>Exhausted in {0}</INI.Rest.Exhausted>
+
+  <INI.Joy.High>Recreation satisfied in {0}</INI.Joy.High>
+  <INI.Joy.Satisfied>Recreation neutral in {0}</INI.Joy.Satisfied>
+  <INI.Joy.Low>Recreation unfulfilled in {0}</INI.Joy.Low>
+  <INI.Joy.VeryLow>Recreation deprived in {0}</INI.Joy.VeryLow>
+  <INI.Joy.Empty>Recreation starved in {0}</INI.Joy.Empty>
 </LanguageData>

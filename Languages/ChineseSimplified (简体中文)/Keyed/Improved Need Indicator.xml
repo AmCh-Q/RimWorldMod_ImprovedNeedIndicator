@@ -6,4 +6,10 @@
   <INI.Rest.Tired>{0}后感到疲劳</INI.Rest.Tired>
   <INI.Rest.VeryTired>{0}后感到非常疲劳</INI.Rest.VeryTired>
   <INI.Rest.Exhausted>{0}后精疲力竭</INI.Rest.Exhausted>
+
+  <INI.Joy.High>{0}后感觉娱乐充足</INI.Joy.High>
+  <INI.Joy.Satisfied>{0}后感觉娱乐一般</INI.Joy.Satisfied>
+  <INI.Joy.Low>{0}后感觉娱乐不足</INI.Joy.Low>
+  <INI.Joy.VeryLow>{0}后感觉缺乏娱乐</INI.Joy.VeryLow>
+  <INI.Joy.Empty>{0}后感觉毫无娱乐</INI.Joy.Empty>
 </LanguageData>

@@ -8,16 +8,16 @@ namespace Improved_Need_Indicator
 {
     public static class Joy
     {
-        const float
+        private const float
             ThreshHigh = 0.85f,
             ThreshSatisfied = 0.7f,
             ThreshLow = 0.3f,
             ThreshVeryLow = 0.15f,
-            //changePerTickExtereme     = -0.0015f  / NeedTunings.NeedUpdateInterval,
-            //changePerTickHigh         = -0.0015f  / NeedTunings.NeedUpdateInterval,
-            changePerTickSatisfied      = -0.0015f  / NeedTunings.NeedUpdateInterval,
-            changePerTickLow            = -0.00105f / NeedTunings.NeedUpdateInterval,
-            changePerTickVeryLow        = -0.0006f  / NeedTunings.NeedUpdateInterval;
+            //changePerTickExtereme = -0.0015f / NeedTunings.NeedUpdateInterval,
+            //changePerTickHigh = -0.0015f / NeedTunings.NeedUpdateInterval,
+            changePerTickSatisfied = -0.0015f / NeedTunings.NeedUpdateInterval,
+            changePerTickLow = -0.00105f / NeedTunings.NeedUpdateInterval,
+            changePerTickVeryLow = -0.0006f / NeedTunings.NeedUpdateInterval;
 
         private static float cachedLevelOfNeed = -1f;
         private static int cachedPawnId = -1;
@@ -26,7 +26,7 @@ namespace Improved_Need_Indicator
 
         public static string ProcessNeed(Pawn pawn, Need_Joy need, int tickNow)
         {
-            List<string> tipAddendums = new List<string>() { string.Empty };
+            List<string> tipAddendums = new List<string>() { string.Empty , string.Empty };
             float levelOfNeed;
             float changePerTick;
             int tickOffset;
@@ -34,9 +34,9 @@ namespace Improved_Need_Indicator
 
             levelOfNeed = need.CurLevel;
 
-            if (cachedPawnId == pawn.thingIDNumber &&
+            if (pawn.thingIDNumber == cachedPawnId &&
                 tickNow == cachedTickNow &&
-                levelOfNeed.IsCloseTo(cachedLevelOfNeed, 0.0001f))
+                levelOfNeed == cachedLevelOfNeed)
                 return cachedTipStringAddendum;
 
             cachedTickNow = tickNow;
@@ -45,7 +45,7 @@ namespace Improved_Need_Indicator
 
             changePerTick = FallPerTick(need, pawn);
             tickOffset = pawn.TicksToNextUpdateTick();
-            levelOfNeed -= tickOffset * changePerTick;
+            levelOfNeed += tickOffset * changePerTick;
 
             tickAccumulator = 0;
             Utility.TickUpdateToThreshold(ref levelOfNeed, ThreshHigh, changePerTick,
@@ -64,14 +64,25 @@ namespace Improved_Need_Indicator
             return cachedTipStringAddendum = string.Join("\n", tipAddendums);
         }
 
-        private static MethodInfo
-            get_FallPerInterval = typeof(Need_Joy).GetProperty("FallPerInterval", Utility.flags).GetGetMethod();
+        private static readonly MethodInfo
+            get_FallPerInterval = typeof(Need_Joy)
+                .GetProperty("FallPerInterval", Utility.flags).GetGetMethod(nonPublic: true);
 
         private static float FallPerTick(Need_Joy need, Pawn pawn)
         {
-            return -(float)get_FallPerInterval.Invoke(need, null)
-                * (pawn.IsFormingCaravan() ? 0.5f : 1f) 
+            const float negInvInterval = -1f / NeedTunings.NeedUpdateInterval;
+            if (get_FallPerInterval == null)
+                Log.Error("get_FallPerInterval is null!");
+#if v1_2
+            return (float)get_FallPerInterval.Invoke(need, null) * negInvInterval;
+#elif v1_3 || v1_4
+            return (float)get_FallPerInterval.Invoke(need, null)
+                * (pawn.IsFormingCaravan() ? 0.5f * negInvInterval : negInvInterval);
+#else
+            return (float)get_FallPerInterval.Invoke(need, null)
+                * (pawn.IsFormingCaravan() ? 0.5f * negInvInterval : negInvInterval)
                 * pawn.GetStatValue(StatDefOf.JoyFallRateFactor);
+#endif
         }
     }
 }

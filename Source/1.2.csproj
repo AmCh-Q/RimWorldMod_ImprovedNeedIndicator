@@ -31,6 +31,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <ItemGroup>
     <Compile Include="ImprovedNeedIndicator.cs" />
+    <Compile Include="Joy.cs" />
     <Compile Include="Properties\AssemblyInfo_1.2.cs" />
     <Compile Include="Food.cs" />
     <Compile Include="Rest.cs" />

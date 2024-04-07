@@ -63,14 +63,14 @@ namespace Improved_Need_Indicator
 
             // Skip if change is 0, or if levelOfNeed is already past the threshold
             if (signedChangePerTick == 0f || 
-                (levelOfNeed - threshold) * signedChangePerTick > 0f)
+                (threshold - levelOfNeed) * signedChangePerTick < 0f)
                 return false;
 
-            float deltaToThreshold = levelOfNeed - threshold;
+            float deltaToThreshold = threshold - levelOfNeed;
             int ticksToThreshold = Mathf.CeilToInt(deltaToThreshold / signedChangePerTick);
 
             tickAccumulator += ticksToThreshold;
-            levelOfNeed -= ticksToThreshold * signedChangePerTick;
+            levelOfNeed += ticksToThreshold * signedChangePerTick;
             tipAddendums.Add(thresholdName.Translate(tickAccumulator.TicksToPeriod()));
             return true;
         }

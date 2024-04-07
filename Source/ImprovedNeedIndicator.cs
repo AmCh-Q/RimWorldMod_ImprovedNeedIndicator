@@ -32,10 +32,12 @@ namespace Improved_Need_Indicator
             int tickNow = Find.TickManager.TicksGame;
 
             // Skip if need type is not supported yet
-            if (__instance is Need_Food)
-                __result += Food.ProcessNeed(pawn, (Need_Food) __instance, tickNow);
-            else if (__instance is Need_Rest)
-                __result += Rest.ProcessNeed(pawn, (Need_Rest) __instance, tickNow);
+            if (__instance is Need_Food need_food)
+                __result += Food.ProcessNeed(pawn, need_food, tickNow);
+            else if (__instance is Need_Rest need_rest)
+                __result += Rest.ProcessNeed(pawn, need_rest, tickNow);
+            else if (__instance is Need_Joy need_joy)
+                __result += Joy.ProcessNeed(pawn, need_joy, tickNow);
         }
     }
 }
