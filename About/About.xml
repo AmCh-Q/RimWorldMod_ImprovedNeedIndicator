@@ -14,17 +14,27 @@ Adds tooltip text to inform the player how long a pawn has until mood debuffs.
 
 [h2]Needs Indicators Implemented[/h2]
 [list]
-[*] Sleep
+[*] Food
+[*] Recreation
+[*] Rest
 [/list]
 
 [h2]Needs Indicators On Deck[/h2]
 [list]
-[*] Food
+[*] Beauty
 [/list]
 
 [h2]Need Indicators Upcoming[/h2]
 [list]
-[*] Yes
+[*] Chemical
+[*] Comfort
+[*] Deathrest
+[*] Energy
+[*] Indoors
+[*] Kill Satiety
+[*] Learning
+[*] Outdoors
+[*] Play
 [/list]
 
 [h1]Why[/h1]
@@ -39,7 +49,11 @@ Missionz3r0: Coding and DevOps
 I (missionz3r0) want to convey my thanks to AmCh. They did the lions share of the coding in this mod. Be sure to shower them with adulations.
 
 [h1]GitHub[/h1]
-[url=https://github.com/AmCh-Q/RimWorldMod_ImprovedNeedIndicator] Did I mention it's open source too? [/url] 
+[url=https://github.com/AmCh-Q/RimWorldMod_ImprovedNeedIndicator] Did I mention it's open source too? [/url]
+
+[h1]Some of our other mods[/h1]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3201556917]More Sleep Accelorators[/url]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2566316158]Need Bar Overflow[/url]
   </description>
   <supportedVersions>
     <li>1.2</li>
