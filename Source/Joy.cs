@@ -61,6 +61,7 @@ namespace Improved_Need_Indicator
             Utility.TickUpdateToThreshold(ref levelOfNeed, 0, changePerTick,
                 ref tickAccumulator, "INI.Joy.Empty", tipAddendums);
 
+            // No need to resolve since Vanilla already does that
             return cachedTipStringAddendum = string.Join("\n", tipAddendums);
         }
 

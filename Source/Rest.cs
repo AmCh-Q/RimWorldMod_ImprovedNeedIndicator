@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine;
 using RimWorld;
 using Verse;
 
@@ -125,7 +126,7 @@ namespace Improved_Need_Indicator
             float levelDeltaToThreshold = (levelOfNeed - threshold);
             float ticksToNeedThreshold = levelDeltaToThreshold / perTickLevelChange;
 
-            return UnityEngine.Mathf.CeilToInt(ticksToNeedThreshold);
+            return Mathf.CeilToInt(ticksToNeedThreshold);
         }
     }
 }

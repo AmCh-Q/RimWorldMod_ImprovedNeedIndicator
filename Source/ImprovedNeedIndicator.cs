@@ -1,6 +1,6 @@
-﻿using HarmonyLib;
+﻿using System.Reflection;
+using HarmonyLib;
 using RimWorld;
-using System.Reflection;
 using Verse;
 
 namespace Improved_Need_Indicator
