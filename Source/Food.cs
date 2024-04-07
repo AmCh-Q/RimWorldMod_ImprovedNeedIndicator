@@ -86,7 +86,7 @@ namespace Improved_Need_Indicator
                     break;
             }
 
-            return cachedTipStringAddendum = string.Join("\n", tipAddendums);
+            return cachedTipStringAddendum = ((TaggedString)string.Join("\n", tipAddendums)).Resolve();
         }
 
         private static int TicksToNeedThreshold(float levelOfNeed, float threshold, float perTickLevelChange)
