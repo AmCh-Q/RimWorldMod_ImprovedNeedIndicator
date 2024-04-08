@@ -2,18 +2,18 @@
 <LanguageData>
   <INI.Name>Improved Need Indicator</INI.Name>
 
-  <INI.Food.Hungry>Hungry in {0}</INI.Food.Hungry>
-  <INI.Food.Ravenous>Ravenous in {0}</INI.Food.Ravenous>
-  <INI.Food.Malnourished>Malnourished in {0}</INI.Food.Malnourished>
+  <INI.Food.Hungry>{0} till hungry</INI.Food.Hungry>
+  <INI.Food.Ravenous>{0} till ravenous</INI.Food.Ravenous>
+  <INI.Food.Malnourished>{0} till malnourished</INI.Food.Malnourished>
 
-  <INI.Rest.Rested>Sleep needed: {0}</INI.Rest.Rested>
-  <INI.Rest.Tired>Drowsy in {0}</INI.Rest.Tired>
-  <INI.Rest.VeryTired>Tired in {0}</INI.Rest.VeryTired>
-  <INI.Rest.Exhausted>Exhausted in {0}</INI.Rest.Exhausted>
+  <INI.Rest.Rested>{0} of sleep needed</INI.Rest.Rested>
+  <INI.Rest.Tired>{0} till drowsy</INI.Rest.Tired>
+  <INI.Rest.VeryTired>{0} till tired</INI.Rest.VeryTired>
+  <INI.Rest.Exhausted>{0} till exhausted</INI.Rest.Exhausted>
 
-  <INI.Joy.High>Satisfied in {0}</INI.Joy.High>
-  <INI.Joy.Satisfied>Neutral in {0}</INI.Joy.Satisfied>
-  <INI.Joy.Low>Unfulfilled in {0}</INI.Joy.Low>
-  <INI.Joy.VeryLow>Deprived in {0}</INI.Joy.VeryLow>
-  <INI.Joy.Empty>Starved in {0}</INI.Joy.Empty>
+  <INI.Joy.High>{0} till satisfied</INI.Joy.High>
+  <INI.Joy.Satisfied>{0} till neutral</INI.Joy.Satisfied>
+  <INI.Joy.Low>{0} till unfulfilled</INI.Joy.Low>
+  <INI.Joy.VeryLow>{0} till deprived</INI.Joy.VeryLow>
+  <INI.Joy.Empty>{0} till starved</INI.Joy.Empty>
 </LanguageData>
