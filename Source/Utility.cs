@@ -19,13 +19,7 @@ namespace Improved_Need_Indicator
             return System.Math.Abs(a - b) < margin;
         }
 
-        public static int RoundUpTickToMultipleOfInterval(this float ticksTo)
-        {
-            // Round up to multiples of interval ticks
-            return Mathf.CeilToInt(ticksTo / NeedTunings.NeedUpdateInterval) * NeedTunings.NeedUpdateInterval;
-        }
-
-        public static int TicksToNextUpdateTick(this Thing thing)
+        public static int TicksUntilNextUpdate(this Thing thing)
         {
             // In vanilla, need updates are made when
             //   thing.HashOffsetTicks() % interval == 0

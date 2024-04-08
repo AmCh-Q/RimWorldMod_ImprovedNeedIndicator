@@ -44,7 +44,7 @@ namespace Improved_Need_Indicator
             cachedPawnId = pawn.thingIDNumber;
 
             changePerTick = FallPerTick(need, pawn);
-            tickOffset = pawn.TicksToNextUpdateTick();
+            tickOffset = pawn.TicksUntilNextUpdate();
             levelOfNeed += tickOffset * changePerTick;
 
             tickAccumulator = 0;

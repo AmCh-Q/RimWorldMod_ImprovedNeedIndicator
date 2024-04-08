@@ -22,7 +22,7 @@ namespace Improved_Need_Indicator
             float threshold;
             int tickOffset;
             int tickAccumulator;
-            int ticksToThresholdUpdate;
+            int ticksUntilThreshold;
 
 
             hungerCategory = need.CurCategory;
@@ -44,7 +44,7 @@ namespace Improved_Need_Indicator
             cachedLevelOfNeed = levelOfNeed;
             cachedPawnId = pawn.thingIDNumber;
 
-            tickOffset = pawn.TicksToNextUpdateTick();
+            tickOffset = pawn.TicksUntilNextUpdate();
             perTickFoodFall = need.FoodFallPerTick;
 
             levelOfNeed -= tickOffset * perTickFoodFall;
@@ -56,29 +56,29 @@ namespace Improved_Need_Indicator
                 case HungerCategory.Fed:
                     threshold = need.PercentageThreshHungry * need.MaxLevel;
 
-                    ticksToThresholdUpdate = TicksToNeedThreshold(levelOfNeed, threshold, perTickFoodFall);
-                    tickAccumulator += ticksToThresholdUpdate;
+                    ticksUntilThreshold = TicksUntilThreshold(levelOfNeed, threshold, perTickFoodFall);
+                    tickAccumulator += ticksUntilThreshold;
                     tipAddendums.Add("INI.Food.Hungry".Translate(tickAccumulator.TicksToPeriod()));
 
-                    levelOfNeed -= ticksToThresholdUpdate * perTickFoodFall;
+                    levelOfNeed -= ticksUntilThreshold * perTickFoodFall;
                     perTickFoodFall = need.FoodFallPerTickAssumingCategory(hungerCategory);
                     goto case HungerCategory.Hungry;
 
                 case HungerCategory.Hungry:
                     threshold = need.PercentageThreshUrgentlyHungry * need.MaxLevel;
 
-                    ticksToThresholdUpdate = TicksToNeedThreshold(levelOfNeed, threshold, perTickFoodFall);
-                    tickAccumulator += ticksToThresholdUpdate;
+                    ticksUntilThreshold = TicksUntilThreshold(levelOfNeed, threshold, perTickFoodFall);
+                    tickAccumulator += ticksUntilThreshold;
                     tipAddendums.Add("INI.Food.Ravenous".Translate(tickAccumulator.TicksToPeriod()));
 
-                    levelOfNeed -= ticksToThresholdUpdate * perTickFoodFall;
+                    levelOfNeed -= ticksUntilThreshold * perTickFoodFall;
                     perTickFoodFall = need.FoodFallPerTickAssumingCategory(hungerCategory);
                     goto case HungerCategory.UrgentlyHungry;
 
                 case HungerCategory.UrgentlyHungry:
                     threshold = 0f;
 
-                    tickAccumulator += TicksToNeedThreshold(levelOfNeed, threshold, perTickFoodFall);
+                    tickAccumulator += TicksUntilThreshold(levelOfNeed, threshold, perTickFoodFall);
                     tipAddendums.Add("INI.Food.Malnourished".Translate(tickAccumulator.TicksToPeriod()));
                     break;
 
@@ -89,12 +89,12 @@ namespace Improved_Need_Indicator
             return cachedTipStringAddendum = ((TaggedString)string.Join("\n", tipAddendums)).Resolve();
         }
 
-        private static int TicksToNeedThreshold(float levelOfNeed, float threshold, float perTickLevelChange)
+        private static int TicksUntilThreshold(float levelOfNeed, float threshold, float perTickLevelChange)
         {
-            float levelDeltaToThreshold = (levelOfNeed - threshold);
-            float ticksToNeedThreshold = levelDeltaToThreshold / perTickLevelChange;
+            float levelDelta = (levelOfNeed - threshold);
+            float ticksUntilThreshold = levelDelta / perTickLevelChange;
 
-            return Mathf.CeilToInt(ticksToNeedThreshold);
+            return Mathf.CeilToInt(ticksUntilThreshold);
         }
     }
 }

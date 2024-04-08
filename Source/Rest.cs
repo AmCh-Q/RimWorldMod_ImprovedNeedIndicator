@@ -13,6 +13,9 @@ namespace Improved_Need_Indicator
         private static int cachedTickNow = -1;
         private static string cachedTipStringAddendum = string.Empty;
 
+        private static float cachedRestFallPerTick = -1;
+        private static float cachedRestGainPerTick = -1;
+
 #if (v1_2 || v1_3)
         // Need.Resting used to be private in 1.2/1.3
         //   we will copy its implementation using field Need.lastRestTick
@@ -28,11 +31,11 @@ namespace Improved_Need_Indicator
 
             bool pawnIsResting;
             float levelOfNeed;
-            float perTickRestGain;
-            float perTickRestFall;
+            float restFallPerTick;
+            float restGainPerTick;
             int tickOffset;
             int tickAccumulator;
-            int ticksToThresholdUpdateTick;
+            int ticksUntilThreshold;
 
 
             levelOfNeed = need.CurLevel;
@@ -40,8 +43,13 @@ namespace Improved_Need_Indicator
             if (cachedPawnId == pawn.thingIDNumber &&
                 tickNow == cachedTickNow &&
                 levelOfNeed.IsCloseTo(cachedLevelOfNeed, 0.0001f))
-            {
                 return cachedTipStringAddendum;
+
+            if (cachedPawnId != pawn.thingIDNumber ||
+                pawn.IsHashIntervalTick(NeedTunings.NeedUpdateInterval))
+            {
+                cachedRestFallPerTick = RestFallPerTick(need, pawn);
+                cachedRestGainPerTick = RestGainPerTick(need, pawn);
             }
 
             cachedTickNow = tickNow;
@@ -54,50 +62,49 @@ namespace Improved_Need_Indicator
             pawnIsResting = need.Resting;
 #endif
 
-
-            perTickRestFall = RestFallPerTick(need, pawn);
-            perTickRestGain = RestGainPerTick(need, pawn);
-            tickOffset = pawn.TicksToNextUpdateTick();
+            restFallPerTick = cachedRestFallPerTick;
+            restGainPerTick = cachedRestGainPerTick;
+            tickOffset = pawn.TicksUntilNextUpdate();
 
             if (pawnIsResting)
-                levelOfNeed += tickOffset * perTickRestGain;
+                levelOfNeed += tickOffset * restGainPerTick;
             else
-                levelOfNeed -= tickOffset * perTickRestFall;
+                levelOfNeed -= tickOffset * restFallPerTick;
 
 
-            ticksToThresholdUpdateTick = TicksToNeedThresholdUpdateTick(1f, levelOfNeed, perTickRestGain);
-            tipAddendums.Add("INI.Rest.Rested".Translate((ticksToThresholdUpdateTick).TicksToPeriod()));
+            ticksUntilThreshold = TicksUntilThreshold(1f, levelOfNeed, restGainPerTick);
+            tipAddendums.Add("INI.Rest.Rested".Translate(ticksUntilThreshold.TicksToPeriod()));
 
             tickAccumulator = 0;
 
             if (levelOfNeed >= Need_Rest.ThreshTired)
             {
-                ticksToThresholdUpdateTick = TicksToNeedThresholdUpdateTick(levelOfNeed, Need_Rest.ThreshTired, perTickRestFall);
-                tickAccumulator += ticksToThresholdUpdateTick;
+                ticksUntilThreshold = TicksUntilThreshold(levelOfNeed, Need_Rest.ThreshTired, restFallPerTick);
+                tickAccumulator += ticksUntilThreshold;
                 tipAddendums.Add("INI.Rest.Tired".Translate(tickAccumulator.TicksToPeriod()));
 
-                // Set need and perTickRestFall fall so VeryTired can calculate from
+                // Set need and restFallPerTick fall so VeryTired can calculate from
                 // the edge of where Tired leaves off.
-                levelOfNeed -= ticksToThresholdUpdateTick * perTickRestFall;
-                perTickRestFall *= 0.7f;
+                levelOfNeed -= ticksUntilThreshold * restFallPerTick;
+                restFallPerTick *= 0.7f;
             }
 
             if (levelOfNeed >= Need_Rest.ThreshVeryTired)
             {
-                ticksToThresholdUpdateTick = TicksToNeedThresholdUpdateTick(levelOfNeed, Need_Rest.ThreshVeryTired, perTickRestFall);
-                tickAccumulator += ticksToThresholdUpdateTick;
+                ticksUntilThreshold = TicksUntilThreshold(levelOfNeed, Need_Rest.ThreshVeryTired, restFallPerTick);
+                tickAccumulator += ticksUntilThreshold;
                 tipAddendums.Add("INI.Rest.VeryTired".Translate(tickAccumulator.TicksToPeriod()));
 
-                // Set need and perTickRestFall so Exhausted can calculate from
+                // Set need and restFallPerTick so Exhausted can calculate from
                 // the edge of where VeryTired leaves off.
-                levelOfNeed -= ticksToThresholdUpdateTick * perTickRestFall;
-                perTickRestFall *= (0.3f/0.7f);
+                levelOfNeed -= ticksUntilThreshold * restFallPerTick;
+                restFallPerTick *= (0.3f/0.7f);
             }
 
             if (levelOfNeed > 0f)
             {
-                ticksToThresholdUpdateTick = TicksToNeedThresholdUpdateTick(levelOfNeed, 0f, perTickRestFall);
-                tickAccumulator += ticksToThresholdUpdateTick;
+                ticksUntilThreshold = TicksUntilThreshold(levelOfNeed, 0f, restFallPerTick);
+                tickAccumulator += ticksUntilThreshold;
                 tipAddendums.Add("INI.Rest.Exhausted".Translate(tickAccumulator.TicksToPeriod()));
             }
 
@@ -121,12 +128,12 @@ namespace Improved_Need_Indicator
                 * pawn.GetStatValue(StatDefOf.RestRateMultiplier);
         }
 
-        private static int TicksToNeedThresholdUpdateTick(float levelOfNeed, float threshold, float perTickLevelChange)
+        private static int TicksUntilThreshold(float levelOfNeed, float threshold, float perTickLevelChange)
         {
             float levelDeltaToThreshold = (levelOfNeed - threshold);
-            float ticksToNeedThreshold = levelDeltaToThreshold / perTickLevelChange;
+            float ticksUntilThreshold = levelDeltaToThreshold / perTickLevelChange;
 
-            return Mathf.CeilToInt(ticksToNeedThreshold);
+            return Mathf.CeilToInt(ticksUntilThreshold);
         }
     }
 }
