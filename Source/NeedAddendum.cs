@@ -6,7 +6,9 @@ namespace Improved_Need_Indicator
 {
     abstract class NeedAddendum
     {
-        private static readonly FieldInfo f_pawn = typeof(Need).GetField("pawn", Utility.flags);
+
+        private static readonly AccessTools.FieldRef<Need, Pawn>
+            fr_pawn = AccessTools.FieldRefAccess<Need, Pawn>("pawn");
 
         protected Need need;
         protected Pawn pawn;
@@ -22,7 +24,7 @@ namespace Improved_Need_Indicator
         protected NeedAddendum(Need need)
         {
             this.need = need;
-            pawn = (Pawn)f_pawn.GetValue(need);
+            pawn = fr_pawn(need);
 
             detailedTipAddendum = string.Empty;
             detailedTipAddendumTick = -1;
