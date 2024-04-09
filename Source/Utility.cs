@@ -82,10 +82,10 @@ namespace Improved_Need_Indicator
             if (ticksTo <= 0)
                 return debugText + "PeriodSeconds".Translate("0.00");
 
-            if (ticksTo < 600)
+            if (ticksTo < 600f)
                 return debugText + "PeriodSeconds".Translate((ticksTo / 60f).ToString("N2"));
 
-            if (ticksTo < 25000)
+            if (ticksTo < GenDate.TicksPerDay)
                 return debugText + "PeriodHours".Translate((ticksTo / 2500f).ToString("N2"));
 
             return debugText + ticksTo.ToStringTicksToPeriod();

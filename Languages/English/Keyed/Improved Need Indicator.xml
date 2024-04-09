@@ -2,18 +2,21 @@
 <LanguageData>
   <INI.Name>Improved Need Indicator</INI.Name>
 
+  <INI.Max>max: {0}</INI.Max>
+  <INI.Rest.MaxRestNeeded>sleep needed {0}</INI.Rest.MaxRestNeeded>
+
   <INI.Food.Hungry>{0} till hungry</INI.Food.Hungry>
   <INI.Food.Ravenous>{0} till ravenous</INI.Food.Ravenous>
   <INI.Food.Malnourished>{0} till malnourished</INI.Food.Malnourished>
-
-  <INI.Rest.Rested>{0} of sleep needed</INI.Rest.Rested>
-  <INI.Rest.Tired>{0} till drowsy</INI.Rest.Tired>
-  <INI.Rest.VeryTired>{0} till tired</INI.Rest.VeryTired>
-  <INI.Rest.Exhausted>{0} till exhausted</INI.Rest.Exhausted>
 
   <INI.Joy.High>{0} till satisfied</INI.Joy.High>
   <INI.Joy.Satisfied>{0} till neutral</INI.Joy.Satisfied>
   <INI.Joy.Low>{0} till unfulfilled</INI.Joy.Low>
   <INI.Joy.VeryLow>{0} till deprived</INI.Joy.VeryLow>
   <INI.Joy.Empty>{0} till starved</INI.Joy.Empty>
+
+  <INI.Rest.RestNeeded>{0} of sleep needed</INI.Rest.RestNeeded>
+  <INI.Rest.Tired>{0} till drowsy</INI.Rest.Tired>
+  <INI.Rest.VeryTired>{0} till tired</INI.Rest.VeryTired>
+  <INI.Rest.Exhausted>{0} till exhausted</INI.Rest.Exhausted>
 </LanguageData>
