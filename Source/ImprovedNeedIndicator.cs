@@ -7,8 +7,8 @@ namespace Improved_Need_Indicator
 {
     public class ImprovedNeedIndicator : Mod
     {
-        private static readonly FieldInfo
-            f_pawn = typeof(Need).GetField("pawn", Utility.flags);
+        private static readonly AccessTools.FieldRef<Need, Pawn>
+            fr_pawn = AccessTools.FieldRefAccess<Need, Pawn>("pawn");
 
         public static readonly Harmony
             harmony = new Harmony(id: "AmCh.ImprovedNeedIndicator");
@@ -34,7 +34,7 @@ namespace Improved_Need_Indicator
 
         private static void Postfix(Need __instance, ref string __result)
         {
-            Pawn pawn = (Pawn)f_pawn.GetValue(__instance);
+            Pawn pawn = fr_pawn(__instance);
             int tickNow = Find.TickManager.TicksGame;
 
             // Skip if need type is not supported yet
@@ -46,7 +46,7 @@ namespace Improved_Need_Indicator
 
         private static void Postfix_Need_Food(Need_Food __instance, ref string __result)
         {
-            Pawn pawn = (Pawn)f_pawn.GetValue(__instance);
+            Pawn pawn = fr_pawn(__instance);
             int tickNow = Find.TickManager.TicksGame;
             __result += Food.ProcessNeed(pawn, __instance, tickNow);
         }
