@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
+using HarmonyLib;
 using RimWorld;
 using Verse;
 
@@ -24,11 +24,11 @@ namespace Improved_Need_Indicator
 #if (v1_2 || v1_3)
         // Need.Resting used to be private in 1.2/1.3
         //   we will copy its implementation using field Need.lastRestTick
-        private static readonly FieldInfo
-            f_lastRestTick = typeof(Need_Rest).GetField("lastRestTick", Utility.flags);
+        private static readonly AccessTools.FieldRef<Need_Rest, int>
+            fr_lastRestTick = AccessTools.FieldRefAccess<Need_Rest, int>("lastRestTick");
 #endif
-        private static readonly FieldInfo
-            f_lastRestEffectiveness = typeof(Need_Rest).GetField("lastRestEffectiveness", Utility.flags);
+        private static readonly AccessTools.FieldRef<Need_Rest, float>
+            fr_lastRestEffectiveness = AccessTools.FieldRefAccess<Need_Rest, float>("lastRestEffectiveness");
 
         public static string ProcessNeed(Pawn pawn, Need_Rest need, int tickNow)
         {
@@ -106,7 +106,7 @@ namespace Improved_Need_Indicator
             cachedTickNow = tickNow;
 
 #if (v1_2 || v1_3)
-            pawnIsResting = Find.TickManager.TicksGame < (int)f_lastRestTick.GetValue(need) + 2;
+            pawnIsResting = Find.TickManager.TicksGame < fr_lastRestTick(need) + 2;
 #else
             pawnIsResting = need.Resting;
 #endif
@@ -183,7 +183,7 @@ namespace Improved_Need_Indicator
         private static float RestGainPerTick(Need_Rest need, Pawn pawn)
         {
             return Need_Rest.BaseRestGainPerTick
-                * (float)f_lastRestEffectiveness.GetValue(need)
+                * fr_lastRestEffectiveness(need)
                 * pawn.GetStatValue(StatDefOf.RestRateMultiplier);
         }
 
