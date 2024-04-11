@@ -25,6 +25,8 @@ namespace Improved_Need_Indicator
             {
                 needAddendum = need.ToNeedAddendum();
                 needAddendum.UpdateTickRates(tickNow);
+                needAddendum.UpdateThresholdAts(tickNow);
+                needAddendum.UpdateBasicAddendums(tickNow);
                 needAddendum.UpdateBasicTipAddendum(tickNow);
 
                 return needAddendum.basicTipAddendum;
@@ -33,6 +35,8 @@ namespace Improved_Need_Indicator
             if (needAddendum.IsRatesStale(tickNow))
             {
                 needAddendum.UpdateTickRates(tickNow);
+                needAddendum.UpdateThresholdAts(tickNow);
+                needAddendum.UpdateBasicAddendums(tickNow);
                 needAddendum.UpdateBasicTipAddendum(tickNow);
 
                 return needAddendum.basicTipAddendum;
@@ -40,6 +44,7 @@ namespace Improved_Need_Indicator
 
             if (needAddendum.IsBasicTipAddendumStale(tickNow))
             {
+                needAddendum.UpdateBasicAddendums(tickNow);
                 needAddendum.UpdateBasicTipAddendum(tickNow);
 
                 return needAddendum.basicTipAddendum;
@@ -54,6 +59,9 @@ namespace Improved_Need_Indicator
             {
                 needAddendum = need.ToNeedAddendum();
                 needAddendum.UpdateTickRates(tickNow);
+                needAddendum.UpdateThresholdAts(tickNow);
+                needAddendum.UpdateBasicAddendums(tickNow);
+                needAddendum.UpdateDetailedAddendums(tickNow);
                 needAddendum.UpdateDetailedTipAddendum(tickNow);
 
                 return needAddendum.detailedTipAddendum;
@@ -62,13 +70,17 @@ namespace Improved_Need_Indicator
             if (needAddendum.IsRatesStale(tickNow))
             {
                 needAddendum.UpdateTickRates(tickNow);
+                needAddendum.UpdateThresholdAts(tickNow);
+                needAddendum.UpdateBasicAddendums(tickNow);
+                needAddendum.UpdateDetailedAddendums(tickNow);
                 needAddendum.UpdateDetailedTipAddendum(tickNow);
 
                 return needAddendum.detailedTipAddendum;
             }
 
-            if (needAddendum.IsDetailedTipAddendumStale(tickNow))
+            if (needAddendum.IsBasicTipAddendumStale(tickNow))
             {
+                needAddendum.UpdateBasicAddendums(tickNow);
                 needAddendum.UpdateDetailedTipAddendum(tickNow);
 
                 return needAddendum.detailedTipAddendum;

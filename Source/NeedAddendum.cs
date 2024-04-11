@@ -1,4 +1,6 @@
+using System;
 using System.Reflection;
+
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -10,10 +12,11 @@ namespace Improved_Need_Indicator
     {
         public int TicksUntilThreshold(float levelOfNeed, float threshold, float perTickLevelChange)
         {
-            float levelDeltaToThreshold = (levelOfNeed - threshold);
-            float ticksUntilThreshold = levelDeltaToThreshold / perTickLevelChange;
+            float updatesUntilThreshold;
 
-            return Mathf.CeilToInt(ticksUntilThreshold);
+            updatesUntilThreshold = (levelOfNeed - threshold) / (perTickLevelChange * NeedTunings.NeedUpdateInterval);
+
+            return Mathf.CeilToInt(updatesUntilThreshold) * NeedTunings.NeedUpdateInterval;
         }
 
         private static readonly AccessTools.FieldRef<Need, Pawn>
@@ -22,9 +25,9 @@ namespace Improved_Need_Indicator
         protected Need need;
         protected Pawn pawn;
 
-        protected int basicTipAddendumTick; // when tip addendum was updated.
-        protected int detailedTipAddendumTick; // when detailed tip addendum was updated.
-        protected int ratesTick; // when need rates were updated.
+        protected int basicTipAddendumUpdatedAt;
+        protected int detailedTipAddendumUpdatedAt;
+        protected int ratesUpdatedAt;
 
         public string basicTipAddendum;
         public string detailedTipAddendum;
@@ -35,25 +38,26 @@ namespace Improved_Need_Indicator
             this.need = need;
             pawn = fr_pawn(need);
 
-            detailedTipAddendum = string.Empty;
-            detailedTipAddendumTick = -1;
-            ratesTick = -1;
             basicTipAddendum = string.Empty;
-            basicTipAddendumTick = -1;
+            detailedTipAddendum = string.Empty;
+
+            basicTipAddendumUpdatedAt = -1;
+            ratesUpdatedAt = -1;
         }
 
-        public bool IsDetailedTipAddendumStale(int tickNow)
+        public bool IsBasicTipAddendumStale(int tickNow)
         {
-            return tickNow != detailedTipAddendumTick;
+            return tickNow != basicTipAddendumUpdatedAt;
         }
 
         public bool IsRatesStale(int tickNow)
         {
             return (
-                (   tickNow != ratesTick
+                (   tickNow != ratesUpdatedAt
                     && pawn.IsHashIntervalTick(NeedTunings.NeedUpdateInterval)
                 )
-                || ratesTick == -1
+                || (tickNow - ratesUpdatedAt > 150)
+                || ratesUpdatedAt == -1
             );
         }
 
@@ -62,24 +66,22 @@ namespace Improved_Need_Indicator
             return need == this.need;
         }
 
-        public bool IsBasicTipAddendumStale(int tickNow)
-        {
-            return tickNow != basicTipAddendumTick;
-        }
-
-        public virtual void UpdateDetailedTipAddendum(int tickNow)
-        {
-            detailedTipAddendumTick = tickNow;
-        }
+        public virtual void UpdateBasicAddendums(int tickNow) { }
 
         public virtual void UpdateBasicTipAddendum(int tickNow)
         {
-            basicTipAddendumTick = tickNow;
+            basicTipAddendumUpdatedAt = tickNow;
         }
+
+        public virtual void UpdateDetailedAddendums(int tickNow) { }
+
+        public virtual void UpdateDetailedTipAddendum(int tickNow) { }
+
+        public virtual void UpdateThresholdAts(int tickNow) { }
 
         public virtual void UpdateTickRates(int tickNow)
         {
-            ratesTick = tickNow;
+            ratesUpdatedAt = tickNow;
         }
     }
 }
