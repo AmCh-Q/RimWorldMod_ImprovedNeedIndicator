@@ -41,7 +41,7 @@
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4055-beta" />
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.*" />
     <PackageReference Include="Lib.Harmony" Version="2.3.*" ExcludeAssets="runtime" />
     <None Include="..\LICENSE" Pack="true" />
   </ItemGroup>
