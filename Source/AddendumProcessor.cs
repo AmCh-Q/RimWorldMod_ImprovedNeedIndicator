@@ -10,7 +10,7 @@ namespace Improved_Need_Indicator
 
         public static string GetTipAddendum(Need need)
         {
-            bool isDetailed = true;
+            bool isDetailed = false;
             int tickNow = Find.TickManager.TicksGame;
 
             if (isDetailed)
@@ -42,7 +42,7 @@ namespace Improved_Need_Indicator
                 return needAddendum.basicTipAddendum;
             }
 
-            if (needAddendum.IsBasicTipAddendumStale(tickNow))
+            if (needAddendum.IsBasicAddendumsStale(tickNow))
             {
                 needAddendum.UpdateBasicAddendums(tickNow);
                 needAddendum.UpdateBasicTipAddendum(tickNow);
@@ -78,7 +78,16 @@ namespace Improved_Need_Indicator
                 return needAddendum.detailedTipAddendum;
             }
 
-            if (needAddendum.IsBasicTipAddendumStale(tickNow))
+            if (needAddendum.IsDetailedAddendumsStale(tickNow))
+            {
+                needAddendum.UpdateBasicAddendums(tickNow);
+                needAddendum.UpdateDetailedAddendums(tickNow);
+                needAddendum.UpdateDetailedTipAddendum(tickNow);
+
+                return needAddendum.detailedTipAddendum;
+            }
+
+            if (needAddendum.IsBasicAddendumsStale(tickNow))
             {
                 needAddendum.UpdateBasicAddendums(tickNow);
                 needAddendum.UpdateDetailedTipAddendum(tickNow);

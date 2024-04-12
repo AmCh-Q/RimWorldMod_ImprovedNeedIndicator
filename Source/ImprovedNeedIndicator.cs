@@ -39,7 +39,7 @@ namespace Improved_Need_Indicator
 
             // Skip if need type is not supported yet
             if (__instance is Need_Rest need_rest)
-                __result += Rest.ProcessNeed(pawn, need_rest, tickNow);
+                __result += AddendumProcessor.GetTipAddendum(__instance);
             else if (__instance is Need_Joy need_joy)
                 __result += Joy.ProcessNeed(pawn, need_joy, tickNow);
         }

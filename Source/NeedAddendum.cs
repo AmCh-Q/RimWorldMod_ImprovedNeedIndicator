@@ -25,8 +25,8 @@ namespace Improved_Need_Indicator
         protected Need need;
         protected Pawn pawn;
 
-        protected int basicTipAddendumUpdatedAt;
-        protected int detailedTipAddendumUpdatedAt;
+        protected int basicAddendumsUpdatedAt;
+        protected int detailedAddendumsUpdatedAt;
         protected int ratesUpdatedAt;
 
         public string basicTipAddendum;
@@ -41,13 +41,18 @@ namespace Improved_Need_Indicator
             basicTipAddendum = string.Empty;
             detailedTipAddendum = string.Empty;
 
-            basicTipAddendumUpdatedAt = -1;
+            basicAddendumsUpdatedAt = -1;
             ratesUpdatedAt = -1;
         }
 
-        public bool IsBasicTipAddendumStale(int tickNow)
+        public bool IsBasicAddendumsStale(int tickNow)
         {
-            return tickNow != basicTipAddendumUpdatedAt;
+            return tickNow != basicAddendumsUpdatedAt;
+        }
+
+        public bool IsDetailedAddendumsStale(int tickNow)
+        {
+            return tickNow - detailedAddendumsUpdatedAt > 150;
         }
 
         public bool IsRatesStale(int tickNow)
@@ -66,14 +71,17 @@ namespace Improved_Need_Indicator
             return need == this.need;
         }
 
-        public virtual void UpdateBasicAddendums(int tickNow) { }
-
-        public virtual void UpdateBasicTipAddendum(int tickNow)
+        public virtual void UpdateBasicAddendums(int tickNow)
         {
-            basicTipAddendumUpdatedAt = tickNow;
+            basicAddendumsUpdatedAt = tickNow;
         }
 
-        public virtual void UpdateDetailedAddendums(int tickNow) { }
+        public virtual void UpdateBasicTipAddendum(int tickNow) { }
+
+        public virtual void UpdateDetailedAddendums(int tickNow)
+        {
+            detailedAddendumsUpdatedAt = tickNow;
+        }
 
         public virtual void UpdateDetailedTipAddendum(int tickNow) { }
 

@@ -84,19 +84,19 @@ namespace Improved_Need_Indicator
             tickOffset = pawn.TicksUntilNextUpdate();
             if (IsPawnResting(tickNow))
             {
-                tickRestNeededOffset = 0;
-                tickThresholdOffset = tickOffset;
+                tickRestNeededOffset = tickNow + tickOffset;
+                tickThresholdOffset = tickNow; //TODO: blugh some ratio goes here.
             }
             else
             {
-                tickRestNeededOffset = tickOffset;
-                tickThresholdOffset = 0;
+                tickRestNeededOffset = tickNow; //TODO: blugh some ratio goes here.
+                tickThresholdOffset = tickNow + tickOffset;
             }
 
-            restNeededAddendum = "INI.Rest.RestNeeded".Translate((restedAt - tickNow - tickRestNeededOffset).TicksToPeriod());
-            tiredAddendum = "INI.Rest.Tired".Translate((tiredAt - tickNow - tickThresholdOffset).TicksToPeriod());
-            veryTiredAddendum = "INI.Rest.VeryTired".Translate((veryTiredAt - tickNow - tickThresholdOffset).TicksToPeriod());
-            exhaustedAddendum = "INI.Rest.Exhausted".Translate((exhaustedAt - tickNow - tickThresholdOffset).TicksToPeriod());
+            restNeededAddendum = "INI.Rest.RestNeeded".Translate((restedAt - tickRestNeededOffset).TicksToPeriod());
+            tiredAddendum = "INI.Rest.Tired".Translate((tiredAt - tickThresholdOffset).TicksToPeriod());
+            veryTiredAddendum = "INI.Rest.VeryTired".Translate((veryTiredAt - tickThresholdOffset).TicksToPeriod());
+            exhaustedAddendum = "INI.Rest.Exhausted".Translate((exhaustedAt - tickThresholdOffset).TicksToPeriod());
 
             base.UpdateBasicAddendums(tickNow);
         }
