@@ -15,11 +15,6 @@ namespace Improved_Need_Indicator
         private float fallPerTick;
         private float gainPerTick;
 
-        private int restedAt;
-        private int tiredAt;
-        private int veryTiredAt;
-        private int exhaustedAt;
-
         private string restNeededAddendum;
         private string tiredAddendum;
         private string veryTiredAddendum;
@@ -38,7 +33,7 @@ namespace Improved_Need_Indicator
             needRest = (Need_Rest)this.need;
         }
 
-#if (v1_2 || v1_3)
+#if (v1_2 || v1_3) 
         // Need.Resting used to be private in 1.2/1.3
         //   we will copy its implementation using field Need.lastRestTick
         private static readonly AccessTools.FieldRef<Need_Rest, int>
@@ -54,57 +49,135 @@ namespace Improved_Need_Indicator
             return needRest.Resting;
         }
 #endif
-        public override void UpdateBasicTipAddendum(int tickNow)
-        {
-            if (need.CurLevel >= Need_Rest.ThreshTired)
-                basicTipAddendum = string.Join("\n", new[] { restNeededAddendum, tiredAddendum, veryTiredAddendum, exhaustedAddendum });
 
-            else if (need.CurLevel >= Need_Rest.ThreshVeryTired)
-                basicTipAddendum = string.Join("\n", new[] { restNeededAddendum, veryTiredAddendum, exhaustedAddendum });
-
-            else if (need.CurLevel > 0f)
-                basicTipAddendum = string.Join("\n", new[] { restNeededAddendum, exhaustedAddendum });
-
-            else
-                basicTipAddendum = restNeededAddendum;
-
-            base.UpdateBasicTipAddendum(tickNow);
-        }
-
-
-        public override void UpdateBasicAddendums(int tickNow)
+        public override void UpdateBasic(int tickNow)
         {
             // If the amount of time needed till is going up rather than down,
             // then the offset is necessary to calculate the difference in
             // time between now and the previous interval update ticks.
+            float levelAccumulator;
+            int tickAccumulator;
             int tickOffset;
-            int tickRestNeededOffset;
-            int tickThresholdOffset;
+            int ticksUntilThreshold;
 
+            levelAccumulator = 0f;
             tickOffset = pawn.TicksUntilNextUpdate();
+            tickAccumulator = 0;
+
+            string DoThreshold(string translation, float threshold, float localFallPerTick)
+            {
+                ticksUntilThreshold = TicksUntilThreshold(levelAccumulator, threshold, localFallPerTick);
+                tickAccumulator += ticksUntilThreshold;
+                levelAccumulator -= ticksUntilThreshold * localFallPerTick;
+                return translation.Translate(tickAccumulator.TicksToPeriod());
+            }
+
+            string DoThresholdUpdate(string translation, float threshold, float localFallPerTick)
+            {
+                ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, threshold, localFallPerTick);
+                tickAccumulator += ticksUntilThreshold;
+                levelAccumulator -= ticksUntilThreshold * localFallPerTick;
+                return translation.Translate((tickAccumulator - tickOffset).TicksToPeriod());
+            }
+
             if (IsPawnResting(tickNow))
             {
-                tickRestNeededOffset = tickNow + tickOffset;
-                tickThresholdOffset = tickNow; //TODO: blugh some ratio goes here.
+                ticksUntilThreshold = TicksUntilThresholdUpdate(need.MaxLevel, needRest.CurLevel, gainPerTick);
+                restNeededAddendum = "INI.Rest.RestNeeded".Translate((ticksUntilThreshold - tickOffset).TicksToPeriod());
+
+                levelAccumulator = needRest.CurLevel + (tickOffset * gainPerTick);
+
+                if (need.CurLevel >= Need_Rest.ThreshTired)
+                {
+                    tiredAddendum = DoThreshold("INI.Rest.Tired", Need_Rest.ThreshTired, fallPerTick);
+                    veryTiredAddendum = DoThreshold("INI.Rest.VeryTired", Need_Rest.ThreshVeryTired, fallPerTick * .7f);
+                    exhaustedAddendum = DoThreshold("INI.Rest.Exhausted", 0f, fallPerTick * .3f);
+
+                    basicTip = string.Join("\n", new[] { restNeededAddendum, tiredAddendum, veryTiredAddendum, exhaustedAddendum });
+                }
+                else if (need.CurLevel >= Need_Rest.ThreshVeryTired)
+                {
+                    veryTiredAddendum = DoThreshold("INI.Rest.VeryTired", Need_Rest.ThreshVeryTired, fallPerTick);
+                    exhaustedAddendum = DoThreshold("INI.Rest.Exhausted", 0f, fallPerTick * (.3f / 0.7f));
+
+                    basicTip = string.Join("\n", new[] { restNeededAddendum, veryTiredAddendum, exhaustedAddendum });
+                }
+                else if (need.CurLevel > 0f)
+                {
+                    exhaustedAddendum = DoThreshold("INI.Rest.Exhausted", 0f, fallPerTick);
+
+                    basicTip = string.Join("\n", new[] { restNeededAddendum, exhaustedAddendum });
+                }
             }
             else
             {
-                tickRestNeededOffset = tickNow; //TODO: blugh some ratio goes here.
-                tickThresholdOffset = tickNow + tickOffset;
+                levelAccumulator = needRest.CurLevel - (tickOffset * fallPerTick);
+                ticksUntilThreshold = TicksUntilThreshold(need.MaxLevel, levelAccumulator, gainPerTick);
+                restNeededAddendum = "INI.Rest.RestNeeded".Translate(ticksUntilThreshold.TicksToPeriod());
+
+                levelAccumulator = needRest.CurLevel;
+
+                if (need.CurLevel >= Need_Rest.ThreshTired)
+                {
+                    tiredAddendum = DoThresholdUpdate("INI.Rest.Tired", Need_Rest.ThreshTired, fallPerTick);
+                    veryTiredAddendum = DoThresholdUpdate("INI.Rest.VeryTired", Need_Rest.ThreshVeryTired, fallPerTick * .7f);
+                    exhaustedAddendum = DoThresholdUpdate("INI.Rest.Exhausted", 0f, fallPerTick * .3f);
+
+                    basicTip = string.Join("\n", new[] { restNeededAddendum, tiredAddendum, veryTiredAddendum, exhaustedAddendum });
+                }
+                else if (need.CurLevel >= Need_Rest.ThreshVeryTired)
+                {
+                    veryTiredAddendum = DoThresholdUpdate("INI.Rest.VeryTired", Need_Rest.ThreshVeryTired, fallPerTick);
+                    exhaustedAddendum = DoThresholdUpdate("INI.Rest.Exhausted", 0f, fallPerTick * (.3f / 0.7f));
+
+                    basicTip = string.Join("\n", new[] { restNeededAddendum, veryTiredAddendum, exhaustedAddendum });
+
+                }
+                else if (need.CurLevel > 0f)
+                {
+                    exhaustedAddendum = DoThresholdUpdate("INI.Rest.Exhausted", 0f, fallPerTick);
+
+                    basicTip = string.Join("\n", new[] { restNeededAddendum, exhaustedAddendum });
+                }
             }
 
-            restNeededAddendum = "INI.Rest.RestNeeded".Translate((restedAt - tickRestNeededOffset).TicksToPeriod());
-            tiredAddendum = "INI.Rest.Tired".Translate((tiredAt - tickThresholdOffset).TicksToPeriod());
-            veryTiredAddendum = "INI.Rest.VeryTired".Translate((veryTiredAt - tickThresholdOffset).TicksToPeriod());
-            exhaustedAddendum = "INI.Rest.Exhausted".Translate((exhaustedAt - tickThresholdOffset).TicksToPeriod());
-
-            base.UpdateBasicAddendums(tickNow);
+            base.UpdateBasic(tickNow);
         }
 
-        public override void UpdateDetailedTipAddendum(int tickNow)
+        public override void UpdateDetailed(int tickNow)
         {
+            float levelAccumulator;
+            int ticksUntilThreshold;
+            int tickAccumulator;
+            int ticksUntilRest;
+
+            levelAccumulator = need.MaxLevel;
+            tickAccumulator = 0;
+            ticksUntilThreshold = 0;
+
+            void DoThresholdUpdate(float threshold, float localFallPerTick)
+            {
+                ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, threshold, localFallPerTick);
+                tickAccumulator += ticksUntilThreshold;
+                levelAccumulator -= ticksUntilThreshold * localFallPerTick;
+                ticksUntilRest = TicksUntilThresholdUpdate(needRest.MaxLevel, levelAccumulator, gainPerTick);
+            }
+
             if (need.CurLevel >= Need_Rest.ThreshTired)
-                detailedTipAddendum = string.Join("\n", new[] {
+            {
+                DoThresholdUpdate(Need_Rest.ThreshTired, fallPerTick);
+                maxTiredAddendum = "\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod());
+                maxTiredRestNeededAddendum = "\t" + "INI.Rest.MaxRestNeeded".Translate(ticksUntilRest.TicksToPeriod());
+
+                DoThresholdUpdate(Need_Rest.ThreshVeryTired, fallPerTick * 0.7f);
+                maxVeryTiredAddendum = "\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod());
+                maxVeryTiredRestNeededAddendum = "\t" + "INI.Rest.MaxRestNeeded".Translate(ticksUntilRest.TicksToPeriod());
+
+                DoThresholdUpdate(0f, fallPerTick * 0.3f);
+                maxExhaustedAddendum = "\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod());
+                maxExhaustedRestNeededAddendum = "\t" + "INI.Rest.MaxRestNeeded".Translate(ticksUntilRest.TicksToPeriod());
+
+                detailedTip = string.Join("\n", new[] {
                     restNeededAddendum,
                     tiredAddendum,
                     maxTiredAddendum,
@@ -116,9 +189,18 @@ namespace Improved_Need_Indicator
                     maxExhaustedAddendum,
                     maxExhaustedRestNeededAddendum
                 });
-
+            }
             else if (need.CurLevel >= Need_Rest.ThreshVeryTired)
-                detailedTipAddendum = string.Join("\n", new[] {
+            {
+                DoThresholdUpdate(Need_Rest.ThreshVeryTired, fallPerTick);
+                maxVeryTiredAddendum = "\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod());
+                maxVeryTiredRestNeededAddendum = "\t" + "INI.Rest.MaxRestNeeded".Translate(ticksUntilRest.TicksToPeriod());
+
+                DoThresholdUpdate(0f, fallPerTick * (0.3f / 0.7f));
+                maxExhaustedAddendum = "\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod());
+                maxExhaustedRestNeededAddendum = "\t" + "INI.Rest.MaxRestNeeded".Translate(ticksUntilRest.TicksToPeriod());
+
+                detailedTip = string.Join("\n", new[] {
                     restNeededAddendum,
                     veryTiredAddendum,
                     maxVeryTiredRestNeededAddendum,
@@ -127,97 +209,23 @@ namespace Improved_Need_Indicator
                     maxExhaustedAddendum,
                     maxExhaustedRestNeededAddendum
                 });
-
+            }
             else if (need.CurLevel > 0f)
-                detailedTipAddendum = string.Join("\n", new[] {
+            {
+                DoThresholdUpdate(0f, fallPerTick);
+                maxExhaustedAddendum = "\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod());
+                maxExhaustedRestNeededAddendum = "\t" + "INI.Rest.MaxRestNeeded".Translate(ticksUntilRest.TicksToPeriod());
+
+                detailedTip = string.Join("\n", new[] {
                     restNeededAddendum,
                     exhaustedAddendum,
                     maxExhaustedAddendum,
                     maxExhaustedRestNeededAddendum
                 });
-
-            base.UpdateDetailedTipAddendum(tickNow);
-        }
-
-        public override void UpdateDetailedAddendums(int tickNow)
-        {
-            float levelAccumulator;
-            int ticksUntilThreshold;
-            int tickAccumulator;
-            int ticksUntilRest;
-
-            levelAccumulator = need.MaxLevel;
-            tickAccumulator = 0;
-            ticksUntilThreshold = 0;
-
-            void DoThreshold(float threshold, float localFallPerTick)
-            {
-                ticksUntilThreshold = TicksUntilThreshold(levelAccumulator, threshold, localFallPerTick);
-                tickAccumulator += ticksUntilThreshold;
-                levelAccumulator -= ticksUntilThreshold * localFallPerTick;
-                ticksUntilRest = TicksUntilThreshold(needRest.MaxLevel, levelAccumulator, gainPerTick);
             }
 
-            DoThreshold(Need_Rest.ThreshTired, fallPerTick);
-            maxTiredAddendum = "\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod());
-            maxTiredRestNeededAddendum = "\t" + "INI.Rest.MaxRestNeeded".Translate(ticksUntilRest.TicksToPeriod());
 
-            DoThreshold(Need_Rest.ThreshVeryTired, fallPerTick * 0.7f);
-            maxVeryTiredAddendum = "\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod());
-            maxVeryTiredRestNeededAddendum = "\t" + "INI.Rest.MaxRestNeeded".Translate(ticksUntilRest.TicksToPeriod());
-
-            DoThreshold(0f, fallPerTick * 0.3f);
-            maxExhaustedAddendum = "\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod());
-            maxExhaustedRestNeededAddendum = "\t" + "INI.Rest.MaxRestNeeded".Translate(ticksUntilRest.TicksToPeriod());
-
-            base.UpdateBasicAddendums(tickNow);
-        }
-
-        public override void UpdateThresholdAts(int tickNow)
-        {
-            float levelAccumulator;
-            int ticksUntilThreshold;
-            int tickAccumulator;
-
-            restedAt = tickNow + TicksUntilThreshold(needRest.MaxLevel, needRest.CurLevel, gainPerTick);
-
-            levelAccumulator = needRest.CurLevel;
-            tickAccumulator = 0;
-            ticksUntilThreshold = 0;
-
-            void DoThreshold(float threshold, float localFallPerTick)
-            {
-                ticksUntilThreshold = TicksUntilThreshold(levelAccumulator, threshold, localFallPerTick);
-                tickAccumulator += ticksUntilThreshold;
-                levelAccumulator -= ticksUntilThreshold * localFallPerTick;
-            }
-
-            if (need.CurLevel >= Need_Rest.ThreshTired)
-            {
-                DoThreshold(Need_Rest.ThreshTired, fallPerTick);
-                tiredAt = tickNow + tickAccumulator;
-
-                DoThreshold(Need_Rest.ThreshVeryTired, fallPerTick * 0.7f);
-                veryTiredAt = tickNow + tickAccumulator;
-
-                DoThreshold(0f, fallPerTick * 0.3f);
-                exhaustedAt = tickNow + tickAccumulator;
-            }
-            else if (need.CurLevel >= Need_Rest.ThreshVeryTired)
-            {
-                DoThreshold(Need_Rest.ThreshVeryTired, fallPerTick);
-                veryTiredAt = tickNow + tickAccumulator;
-
-                DoThreshold(0f, fallPerTick * (0.3f / 0.7f));
-                exhaustedAt = tickNow + tickAccumulator;
-            }
-            else if (need.CurLevel > 0f)
-            {
-                DoThreshold(0f, fallPerTick);
-                exhaustedAt = tickNow + tickAccumulator;
-            }
-
-            base.UpdateThresholdAts(tickNow);
+            base.UpdateDetailed(tickNow);
         }
 
         public override void UpdateTickRates(int tickNow)

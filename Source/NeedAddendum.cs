@@ -10,7 +10,12 @@ namespace Improved_Need_Indicator
 {
     public class NeedAddendum
     {
-        public int TicksUntilThreshold(float levelOfNeed, float threshold, float perTickLevelChange)
+        protected static int TicksUntilThreshold(float levelOfNeed, float threshold, float perTickLevelChange)
+        {
+            return Mathf.CeilToInt((levelOfNeed - threshold) / perTickLevelChange);
+        }
+
+        protected int TicksUntilThresholdUpdate(float levelOfNeed, float threshold, float perTickLevelChange)
         {
             float updatesUntilThreshold;
 
@@ -25,12 +30,12 @@ namespace Improved_Need_Indicator
         protected Need need;
         protected Pawn pawn;
 
-        protected int basicAddendumsUpdatedAt;
-        protected int detailedAddendumsUpdatedAt;
+        protected int basicUpdatedAt;
+        protected int detailedUpdatedAt;
         protected int ratesUpdatedAt;
 
-        public string basicTipAddendum;
-        public string detailedTipAddendum;
+        public string basicTip;
+        public string detailedTip;
 
 
         public NeedAddendum(Need need)
@@ -38,21 +43,21 @@ namespace Improved_Need_Indicator
             this.need = need;
             pawn = fr_pawn(need);
 
-            basicTipAddendum = string.Empty;
-            detailedTipAddendum = string.Empty;
+            basicTip = string.Empty;
+            detailedTip = string.Empty;
 
-            basicAddendumsUpdatedAt = -1;
+            basicUpdatedAt = -1;
             ratesUpdatedAt = -1;
         }
 
-        public bool IsBasicAddendumsStale(int tickNow)
+        public bool IsBasicStale(int tickNow)
         {
-            return tickNow != basicAddendumsUpdatedAt;
+            return tickNow != basicUpdatedAt;
         }
 
-        public bool IsDetailedAddendumsStale(int tickNow)
+        public bool IsDetailedStale(int tickNow)
         {
-            return tickNow - detailedAddendumsUpdatedAt > 150;
+            return tickNow - detailedUpdatedAt > 150;
         }
 
         public bool IsRatesStale(int tickNow)
@@ -71,21 +76,15 @@ namespace Improved_Need_Indicator
             return need == this.need;
         }
 
-        public virtual void UpdateBasicAddendums(int tickNow)
+        public virtual void UpdateBasic(int tickNow)
         {
-            basicAddendumsUpdatedAt = tickNow;
+            basicUpdatedAt = tickNow;
         }
 
-        public virtual void UpdateBasicTipAddendum(int tickNow) { }
-
-        public virtual void UpdateDetailedAddendums(int tickNow)
+        public virtual void UpdateDetailed(int tickNow)
         {
-            detailedAddendumsUpdatedAt = tickNow;
+            detailedUpdatedAt = tickNow;
         }
-
-        public virtual void UpdateDetailedTipAddendum(int tickNow) { }
-
-        public virtual void UpdateThresholdAts(int tickNow) { }
 
         public virtual void UpdateTickRates(int tickNow)
         {

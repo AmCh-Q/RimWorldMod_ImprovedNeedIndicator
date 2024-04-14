@@ -25,32 +25,27 @@ namespace Improved_Need_Indicator
             {
                 needAddendum = need.ToNeedAddendum();
                 needAddendum.UpdateTickRates(tickNow);
-                needAddendum.UpdateThresholdAts(tickNow);
-                needAddendum.UpdateBasicAddendums(tickNow);
-                needAddendum.UpdateBasicTipAddendum(tickNow);
+                needAddendum.UpdateBasic(tickNow);
 
-                return needAddendum.basicTipAddendum;
+                return needAddendum.basicTip;
             }
 
             if (needAddendum.IsRatesStale(tickNow))
             {
                 needAddendum.UpdateTickRates(tickNow);
-                needAddendum.UpdateThresholdAts(tickNow);
-                needAddendum.UpdateBasicAddendums(tickNow);
-                needAddendum.UpdateBasicTipAddendum(tickNow);
+                needAddendum.UpdateBasic(tickNow);
 
-                return needAddendum.basicTipAddendum;
+                return needAddendum.basicTip;
             }
 
-            if (needAddendum.IsBasicAddendumsStale(tickNow))
+            if (needAddendum.IsBasicStale(tickNow))
             {
-                needAddendum.UpdateBasicAddendums(tickNow);
-                needAddendum.UpdateBasicTipAddendum(tickNow);
+                needAddendum.UpdateBasic(tickNow);
 
-                return needAddendum.basicTipAddendum;
+                return needAddendum.basicTip;
             }
 
-            return needAddendum.basicTipAddendum;
+            return needAddendum.basicTip;
         }
 
         private static string GetDetailedTipAddendum(Need need, int tickNow)
@@ -59,43 +54,37 @@ namespace Improved_Need_Indicator
             {
                 needAddendum = need.ToNeedAddendum();
                 needAddendum.UpdateTickRates(tickNow);
-                needAddendum.UpdateThresholdAts(tickNow);
-                needAddendum.UpdateBasicAddendums(tickNow);
-                needAddendum.UpdateDetailedAddendums(tickNow);
-                needAddendum.UpdateDetailedTipAddendum(tickNow);
+                needAddendum.UpdateBasic(tickNow);
+                needAddendum.UpdateDetailed(tickNow);
 
-                return needAddendum.detailedTipAddendum;
+                return needAddendum.detailedTip;
             }
 
             if (needAddendum.IsRatesStale(tickNow))
             {
                 needAddendum.UpdateTickRates(tickNow);
-                needAddendum.UpdateThresholdAts(tickNow);
-                needAddendum.UpdateBasicAddendums(tickNow);
-                needAddendum.UpdateDetailedAddendums(tickNow);
-                needAddendum.UpdateDetailedTipAddendum(tickNow);
+                needAddendum.UpdateBasic(tickNow);
+                needAddendum.UpdateDetailed(tickNow);
 
-                return needAddendum.detailedTipAddendum;
+                return needAddendum.detailedTip;
             }
 
-            if (needAddendum.IsDetailedAddendumsStale(tickNow))
+            if (needAddendum.IsDetailedStale(tickNow))
             {
-                needAddendum.UpdateBasicAddendums(tickNow);
-                needAddendum.UpdateDetailedAddendums(tickNow);
-                needAddendum.UpdateDetailedTipAddendum(tickNow);
+                needAddendum.UpdateBasic(tickNow);
+                needAddendum.UpdateDetailed(tickNow);
 
-                return needAddendum.detailedTipAddendum;
+                return needAddendum.detailedTip;
             }
 
-            if (needAddendum.IsBasicAddendumsStale(tickNow))
+            if (needAddendum.IsBasicStale(tickNow))
             {
-                needAddendum.UpdateBasicAddendums(tickNow);
-                needAddendum.UpdateDetailedTipAddendum(tickNow);
+                needAddendum.UpdateBasic(tickNow);
 
-                return needAddendum.detailedTipAddendum;
+                return needAddendum.detailedTip;
             }
 
-            return needAddendum.detailedTipAddendum;
+            return needAddendum.detailedTip;
         }
 
         private static NeedAddendum ToNeedAddendum(this Need need)
