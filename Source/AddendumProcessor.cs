@@ -21,11 +21,11 @@ namespace Improved_Need_Indicator
 
         private static string GetBasicTipAddendum(Need need, int tickNow)
         {
-            if (needAddendum == null || needAddendum.IsSameNeed(need))
+            if (needAddendum == null || needAddendum.IsSameNeed(need) == false)
             {
                 needAddendum = need.ToNeedAddendum();
                 needAddendum.UpdateRates(tickNow);
-                needAddendum.UpdateBasic(tickNow);
+                needAddendum.UpdateBasicTip(tickNow);
 
                 return needAddendum.basicTip;
             }
@@ -33,14 +33,14 @@ namespace Improved_Need_Indicator
             if (needAddendum.IsRatesStale(tickNow))
             {
                 needAddendum.UpdateRates(tickNow);
-                needAddendum.UpdateBasic(tickNow);
+                needAddendum.UpdateBasicTip(tickNow);
 
                 return needAddendum.basicTip;
             }
 
             if (needAddendum.IsBasicStale(tickNow))
             {
-                needAddendum.UpdateBasic(tickNow);
+                needAddendum.UpdateBasicTip(tickNow);
 
                 return needAddendum.basicTip;
             }
@@ -54,8 +54,8 @@ namespace Improved_Need_Indicator
             {
                 needAddendum = need.ToNeedAddendum();
                 needAddendum.UpdateRates(tickNow);
-                needAddendum.UpdateBasic(tickNow);
-                needAddendum.UpdateDetailed(tickNow);
+                needAddendum.UpdateBasicTip(tickNow);
+                needAddendum.UpdateDetailedTip(tickNow);
 
                 return needAddendum.detailedTip;
             }
@@ -63,23 +63,23 @@ namespace Improved_Need_Indicator
             if (needAddendum.IsRatesStale(tickNow))
             {
                 needAddendum.UpdateRates(tickNow);
-                needAddendum.UpdateBasic(tickNow);
-                needAddendum.UpdateDetailed(tickNow);
+                needAddendum.UpdateBasicTip(tickNow);
+                needAddendum.UpdateDetailedTip(tickNow);
 
                 return needAddendum.detailedTip;
             }
 
             if (needAddendum.IsDetailedStale(tickNow))
             {
-                needAddendum.UpdateBasic(tickNow);
-                needAddendum.UpdateDetailed(tickNow);
+                needAddendum.UpdateBasicTip(tickNow);
+                needAddendum.UpdateDetailedTip(tickNow);
 
                 return needAddendum.detailedTip;
             }
 
             if (needAddendum.IsBasicStale(tickNow))
             {
-                needAddendum.UpdateBasic(tickNow);
+                needAddendum.UpdateBasicTip(tickNow);
 
                 return needAddendum.detailedTip;
             }

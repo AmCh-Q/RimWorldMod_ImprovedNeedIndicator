@@ -1,6 +1,3 @@
-using System;
-using System.Reflection;
-
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -37,6 +34,7 @@ namespace Improved_Need_Indicator
         public string basicTip;
         public string detailedTip;
 
+        protected ThresholdAddendum[] fallingAddendums = { };
 
         public NeedAddendum(Need need)
         {
@@ -76,19 +74,102 @@ namespace Improved_Need_Indicator
             return need == this.need;
         }
 
-        public virtual void UpdateBasic(int tickNow)
+        public virtual void UpdateBasicTip(int tickNow)
         {
+            float levelAccumulator;
+            int tickAccumulator;
+            int tickOffset;
+            int ticksUntilThreshold;
+
+            levelAccumulator = need.CurLevel;
+            tickAccumulator = 0;
+            tickOffset = pawn.TicksUntilNextUpdate();
+
+            void HandleThresholdAddendum(ThresholdAddendum thresholdAddendum)
+            {
+                ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, thresholdAddendum.Threshold, thresholdAddendum.Rate);
+                tickAccumulator += ticksUntilThreshold;
+                levelAccumulator -= ticksUntilThreshold * thresholdAddendum.Rate;
+
+                thresholdAddendum.BasicAddendum = thresholdAddendum.Translation.Translate((tickAccumulator - tickOffset).TicksToPeriod());
+            }
+
+            basicTip = "";
+            foreach (ThresholdAddendum thresholdAddendum in fallingAddendums)
+                if (levelAccumulator > thresholdAddendum.Threshold)
+                {
+                    HandleThresholdAddendum(thresholdAddendum);
+                    basicTip += "\n" + thresholdAddendum.BasicAddendum;
+                }
+
+            basicTip = basicTip.Trim();
+
             basicUpdatedAt = tickNow;
         }
 
-        public virtual void UpdateDetailed(int tickNow)
+        public virtual void UpdateDetailedTip(int tickNow)
         {
+            float levelAccumulator;
+            int tickAccumulator;
+            int tickOffset;
+            int ticksUntilThreshold;
+
+            levelAccumulator = need.MaxLevel;
+            tickAccumulator = 0;
+            tickOffset = pawn.TicksUntilNextUpdate();
+
+            void HandleThresholdAddendum(ThresholdAddendum thresholdAddendum)
+            {
+                ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, thresholdAddendum.Threshold, thresholdAddendum.Rate);
+                tickAccumulator += ticksUntilThreshold;
+                levelAccumulator -= ticksUntilThreshold * thresholdAddendum.Rate;
+
+                thresholdAddendum.DetailedAddendum = (
+                    thresholdAddendum.BasicAddendum
+                    + "\n\t" + "INI.Max".Translate((tickAccumulator - tickOffset).TicksToPeriod())
+                );
+            }
+
+            detailedTip = "";
+            foreach (ThresholdAddendum thresholdAddendum in fallingAddendums)
+            {
+                HandleThresholdAddendum(thresholdAddendum);
+                if (levelAccumulator >= thresholdAddendum.Threshold)
+                    detailedTip += "\n" + thresholdAddendum.DetailedAddendum;
+            }
             detailedUpdatedAt = tickNow;
         }
 
         public virtual void UpdateRates(int tickNow)
         {
             ratesUpdatedAt = tickNow;
+        }
+    }
+
+
+    public class ThresholdAddendum
+    {
+        public byte Category { get; protected set; }
+        public float Rate { get; set; }
+        public byte RateCategory { get; protected set; }
+        public float Threshold { get; protected set; }
+        public string Translation { get; protected set; }
+
+        public string BasicAddendum { get; set; }
+        public string DetailedAddendum { get; set; }
+
+        public ThresholdAddendum(
+            byte category,
+            byte rateCategory,
+            float threshold,
+            string translation
+        )
+        {
+            Category = category;
+            Rate = 0f;
+            RateCategory = rateCategory;
+            Threshold = threshold;
+            Translation = translation;
         }
     }
 }
