@@ -86,7 +86,7 @@ namespace Improved_Need_Indicator
             detailedUpdatedAt = tickNow;
         }
 
-        public virtual void UpdateTickRates(int tickNow)
+        public virtual void UpdateRates(int tickNow)
         {
             ratesUpdatedAt = tickNow;
         }

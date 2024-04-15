@@ -46,9 +46,7 @@ namespace Improved_Need_Indicator
 
         private static void Postfix_Need_Food(Need_Food __instance, ref string __result)
         {
-            Pawn pawn = fr_pawn(__instance);
-            int tickNow = Find.TickManager.TicksGame;
-            __result += Food.ProcessNeed(pawn, __instance, tickNow);
+            __result += AddendumProcessor.GetTipAddendum(__instance);
         }
     }
 }

@@ -14,9 +14,9 @@ namespace Improved_Need_Indicator
             int tickNow = Find.TickManager.TicksGame;
 
             if (isDetailed)
-                return "\n\n" + GetDetailedTipAddendum(need, tickNow);
+                return "\n\n" + ((TaggedString)GetDetailedTipAddendum(need, tickNow)).Resolve();
 
-            return "\n\n" + GetBasicTipAddendum(need, tickNow);
+            return "\n\n" + ((TaggedString)GetBasicTipAddendum(need, tickNow)).Resolve();
         }
 
         private static string GetBasicTipAddendum(Need need, int tickNow)
@@ -24,7 +24,7 @@ namespace Improved_Need_Indicator
             if (needAddendum == null || needAddendum.IsSameNeed(need))
             {
                 needAddendum = need.ToNeedAddendum();
-                needAddendum.UpdateTickRates(tickNow);
+                needAddendum.UpdateRates(tickNow);
                 needAddendum.UpdateBasic(tickNow);
 
                 return needAddendum.basicTip;
@@ -32,7 +32,7 @@ namespace Improved_Need_Indicator
 
             if (needAddendum.IsRatesStale(tickNow))
             {
-                needAddendum.UpdateTickRates(tickNow);
+                needAddendum.UpdateRates(tickNow);
                 needAddendum.UpdateBasic(tickNow);
 
                 return needAddendum.basicTip;
@@ -53,7 +53,7 @@ namespace Improved_Need_Indicator
             if (needAddendum == null || needAddendum.IsSameNeed(need) == false)
             {
                 needAddendum = need.ToNeedAddendum();
-                needAddendum.UpdateTickRates(tickNow);
+                needAddendum.UpdateRates(tickNow);
                 needAddendum.UpdateBasic(tickNow);
                 needAddendum.UpdateDetailed(tickNow);
 
@@ -62,7 +62,7 @@ namespace Improved_Need_Indicator
 
             if (needAddendum.IsRatesStale(tickNow))
             {
-                needAddendum.UpdateTickRates(tickNow);
+                needAddendum.UpdateRates(tickNow);
                 needAddendum.UpdateBasic(tickNow);
                 needAddendum.UpdateDetailed(tickNow);
 
@@ -91,6 +91,8 @@ namespace Improved_Need_Indicator
         {
             if (need is Need_Rest need_rest)
                 return new NeedRestAddendum(need_rest);
+            else if (need is Need_Food need_Food)
+                return new NeedFoodAddendum(need_Food);
 
             return new NeedAddendum(need);
         }

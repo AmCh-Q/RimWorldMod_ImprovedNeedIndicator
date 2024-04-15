@@ -131,7 +131,6 @@ namespace Improved_Need_Indicator
                     exhaustedAddendum = DoThresholdUpdate("INI.Rest.Exhausted", 0f, fallPerTick * (.3f / 0.7f));
 
                     basicTip = string.Join("\n", new[] { restNeededAddendum, veryTiredAddendum, exhaustedAddendum });
-
                 }
                 else if (need.CurLevel > 0f)
                 {
@@ -228,13 +227,12 @@ namespace Improved_Need_Indicator
             base.UpdateDetailed(tickNow);
         }
 
-        public override void UpdateTickRates(int tickNow)
+        public override void UpdateRates(int tickNow)
         {
-
             UpdateRestFallPerTick();
             UpdateRestGainPerTick();
 
-            base.UpdateTickRates(tickNow);
+            base.UpdateRates(tickNow);
         }
 
 #if (v1_2 || v1_3)

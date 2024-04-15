@@ -36,6 +36,7 @@
     <Compile Include="ImprovedNeedIndicator.cs" />
     <Compile Include="Joy.cs" />
     <Compile Include="NeedAddendum.cs" />
+    <Compile Include="NeedFoodAddendum.cs" />
     <Compile Include="NeedRestAddendum.cs" />
     <Compile Include="Rest.cs" />
     <Compile Include="Utility.cs" />

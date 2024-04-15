@@ -6,8 +6,8 @@
   <INI.Rest.MaxRestNeeded>sleep needed {0}</INI.Rest.MaxRestNeeded>
 
   <INI.Food.Hungry>{0} till hungry</INI.Food.Hungry>
-  <INI.Food.Ravenous>{0} till ravenous</INI.Food.Ravenous>
-  <INI.Food.Malnourished>{0} till malnourished</INI.Food.Malnourished>
+  <INI.Food.UrgentlyHungry>{0} till ravenous</INI.Food.UrgentlyHungry>
+  <INI.Food.Starving>{0} till malnourished</INI.Food.Starving>
 
   <INI.Joy.High>{0} till satisfied</INI.Joy.High>
   <INI.Joy.Satisfied>{0} till neutral</INI.Joy.Satisfied>
