@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <OutputType>Library</OutputType>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <TargetFramework>net472</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DefineConstants>DEBUG</DefineConstants>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+</Project>
