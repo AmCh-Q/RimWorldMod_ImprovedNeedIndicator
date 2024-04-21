@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <KeyBindingDef>
+        <category>ImprovedNeedIndicatorKeys</category>
+        <defName>ShowDetails</defName>
+        <label>Show the detailed need indicator while hovering over need meter.</label>
+        <defaultKeyCodeA>LeftControl</defaultKeyCodeA>
+        <defaultKeyCodeB>RightControl</defaultKeyCodeB>
+    </KeyBindingDef>
+</Defs>

@@ -130,13 +130,15 @@ namespace Improved_Need_Indicator
                 );
             }
 
-            detailedTip = "";
+            detailedTip = string.Empty;
             foreach (ThresholdAddendum thresholdAddendum in fallingAddendums)
-            {
-                HandleThresholdAddendum(thresholdAddendum);
                 if (levelAccumulator >= thresholdAddendum.Threshold)
+                {
+                    HandleThresholdAddendum(thresholdAddendum);
                     detailedTip += "\n" + thresholdAddendum.DetailedAddendum;
-            }
+                }
+
+            detailedTip = detailedTip.Trim();
             detailedUpdatedAt = tickNow;
         }
 

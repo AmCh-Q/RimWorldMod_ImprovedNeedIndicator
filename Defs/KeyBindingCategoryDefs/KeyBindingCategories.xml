@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <KeyBindingCategoryDef>
+        <defName>ImprovedNeedIndicatorKeys</defName>
+        <label>Improved Need Indicator</label>
+        <description>Keybinds for Improved Need Indicator</description>
+    </KeyBindingCategoryDef>
+</Defs>

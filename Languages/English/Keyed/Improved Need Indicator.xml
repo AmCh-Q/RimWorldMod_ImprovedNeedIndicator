@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <INI.Name>Improved Need Indicator</INI.Name>
+  <INI.ShowDetails>Hold ctrl for details</INI.ShowDetails>
 
   <INI.Max>max: {0}</INI.Max>
   <INI.Rest.MaxRestNeeded>sleep needed {0}</INI.Rest.MaxRestNeeded>

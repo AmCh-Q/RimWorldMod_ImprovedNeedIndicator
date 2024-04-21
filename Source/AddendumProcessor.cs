@@ -10,13 +10,19 @@ namespace Improved_Need_Indicator
 
         public static string GetTipAddendum(Need need)
         {
-            bool isDetailed = false;
+            bool isDetailed = INIKeyBindingDefOf.ShowDetails.IsDown;
             int tickNow = Find.TickManager.TicksGame;
 
             if (isDetailed)
-                return "\n\n" + ((TaggedString)GetDetailedTipAddendum(need, tickNow)).Resolve();
+                return ((TaggedString)("\n\n" + GetDetailedTipAddendum(need, tickNow))).Resolve();
 
-            return "\n\n" + ((TaggedString)GetBasicTipAddendum(need, tickNow)).Resolve();
+
+            return (
+                (TaggedString)(
+                    "\n\n" + GetBasicTipAddendum(need, tickNow)
+                    + "\n\n" + "INI.ShowDetails".Translate()
+                )
+            ).Resolve();
         }
 
         private static string GetBasicTipAddendum(Need need, int tickNow)
@@ -80,6 +86,7 @@ namespace Improved_Need_Indicator
             if (needAddendum.IsBasicStale(tickNow))
             {
                 needAddendum.UpdateBasicTip(tickNow);
+                needAddendum.UpdateDetailedTip(tickNow);
 
                 return needAddendum.detailedTip;
             }

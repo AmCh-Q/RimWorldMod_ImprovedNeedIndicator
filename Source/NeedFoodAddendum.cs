@@ -41,35 +41,6 @@ namespace Improved_Need_Indicator
 
         public override void UpdateDetailedTip(int tickNow)
         {
-            float levelAccumulator;
-            int tickAccumulator;
-            int tickOffset;
-            int ticksUntilThreshold;
-
-            levelAccumulator = need.MaxLevel;
-            tickAccumulator = 0;
-            tickOffset = pawn.TicksUntilNextUpdate();
-
-            void HandleThresholdAddendum(ThresholdAddendum thresholdAddendum)
-            {
-                ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, thresholdAddendum.Threshold, thresholdAddendum.Rate);
-                tickAccumulator += ticksUntilThreshold;
-                levelAccumulator -= ticksUntilThreshold * thresholdAddendum.Rate;
-
-                thresholdAddendum.DetailedAddendum = (
-                    thresholdAddendum.BasicAddendum
-                    + "\n\t" + "INI.Max".Translate((tickAccumulator - tickOffset).TicksToPeriod())
-                );
-            }
-
-            detailedTip = "";
-            foreach (ThresholdAddendum thresholdAddendum in fallingAddendums)
-            {
-                HandleThresholdAddendum(thresholdAddendum);
-                if (levelAccumulator >= thresholdAddendum.Threshold)
-                    detailedTip += "\n" + thresholdAddendum.DetailedAddendum;
-            }
-
             base.UpdateDetailedTip(tickNow);
         }
 

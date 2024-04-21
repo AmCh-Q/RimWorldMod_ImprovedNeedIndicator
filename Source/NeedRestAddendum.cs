@@ -127,6 +127,8 @@ namespace Improved_Need_Indicator
             tickOffset = pawn.TicksUntilNextUpdate();
             ticksUntilThreshold = 0;
 
+            detailedTip = restNeededAddendum;
+
             void HandleThresholdAddendum(ThresholdAddendum thresholdAddendum)
             {
                 ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, thresholdAddendum.Threshold, thresholdAddendum.Rate);
@@ -142,15 +144,14 @@ namespace Improved_Need_Indicator
             }
 
             foreach (ThresholdAddendum thresholdAddendum in fallingAddendums)
-                if (levelAccumulator > thresholdAddendum.Threshold)
+                if (levelAccumulator >= thresholdAddendum.Threshold)
                 {
                     HandleThresholdAddendum(thresholdAddendum);
-                    detailedTip += "\n" + thresholdAddendum.BasicAddendum;
+                    detailedTip += "\n" + thresholdAddendum.DetailedAddendum;
                 }
 
             detailedTip = detailedTip.Trim();
-
-            base.UpdateDetailedTip(tickNow);
+            detailedUpdatedAt = tickNow;
         }
 
         public override void UpdateRates(int tickNow)
