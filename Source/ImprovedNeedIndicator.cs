@@ -34,14 +34,11 @@ namespace Improved_Need_Indicator
 
         private static void Postfix(Need __instance, ref string __result)
         {
-            Pawn pawn = fr_pawn(__instance);
-            int tickNow = Find.TickManager.TicksGame;
-
             // Skip if need type is not supported yet
-            if (__instance is Need_Rest need_rest)
+            if (__instance is Need_Rest)
                 __result += AddendumProcessor.GetTipAddendum(__instance);
-            else if (__instance is Need_Joy need_joy)
-                __result += Joy.ProcessNeed(pawn, need_joy, tickNow);
+            else if (__instance is Need_Joy)
+                __result += AddendumProcessor.GetTipAddendum(__instance);
         }
 
         private static void Postfix_Need_Food(Need_Food __instance, ref string __result)

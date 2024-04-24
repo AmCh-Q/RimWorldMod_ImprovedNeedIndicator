@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <INI.Name>更多需求條信息</INI.Name>
+  <INI.ShowDetails>Hold ctrl for details</INI.ShowDetails>
+
+  <INI.Max>max: {0}</INI.Max>
+  <INI.Rest.MaxRestNeeded>sleep needed {0}</INI.Rest.MaxRestNeeded>
 
   <INI.Food.Hungry>{0}后感到餓</INI.Food.Hungry>
   <INI.Food.Ravenous>{0}后非常餓</INI.Food.Ravenous>
   <INI.Food.Malnourished>{0}后營養不良</INI.Food.Malnourished>
 
+  <INI.Joy.Satisfied>{0}后滿意娛樂</INI.Joy.Satisfied>
+  <INI.Joy.Neutral>{0}后無需娛樂</INI.Joy.Neutral>
+  <INI.Joy.Unfulfilled>{0}后需要娛樂</INI.Joy.Unfulfilled>
+  <INI.Joy.Deprived>{0}后缺乏娛樂</INI.Joy.Deprived>
+  <INI.Joy.Starved>{0}后渴望娛樂</INI.Joy.Starved>
+
   <INI.Rest.Rested>{0}后睡飽</INI.Rest.Rested>
   <INI.Rest.Tired>{0}后感到昏昏欲睡</INI.Rest.Tired>
   <INI.Rest.VeryTired>{0}后感到疲憊不堪</INI.Rest.VeryTired>
   <INI.Rest.Exhausted>{0}后精疲力盡</INI.Rest.Exhausted>
-
-  <INI.Joy.High>{0}后滿意娛樂</INI.Joy.High>
-  <INI.Joy.Satisfied>{0}后無需娛樂</INI.Joy.Satisfied>
-  <INI.Joy.Low>{0}后需要娛樂</INI.Joy.Low>
-  <INI.Joy.VeryLow>{0}后缺乏娛樂</INI.Joy.VeryLow>
-  <INI.Joy.Empty>{0}后渴望娛樂</INI.Joy.Empty>
 </LanguageData>

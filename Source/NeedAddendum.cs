@@ -109,14 +109,14 @@ namespace Improved_Need_Indicator
 
         public virtual void UpdateDetailedTip(int tickNow)
         {
+            float curLevel;
             float levelAccumulator;
             int tickAccumulator;
-            int tickOffset;
             int ticksUntilThreshold;
 
+            curLevel = need.CurLevel;
             levelAccumulator = need.MaxLevel;
             tickAccumulator = 0;
-            tickOffset = pawn.TicksUntilNextUpdate();
 
             void HandleThresholdAddendum(ThresholdAddendum thresholdAddendum)
             {
@@ -126,17 +126,19 @@ namespace Improved_Need_Indicator
 
                 thresholdAddendum.DetailedAddendum = (
                     thresholdAddendum.BasicAddendum
-                    + "\n\t" + "INI.Max".Translate((tickAccumulator - tickOffset).TicksToPeriod())
+                    + "\n\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod())
                 );
             }
 
             detailedTip = string.Empty;
             foreach (ThresholdAddendum thresholdAddendum in fallingAddendums)
+            {
                 if (levelAccumulator >= thresholdAddendum.Threshold)
-                {
                     HandleThresholdAddendum(thresholdAddendum);
+
+                if (curLevel >= thresholdAddendum.Threshold)
                     detailedTip += "\n" + thresholdAddendum.DetailedAddendum;
-                }
+            }
 
             detailedTip = detailedTip.Trim();
             detailedUpdatedAt = tickNow;

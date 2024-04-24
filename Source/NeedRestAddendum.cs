@@ -116,15 +116,15 @@ namespace Improved_Need_Indicator
 
         public override void UpdateDetailedTip(int tickNow)
         {
+            float curLevel;
             float levelAccumulator;
             int ticksUntilThreshold;
             int tickAccumulator;
-            int tickOffset;
             int ticksUntilRest;
 
+            curLevel = need.CurLevel;
             levelAccumulator = need.MaxLevel;
             tickAccumulator = 0;
-            tickOffset = pawn.TicksUntilNextUpdate();
             ticksUntilThreshold = 0;
 
             detailedTip = restNeededAddendum;
@@ -144,11 +144,13 @@ namespace Improved_Need_Indicator
             }
 
             foreach (ThresholdAddendum thresholdAddendum in fallingAddendums)
+            {
                 if (levelAccumulator >= thresholdAddendum.Threshold)
-                {
                     HandleThresholdAddendum(thresholdAddendum);
+
+                if (curLevel >= thresholdAddendum.Threshold)
                     detailedTip += "\n" + thresholdAddendum.DetailedAddendum;
-                }
+            }
 
             detailedTip = detailedTip.Trim();
             detailedUpdatedAt = tickNow;

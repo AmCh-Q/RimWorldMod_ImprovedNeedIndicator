@@ -96,10 +96,12 @@ namespace Improved_Need_Indicator
 
         private static NeedAddendum ToNeedAddendum(this Need need)
         {
-            if (need is Need_Rest need_rest)
-                return new NeedRestAddendum(need_rest);
-            else if (need is Need_Food need_Food)
-                return new NeedFoodAddendum(need_Food);
+            if (need is Need_Food needFood)
+                return new NeedFoodAddendum(needFood);
+            if (need is Need_Joy needJoy)
+                return new NeedJoyAddendum(needJoy);
+            else if (need is Need_Rest needRest)
+                return new NeedRestAddendum(needRest);
 
             return new NeedAddendum(need);
         }
