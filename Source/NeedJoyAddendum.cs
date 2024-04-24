@@ -67,15 +67,21 @@ namespace Improved_Need_Indicator
 
         public override void UpdateRates(int tickNow)
         {
+            float curJoyFall = GetJoyFallPerTick();
+
             foreach (ThresholdAddendum threshold in fallingAddendums)
-                threshold.Rate = JoyFallPerTickAssumingCategory((JoyCategory)threshold.RateCategory);
+                threshold.Rate =
+                    JoyFallPerTickAssumingCategory(
+                        (JoyCategory)threshold.RateCategory,
+                        curJoyFall
+                    );
 
             base.UpdateRates(tickNow);
         }
 
-        private float JoyFallPerTickAssumingCategory(JoyCategory category)
+        private float JoyFallPerTickAssumingCategory(JoyCategory category, float curJoyFall)
         {
-            float joyFall = GetJoyFallPerTick();
+            float joyFall = curJoyFall;
 
             switch (needJoy.CurCategory)
             {

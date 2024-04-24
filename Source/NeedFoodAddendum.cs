@@ -36,7 +36,9 @@ namespace Improved_Need_Indicator
 
         public override void UpdateBasicTip(int tickNow)
         {
-            base.UpdateBasicTip(tickNow);
+            base.UpdateBasicTipFalling(tickNow, need.CurLevel);
+
+            basicUpdatedAt = tickNow;
         }
 
         public override void UpdateDetailedTip(int tickNow)

@@ -50,11 +50,25 @@ namespace Improved_Need_Indicator
 
         public bool IsBasicStale(int tickNow)
         {
+            if (
+                need.def.freezeWhileSleeping
+                && pawn.Awake() == false
+                && basicTip != ""
+            )
+                return false;
+
             return tickNow != basicUpdatedAt;
         }
 
         public bool IsDetailedStale(int tickNow)
         {
+            if (
+                need.def.freezeWhileSleeping
+                && pawn.Awake() == false
+                && detailedTip != ""
+            )
+                return false;
+
             return tickNow - detailedUpdatedAt > 150;
         }
 
@@ -76,35 +90,73 @@ namespace Improved_Need_Indicator
 
         public virtual void UpdateBasicTip(int tickNow)
         {
+            float curLevel = need.CurLevel;
+            float curInstantLevel = need.CurInstantLevel;
+
+            if (curInstantLevel < curLevel)
+                UpdateBasicTipFalling(tickNow, curLevel);
+            else
+                UpdateBasicTipRising(tickNow, curInstantLevel);
+
+            basicUpdatedAt = tickNow;
+        }
+
+        protected virtual void UpdateBasicTipFalling(int tickNow, float curLevel)
+        {
             float levelAccumulator;
             int tickAccumulator;
             int tickOffset;
             int ticksUntilThreshold;
 
-            levelAccumulator = need.CurLevel;
+            levelAccumulator = curLevel;
             tickAccumulator = 0;
             tickOffset = pawn.TicksUntilNextUpdate();
 
-            void HandleThresholdAddendum(ThresholdAddendum thresholdAddendum)
+            basicTip = "";
+            foreach (ThresholdAddendum thresholdAddendum in fallingAddendums)
             {
-                ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, thresholdAddendum.Threshold, thresholdAddendum.Rate);
-                tickAccumulator += ticksUntilThreshold;
-                levelAccumulator -= ticksUntilThreshold * thresholdAddendum.Rate;
+                if (levelAccumulator >= thresholdAddendum.Threshold)
+                {
+                    ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, thresholdAddendum.Threshold, thresholdAddendum.Rate);
+                    tickAccumulator += ticksUntilThreshold;
+                    levelAccumulator -= ticksUntilThreshold * thresholdAddendum.Rate;
 
-                thresholdAddendum.BasicAddendum = thresholdAddendum.Translation.Translate((tickAccumulator - tickOffset).TicksToPeriod());
+                    thresholdAddendum.BasicAddendum = thresholdAddendum.Translation.Translate((tickAccumulator - tickOffset).TicksToPeriod());
+                }
+
+                if (curLevel >= thresholdAddendum.Threshold)
+                    basicTip += "\n" + thresholdAddendum.BasicAddendum;
             }
+
+            basicTip = basicTip.Trim();
+        }
+
+        protected virtual void UpdateBasicTipRising(int tickNow, float curLevel)
+        {
+            float levelAccumulator;
+            int tickAccumulator;
+            int ticksUntilThreshold;
+
+            levelAccumulator = curLevel;
+            tickAccumulator = 0;
 
             basicTip = "";
             foreach (ThresholdAddendum thresholdAddendum in fallingAddendums)
-                if (levelAccumulator > thresholdAddendum.Threshold)
+            {
+                if (levelAccumulator >= thresholdAddendum.Threshold)
                 {
-                    HandleThresholdAddendum(thresholdAddendum);
-                    basicTip += "\n" + thresholdAddendum.BasicAddendum;
+                    ticksUntilThreshold = TicksUntilThreshold(levelAccumulator, thresholdAddendum.Threshold, thresholdAddendum.Rate);
+                    tickAccumulator += ticksUntilThreshold;
+                    levelAccumulator -= ticksUntilThreshold * thresholdAddendum.Rate;
+
+                    thresholdAddendum.BasicAddendum = thresholdAddendum.Translation.Translate(tickAccumulator.TicksToPeriod());
                 }
 
-            basicTip = basicTip.Trim();
+                if (curLevel >= thresholdAddendum.Threshold)
+                    basicTip += "\n" + thresholdAddendum.BasicAddendum;
+            }
 
-            basicUpdatedAt = tickNow;
+            basicTip = basicTip.Trim();
         }
 
         public virtual void UpdateDetailedTip(int tickNow)
@@ -118,23 +170,20 @@ namespace Improved_Need_Indicator
             levelAccumulator = need.MaxLevel;
             tickAccumulator = 0;
 
-            void HandleThresholdAddendum(ThresholdAddendum thresholdAddendum)
-            {
-                ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, thresholdAddendum.Threshold, thresholdAddendum.Rate);
-                tickAccumulator += ticksUntilThreshold;
-                levelAccumulator -= ticksUntilThreshold * thresholdAddendum.Rate;
-
-                thresholdAddendum.DetailedAddendum = (
-                    thresholdAddendum.BasicAddendum
-                    + "\n\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod())
-                );
-            }
-
             detailedTip = string.Empty;
             foreach (ThresholdAddendum thresholdAddendum in fallingAddendums)
             {
                 if (levelAccumulator >= thresholdAddendum.Threshold)
-                    HandleThresholdAddendum(thresholdAddendum);
+                {
+                    ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, thresholdAddendum.Threshold, thresholdAddendum.Rate);
+                    tickAccumulator += ticksUntilThreshold;
+                    levelAccumulator -= ticksUntilThreshold * thresholdAddendum.Rate;
+
+                    thresholdAddendum.DetailedAddendum = (
+                        thresholdAddendum.BasicAddendum
+                        + "\n\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod())
+                    );
+                }
 
                 if (curLevel >= thresholdAddendum.Threshold)
                     detailedTip += "\n" + thresholdAddendum.DetailedAddendum;

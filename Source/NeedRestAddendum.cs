@@ -58,60 +58,51 @@ namespace Improved_Need_Indicator
         }
 #endif
 
-        private void UpdateBasicTipWhileResting(int tickNow)
-        {
-            float levelAccumulator;
-            int tickAccumulator;
-            int tickOffset;
-            int ticksUntilThreshold;
-
-            levelAccumulator = 0f;
-            tickOffset = pawn.TicksUntilNextUpdate();
-            tickAccumulator = 0;
-
-            void HandleThresholdAddendum(ThresholdAddendum thresholdAddendum)
-            {
-                ticksUntilThreshold = TicksUntilThreshold(levelAccumulator, thresholdAddendum.Threshold, thresholdAddendum.Rate);
-                tickAccumulator += ticksUntilThreshold;
-                levelAccumulator -= ticksUntilThreshold * thresholdAddendum.Rate;
-
-                thresholdAddendum.Translation.Translate(tickAccumulator.TicksToPeriod());
-            }
-
-            ticksUntilThreshold = TicksUntilThresholdUpdate(need.MaxLevel, needRest.CurLevel, restGainPerTick);
-            restNeededAddendum = "INI.Rest.RestNeeded".Translate((ticksUntilThreshold - tickOffset).TicksToPeriod());
-
-            basicTip = restNeededAddendum;
-            levelAccumulator = needRest.CurLevel + (tickOffset * restGainPerTick);
-
-            foreach (ThresholdAddendum thresholdAddendum in fallingAddendums)
-                if (levelAccumulator >= thresholdAddendum.Threshold)
-                {
-                    HandleThresholdAddendum(thresholdAddendum);
-                    basicTip += "\n" + thresholdAddendum.BasicAddendum;
-                }
-
-            basicTip = basicTip.Trim();
-            basicUpdatedAt = tickNow;
-        }
-
         public override void UpdateBasicTip(int tickNow)
         {
             if (IsPawnResting(tickNow))
-                UpdateBasicTipWhileResting(tickNow);
+                UpdateBasicTipRising(tickNow, need.CurLevel);
             else
-            {
-                int ticksUntilRested = TicksUntilThreshold(
+                UpdateBasicTipFalling(tickNow, need.CurLevel);
+
+            basicUpdatedAt = tickNow;
+        }
+
+        protected override void UpdateBasicTipFalling(int tickNow, float curLevel)
+        {
+            int ticksUntilRested =
+                TicksUntilThreshold(
                     need.MaxLevel,
-                    needRest.CurLevel - (pawn.TicksUntilNextUpdate() * GetRestFallPerTick()),
+                    curLevel - (pawn.TicksUntilNextUpdate() * GetRestFallPerTick()),
                     restGainPerTick
                 );
-                restNeededAddendum = "INI.Rest.RestNeeded".Translate(ticksUntilRested.TicksToPeriod());
+            restNeededAddendum = "INI.Rest.RestNeeded".Translate(ticksUntilRested.TicksToPeriod());
 
-                base.UpdateBasicTip(tickNow);
+            base.UpdateBasicTipFalling(tickNow, curLevel);
 
-                basicTip = restNeededAddendum + "\n" + basicTip;
-            }
+            basicTip = restNeededAddendum + "\n" + basicTip;
+            basicTip = basicTip.Trim();
+        }
+
+        protected override void UpdateBasicTipRising(int tickNow, float curLevel)
+        {
+            int tickOffset;
+            int ticksUntilThreshold;
+
+            tickOffset = pawn.TicksUntilNextUpdate();
+            ticksUntilThreshold =
+                TicksUntilThresholdUpdate(
+                    need.MaxLevel,
+                    curLevel,
+                    restGainPerTick
+                );
+            restNeededAddendum =
+                "INI.Rest.RestNeeded".Translate((ticksUntilThreshold - tickOffset).TicksToPeriod());
+
+            base.UpdateBasicTipRising(tickNow, curLevel + (tickOffset * restGainPerTick));
+
+            basicTip = restNeededAddendum + "\n" + basicTip;
+            basicTip = basicTip.Trim();
         }
 
         public override void UpdateDetailedTip(int tickNow)
@@ -129,24 +120,31 @@ namespace Improved_Need_Indicator
 
             detailedTip = restNeededAddendum;
 
-            void HandleThresholdAddendum(ThresholdAddendum thresholdAddendum)
-            {
-                ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, thresholdAddendum.Threshold, thresholdAddendum.Rate);
-                tickAccumulator += ticksUntilThreshold;
-                levelAccumulator -= ticksUntilThreshold * thresholdAddendum.Rate;
-                ticksUntilRest = TicksUntilThresholdUpdate(needRest.MaxLevel, levelAccumulator, restGainPerTick);
-
-                thresholdAddendum.DetailedAddendum = (
-                    thresholdAddendum.BasicAddendum
-                    + "\n\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod())
-                    + "\n\t" + "INI.Rest.MaxRestNeeded".Translate(ticksUntilRest.TicksToPeriod())
-                );
-            }
-
             foreach (ThresholdAddendum thresholdAddendum in fallingAddendums)
             {
                 if (levelAccumulator >= thresholdAddendum.Threshold)
-                    HandleThresholdAddendum(thresholdAddendum);
+                {
+                    ticksUntilThreshold =
+                        TicksUntilThresholdUpdate(
+                            levelAccumulator,
+                            thresholdAddendum.Threshold,
+                            thresholdAddendum.Rate
+                        );
+                    tickAccumulator += ticksUntilThreshold;
+                    levelAccumulator -= ticksUntilThreshold * thresholdAddendum.Rate;
+                    ticksUntilRest =
+                        TicksUntilThresholdUpdate(
+                            needRest.MaxLevel,
+                            levelAccumulator,
+                            restGainPerTick
+                        );
+
+                    thresholdAddendum.DetailedAddendum = (
+                        thresholdAddendum.BasicAddendum
+                        + "\n\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod())
+                        + "\n\t" + "INI.Rest.MaxRestNeeded".Translate(ticksUntilRest.TicksToPeriod())
+                    );
+                }
 
                 if (curLevel >= thresholdAddendum.Threshold)
                     detailedTip += "\n" + thresholdAddendum.DetailedAddendum;
@@ -158,8 +156,14 @@ namespace Improved_Need_Indicator
 
         public override void UpdateRates(int tickNow)
         {
+            float curRestFall = GetRestFallPerTick();
+
             foreach (ThresholdAddendum threshold in fallingAddendums)
-                threshold.Rate = RestFallPerTickAssumingCategory((RestCategory)threshold.RateCategory);
+                threshold.Rate =
+                    RestFallPerTickAssumingCategory(
+                        (RestCategory)threshold.RateCategory,
+                        curRestFall
+                    );
 
             restGainPerTick = Need_Rest.BaseRestGainPerTick
                 * fr_lastRestEffectivness(needRest)
@@ -168,9 +172,9 @@ namespace Improved_Need_Indicator
             base.UpdateRates(tickNow);
         }
 
-        private float RestFallPerTickAssumingCategory(RestCategory category)
+        private float RestFallPerTickAssumingCategory(RestCategory category, float curRestFall)
         {
-            float restFall = GetRestFallPerTick();
+            float restFall = curRestFall;
 
             switch (needRest.CurCategory)
             {
