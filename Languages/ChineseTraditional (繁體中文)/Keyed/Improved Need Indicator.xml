@@ -4,17 +4,40 @@
   <INI.ShowDetails>Hold ctrl for details</INI.ShowDetails>
 
   <INI.Max>max: {0}</INI.Max>
-  <INI.Rest.MaxRestNeeded>sleep needed {0}</INI.Rest.MaxRestNeeded>
+  <INI.Neutral>{0}后無需娛樂</INI.Neutral>
+
+  <INI.Beauty.Beautiful>{0} till beautiful</INI.Beauty.Beautiful>
+  <INI.Beauty.Pretty>{0} till nice</INI.Beauty.Pretty>
+  <INI.Beauty.Unsightly>{0} till unsighly</INI.Beauty.Unsightly>
+  <INI.Beauty.Ugly>{0} till ugly</INI.Beauty.Ugly>
+  <INI.Beauty.Hideous>{0} till grotesque</INI.Beauty.Hideous>
+
+  <INI.Comfort.LuxuriantlyComfortable>{0} till luxuriantly comfortable</INI.Comfort.LuxuriantlyComfortable>
+  <INI.Comfort.ExtremelyComfortable>{0} till extremely comfortable</INI.Comfort.ExtremelyComfortable>
+  <INI.Comfort.VeryComfortable>{0} till very comfortable</INI.Comfort.VeryComfortable>
+  <INI.Comfort.Comfortable>{0} till comfortable</INI.Comfort.Comfortable>
+  <INI.Comfort.Uncomfortable>{0} till uncomfortable</INI.Comfort.Uncomfortable>
 
   <INI.Food.Hungry>{0}后感到餓</INI.Food.Hungry>
   <INI.Food.Ravenous>{0}后非常餓</INI.Food.Ravenous>
   <INI.Food.Malnourished>{0}后營養不良</INI.Food.Malnourished>
 
+  <INI.Indoors.JustOutdoors>{0} till should not</INI.Indoors.JustOutdoors>
+  <INI.Indoors.Outdoors>{0} till too much</INI.Indoors.Outdoors>
+  <INI.Indoors.LongOutdoors>{0} till wronged</INI.Indoors.LongOutdoors>
+  <INI.Indoors.VeryLongOutdoors>{0} till disturbed</INI.Indoors.VeryLongOutdoors>
+  <INI.Indoors.BrutalOutdoors>{0} till insane</INI.Indoors.BrutalOutdoors>
+
   <INI.Joy.Satisfied>{0}后滿意娛樂</INI.Joy.Satisfied>
-  <INI.Joy.Neutral>{0}后無需娛樂</INI.Joy.Neutral>
   <INI.Joy.Unfulfilled>{0}后需要娛樂</INI.Joy.Unfulfilled>
   <INI.Joy.Deprived>{0}后缺乏娛樂</INI.Joy.Deprived>
   <INI.Joy.Starved>{0}后渴望娛樂</INI.Joy.Starved>
+
+  <INI.Outdoors.StuckIndoors>{0} till stuck indoors</INI.Outdoors.StuckIndoors>
+  <INI.Outdoors.TrappedIndoors>{0} till trapped indoors</INI.Outdoors.TrappedIndoors>
+  <INI.Outdoors.CabinFever>{0} till cabin fever</INI.Outdoors.CabinFeber>
+  <INI.Outdoors.TrappedUnderground>{0} till trapped underground</INI.Outdoors.TrappedUnderground>
+  <INI.Outdoors.EntombedUnderground>{0} till entombed underground</INI.Outdoors.EntombedUnderground>
 
   <INI.Rest.Rested>{0}后睡飽</INI.Rest.Rested>
   <INI.Rest.Tired>{0}后感到昏昏欲睡</INI.Rest.Tired>

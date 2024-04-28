@@ -21,13 +21,13 @@ namespace Improved_Need_Indicator
                 new Addendum_Need_Rate(
                     (byte)HungerCategory.UrgentlyHungry,
                     need.PercentageThreshUrgentlyHungry,
-                    "INI.Food.UrgentlyHungry",
+                    "INI.Food.Ravenous",
                     (byte)HungerCategory.Hungry
                 ),
                 new Addendum_Need_Rate(
                     (byte)HungerCategory.Starving,
                     0f,
-                    "INI.Food.Starving",
+                    "INI.Food.Malnourished",
                     (byte)HungerCategory.UrgentlyHungry
                 )
             };

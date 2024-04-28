@@ -4,19 +4,47 @@
   <INI.ShowDetails>Hold ctrl for details</INI.ShowDetails>
 
   <INI.Max>max: {0}</INI.Max>
-  <INI.Rest.MaxRestNeeded>sleep needed {0}</INI.Rest.MaxRestNeeded>
+  <INI.Neutral>{0} till neutral</INI.Neutral>
+
+  <INI.Beauty.Beautiful>{0} till beautiful</INI.Beauty.Beautiful>
+  <INI.Beauty.Pretty>{0} till nice</INI.Beauty.Pretty>
+  <INI.Beauty.Unsightly>{0} till unsighly</INI.Beauty.Unsightly>
+  <INI.Beauty.Ugly>{0} till ugly</INI.Beauty.Ugly>
+  <INI.Beauty.Hideous>{0} till grotesque</INI.Beauty.Hideous>
+
+  <INI.Comfort.LuxuriantlyComfortable>{0} till luxuriantly comfortable</INI.Comfort.LuxuriantlyComfortable>
+  <INI.Comfort.ExtremelyComfortable>{0} till extremely comfortable</INI.Comfort.ExtremelyComfortable>
+  <INI.Comfort.VeryComfortable>{0} till very comfortable</INI.Comfort.VeryComfortable>
+  <INI.Comfort.Comfortable>{0} till comfortable</INI.Comfort.Comfortable>
+  <INI.Comfort.Uncomfortable>{0} till uncomfortable</INI.Comfort.Uncomfortable>
 
   <INI.Food.Hungry>{0} till hungry</INI.Food.Hungry>
-  <INI.Food.UrgentlyHungry>{0} till ravenous</INI.Food.UrgentlyHungry>
-  <INI.Food.Starving>{0} till malnourished</INI.Food.Starving>
+  <INI.Food.Ravenous>{0} till hunger pangs</INI.Food.Ravenous>
+  <INI.Food.Malnourished>{0} till wasting away</INI.Food.Malnourished>
+
+  <INI.Indoors.JustOutdoors>{0} till should not</INI.Indoors.JustOutdoors>
+  <INI.Indoors.Outdoors>{0} till too much</INI.Indoors.Outdoors>
+  <INI.Indoors.LongOutdoors>{0} till wronged</INI.Indoors.LongOutdoors>
+  <INI.Indoors.VeryLongOutdoors>{0} till disturbed</INI.Indoors.VeryLongOutdoors>
+  <INI.Indoors.BrutalOutdoors>{0} till insane</INI.Indoors.BrutalOutdoors>
 
   <INI.Joy.Satisfied>{0} till satisfied</INI.Joy.Satisfied>
-  <INI.Joy.Neutral>{0} till neutral</INI.Joy.Neutral>
   <INI.Joy.Unfulfilled>{0} till unfulfilled</INI.Joy.Unfulfilled>
   <INI.Joy.Deprived>{0} till deprived</INI.Joy.Deprived>
   <INI.Joy.Starved>{0} till starved</INI.Joy.Starved>
 
-  <INI.Rest.RestNeeded>{0} of sleep needed</INI.Rest.RestNeeded>
+  <INI.Mood.Content>{0} till content</INI.Mood.Content>
+  <INI.Mood.Minor>{0} till minor break risk</INI.Mood.Minor>
+  <INI.Mood.Major>{0} till major break risk</INI.Mood.Major>
+  <INI.Mood.Extreme>{0} till extreme break risk</INI.Mood.Extreme>
+
+  <INI.Outdoors.StuckIndoors>{0} till stuck indoors</INI.Outdoors.StuckIndoors>
+  <INI.Outdoors.TrappedIndoors>{0} till trapped indoors</INI.Outdoors.TrappedIndoors>
+  <INI.Outdoors.CabinFever>{0} till cabin fever</INI.Outdoors.CabinFeber>
+  <INI.Outdoors.TrappedUnderground>{0} till trapped underground</INI.Outdoors.TrappedUnderground>
+  <INI.Outdoors.EntombedUnderground>{0} till entombed underground</INI.Outdoors.EntombedUnderground>
+
+  <INI.Rest.Rested>{0} till rested</INI.Rest.Rested>
   <INI.Rest.Tired>{0} till drowsy</INI.Rest.Tired>
   <INI.Rest.VeryTired>{0} till tired</INI.Rest.VeryTired>
   <INI.Rest.Exhausted>{0} till exhausted</INI.Rest.Exhausted>

@@ -6,7 +6,7 @@ namespace Improved_Need_Indicator
     {
         protected Addendum_Need_Seeker[] FallingRateAddendums
         {
-            get { return (Addendum_Need_Rate[])FallingAddendums; }
+            get { return (Addendum_Need_Seeker[])FallingAddendums; }
             set { FallingAddendums = value; }
         }
 

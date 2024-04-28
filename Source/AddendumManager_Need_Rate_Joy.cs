@@ -31,7 +31,7 @@ namespace Improved_Need_Indicator
                 new Addendum_Need_Rate(
                     (byte)JoyCategory.Satisfied,
                     JoyTunings.ThreshHigh,
-                    "INI.Joy.Neutral",
+                    "INI.Neutral",
                     (byte)JoyCategory.High
                 ),
                 new Addendum_Need_Rate(

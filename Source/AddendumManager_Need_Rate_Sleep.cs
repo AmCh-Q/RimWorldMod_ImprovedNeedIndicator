@@ -6,8 +6,6 @@ namespace Improved_Need_Indicator
 {
     public class AddendumManager_Need_Rate_Sleep : AddendumManager_Need_Rate
     {
-        private static readonly AccessTools.FieldRef<Need_Rest, float>
-            fr_lastRestEffectivness = AccessTools.FieldRefAccess<Need_Rest, float>("lastRestEffectiveness");
 
         private Need_Rest needRest;
 
@@ -76,7 +74,7 @@ namespace Improved_Need_Indicator
                     curLevel - (pawn.TicksUntilNextUpdate() * GetRestFallPerTick()),
                     restGainPerTick
                 );
-            restNeededAddendum = "INI.Rest.RestNeeded".Translate(ticksUntilRested.TicksToPeriod());
+            restNeededAddendum = "INI.Rest.Rested".Translate(ticksUntilRested.TicksToPeriod());
 
             base.UpdateBasicTipFalling(tickNow, curLevel);
 
@@ -97,7 +95,7 @@ namespace Improved_Need_Indicator
                     restGainPerTick
                 );
             restNeededAddendum =
-                "INI.Rest.RestNeeded".Translate((ticksUntilThreshold - tickOffset).TicksToPeriod());
+                "INI.Rest.Rested".Translate((ticksUntilThreshold - tickOffset).TicksToPeriod());
 
             base.UpdateBasicTipRising(tickNow, curLevel + (tickOffset * restGainPerTick));
 
@@ -142,7 +140,7 @@ namespace Improved_Need_Indicator
                     thresholdAddendum.Detail = (
                         thresholdAddendum.Basic
                         + "\n\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod())
-                        + "\n\t" + "INI.Rest.MaxRestNeeded".Translate(ticksUntilRest.TicksToPeriod())
+                        + "\n\t" + "INI.Rested".Translate(ticksUntilRest.TicksToPeriod())
                     );
                 }
 
@@ -227,5 +225,8 @@ namespace Improved_Need_Indicator
             return needRest.RestFallPerTick * pawn.GetStatValue(StatDefOf.RestFallRateFactor);
         }
 #endif
+
+        private static readonly AccessTools.FieldRef<Need_Rest, float>
+            fr_lastRestEffectivness = AccessTools.FieldRefAccess<Need_Rest, float>("lastRestEffectiveness");
     }
 }
