@@ -8,7 +8,7 @@ namespace Improved_Need_Indicator
     public class ImprovedNeedIndicator : Mod
     {
         public static readonly Harmony
-            harmony = new Harmony(id: "AmCh.ImprovedNeedIndicator");
+            harmony = new Harmony("AmCh.ImprovedNeedIndicator");
 
         private delegate void ActionRef_r2<T1, T2>(T1 t1, ref T2 t2);
 
@@ -39,14 +39,14 @@ namespace Improved_Need_Indicator
         {
             // Skip if need type is not supported yet
             if (__instance is Need_Rest)
-                __result += AddendumProcessor.GetTipAddendum(__instance);
+                __result += AddendumProcessor_Need_Rate.GetTipAddendum(__instance);
             else if (__instance is Need_Joy)
-                __result += AddendumProcessor.GetTipAddendum(__instance);
+                __result += AddendumProcessor_Need_Rate.GetTipAddendum(__instance);
         }
 
         private static void Postfix_Need_Food(Need_Food __instance, ref string __result)
         {
-            __result += AddendumProcessor.GetTipAddendum(__instance);
+            __result += AddendumProcessor_Need_Rate.GetTipAddendum(__instance);
         }
     }
 }

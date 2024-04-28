@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project>
-  <PropertyGroup >
+<Project ToolsVersion="15.0">
+  <PropertyGroup>
     <BaseIntermediateOutputPath>..\obj\1.3\</BaseIntermediateOutputPath>
     <MSBUildProjectExtensionsPath>..\obj\1.3\</MSBUildProjectExtensionsPath>
   </PropertyGroup>

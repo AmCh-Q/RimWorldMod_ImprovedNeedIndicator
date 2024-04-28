@@ -4,9 +4,9 @@ using Verse;
 
 namespace Improved_Need_Indicator
 {
-    public static class AddendumProcessor
+    public static class AddendumProcessor_Need_Rate
     {
-        private static NeedAddendum needAddendum;
+        private static AddendumManager_Need_Rate needAddendum;
 
         public static string GetTipAddendum(Need need)
         {
@@ -14,22 +14,21 @@ namespace Improved_Need_Indicator
             int tickNow = Find.TickManager.TicksGame;
 
             if (isDetailed)
-                return ((TaggedString)("\n\n" + GetDetailedTipAddendum(need, tickNow))).Resolve();
-
+                return ((TaggedString)("\n\n" + ToDetailTip(need, tickNow))).Resolve();
 
             return (
                 (TaggedString)(
-                    "\n\n" + GetBasicTipAddendum(need, tickNow)
+                    "\n\n" + ToBasicTip(need, tickNow)
                     + "\n\n" + "INI.ShowDetails".Translate()
                 )
             ).Resolve();
         }
 
-        private static string GetBasicTipAddendum(Need need, int tickNow)
+        private static string ToBasicTip(Need need, int tickNow)
         {
             if (needAddendum == null || needAddendum.IsSameNeed(need) == false)
             {
-                needAddendum = need.ToNeedAddendum();
+                needAddendum = need.ToManager();
                 needAddendum.UpdateRates(tickNow);
                 needAddendum.UpdateBasicTip(tickNow);
 
@@ -54,14 +53,14 @@ namespace Improved_Need_Indicator
             return needAddendum.basicTip;
         }
 
-        private static string GetDetailedTipAddendum(Need need, int tickNow)
+        private static string ToDetailTip(Need need, int tickNow)
         {
             if (needAddendum == null || needAddendum.IsSameNeed(need) == false)
             {
-                needAddendum = need.ToNeedAddendum();
+                needAddendum = need.ToManager();
                 needAddendum.UpdateRates(tickNow);
                 needAddendum.UpdateBasicTip(tickNow);
-                needAddendum.UpdateDetailedTip(tickNow);
+                needAddendum.UpdateDetailTip(tickNow);
 
                 return needAddendum.detailedTip;
             }
@@ -70,15 +69,15 @@ namespace Improved_Need_Indicator
             {
                 needAddendum.UpdateRates(tickNow);
                 needAddendum.UpdateBasicTip(tickNow);
-                needAddendum.UpdateDetailedTip(tickNow);
+                needAddendum.UpdateDetailTip(tickNow);
 
                 return needAddendum.detailedTip;
             }
 
-            if (needAddendum.IsDetailedStale(tickNow))
+            if (needAddendum.IsDetailStale(tickNow))
             {
                 needAddendum.UpdateBasicTip(tickNow);
-                needAddendum.UpdateDetailedTip(tickNow);
+                needAddendum.UpdateDetailTip(tickNow);
 
                 return needAddendum.detailedTip;
             }
@@ -86,7 +85,7 @@ namespace Improved_Need_Indicator
             if (needAddendum.IsBasicStale(tickNow))
             {
                 needAddendum.UpdateBasicTip(tickNow);
-                needAddendum.UpdateDetailedTip(tickNow);
+                needAddendum.UpdateDetailTip(tickNow);
 
                 return needAddendum.detailedTip;
             }
@@ -94,16 +93,18 @@ namespace Improved_Need_Indicator
             return needAddendum.detailedTip;
         }
 
-        private static NeedAddendum ToNeedAddendum(this Need need)
+        private static AddendumManager_Need_Rate ToManager(this Need need)
         {
             if (need is Need_Food needFood)
-                return new NeedFoodAddendum(needFood);
-            if (need is Need_Joy needJoy)
-                return new NeedJoyAddendum(needJoy);
-            else if (need is Need_Rest needRest)
-                return new NeedRestAddendum(needRest);
+                return new AddendumManager_Need_Rate_Food(needFood);
 
-            return new NeedAddendum(need);
+            if (need is Need_Joy needJoy)
+                return new AddendumManager_Need_Rate_Joy(needJoy);
+
+            if (need is Need_Rest needRest)
+                return new AddendumManager_Need_Rate_Sleep(needRest);
+
+            return new AddendumManager_Need_Rate(need);
         }
     }
 }

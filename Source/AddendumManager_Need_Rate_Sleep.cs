@@ -4,7 +4,7 @@ using Verse;
 
 namespace Improved_Need_Indicator
 {
-    public class NeedRestAddendum : NeedAddendum
+    public class AddendumManager_Need_Rate_Sleep : AddendumManager_Need_Rate
     {
         private static readonly AccessTools.FieldRef<Need_Rest, float>
             fr_lastRestEffectivness = AccessTools.FieldRefAccess<Need_Rest, float>("lastRestEffectiveness");
@@ -15,28 +15,28 @@ namespace Improved_Need_Indicator
         private string restNeededAddendum;
 
 
-        public NeedRestAddendum(Need_Rest need) : base(need)
+        public AddendumManager_Need_Rate_Sleep(Need_Rest need) : base(need)
         {
             needRest = (Need_Rest)this.need;
 
-            fallingAddendums = new ThresholdAddendum[] {
-                new ThresholdAddendum(
+            FallingAddendums = new Addendum_Need_Rate[] {
+                new Addendum_Need_Rate(
                     (byte)RestCategory.Tired,
-                    (byte)RestCategory.Rested,
                     Need_Rest.ThreshTired,
-                    "INI.Rest.Tired"
+                    "INI.Rest.Tired",
+                    (byte)RestCategory.Rested
                 ),
-                new ThresholdAddendum(
+                new Addendum_Need_Rate(
                     (byte)RestCategory.VeryTired,
-                    (byte)RestCategory.Tired,
                     Need_Rest.ThreshVeryTired,
-                    "INI.Rest.VeryTired"
+                    "INI.Rest.VeryTired",
+                    (byte)RestCategory.Tired
                 ),
-                new ThresholdAddendum(
+                new Addendum_Need_Rate(
                     (byte)RestCategory.Exhausted,
-                    (byte)RestCategory.VeryTired,
                     0f,
-                    "INI.Rest.Exhausted"
+                    "INI.Rest.Exhausted",
+                    (byte)RestCategory.VeryTired
                 )
             };
         }
@@ -105,7 +105,7 @@ namespace Improved_Need_Indicator
             basicTip = basicTip.Trim();
         }
 
-        public override void UpdateDetailedTip(int tickNow)
+        public override void UpdateDetailTip(int tickNow)
         {
             float curLevel;
             float levelAccumulator;
@@ -120,7 +120,7 @@ namespace Improved_Need_Indicator
 
             detailedTip = restNeededAddendum;
 
-            foreach (ThresholdAddendum thresholdAddendum in fallingAddendums)
+            foreach (Addendum_Need_Rate thresholdAddendum in FallingRateAddendums)
             {
                 if (levelAccumulator >= thresholdAddendum.Threshold)
                 {
@@ -139,26 +139,26 @@ namespace Improved_Need_Indicator
                             restGainPerTick
                         );
 
-                    thresholdAddendum.DetailedAddendum = (
-                        thresholdAddendum.BasicAddendum
+                    thresholdAddendum.Detail = (
+                        thresholdAddendum.Basic
                         + "\n\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod())
                         + "\n\t" + "INI.Rest.MaxRestNeeded".Translate(ticksUntilRest.TicksToPeriod())
                     );
                 }
 
                 if (curLevel >= thresholdAddendum.Threshold)
-                    detailedTip += "\n" + thresholdAddendum.DetailedAddendum;
+                    detailedTip += "\n" + thresholdAddendum.Detail;
             }
 
             detailedTip = detailedTip.Trim();
-            detailedUpdatedAt = tickNow;
+            detailUpdatedAt = tickNow;
         }
 
         public override void UpdateRates(int tickNow)
         {
             float curRestFall = GetRestFallPerTick();
 
-            foreach (ThresholdAddendum threshold in fallingAddendums)
+            foreach (Addendum_Need_Rate threshold in FallingRateAddendums)
                 threshold.Rate =
                     RestFallPerTickAssumingCategory(
                         (RestCategory)threshold.RateCategory,
@@ -180,12 +180,15 @@ namespace Improved_Need_Indicator
             {
                 case RestCategory.Rested:
                     break;
+
                 case RestCategory.Tired:
                     restFall = restFall / .7f;
                     break;
+
                 case RestCategory.VeryTired:
                     restFall = restFall / .3f;
                     break;
+
                 case RestCategory.Exhausted:
                     restFall = restFall / .559f;
                     break;
@@ -195,12 +198,15 @@ namespace Improved_Need_Indicator
             {
                 case RestCategory.Rested:
                     break;
+
                 case RestCategory.Tired:
                     restFall *= .7f;
                     break;
+
                 case RestCategory.VeryTired:
                     restFall *= .3f;
                     break;
+
                 case RestCategory.Exhausted:
                     restFall *= .559f;
                     break;

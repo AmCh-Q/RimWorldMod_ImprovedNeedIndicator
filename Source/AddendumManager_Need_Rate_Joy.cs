@@ -6,11 +6,11 @@ using Verse;
 namespace Improved_Need_Indicator
 {
 
-    public class NeedJoyAddendum : NeedAddendum
+    public class AddendumManager_Need_Rate_Joy : AddendumManager_Need_Rate
     {
         private Need_Joy needJoy;
 
-        public NeedJoyAddendum(Need_Joy need) : base(need)
+        public AddendumManager_Need_Rate_Joy(Need_Joy need) : base(need)
         {
             needJoy = need;
 
@@ -21,37 +21,37 @@ namespace Improved_Need_Indicator
             // JoyCategory.Low       => JoyTunings.ThreshSatisfied => "INI.Joy.Unfulfilled"
             // JoyCategory.VeryLow   => JoyTunings.ThreshLow       => "INI.Joy.Deprived"
             // JoyCategory.Empty     => 0f                         => "INI.Joy.Starved"
-            fallingAddendums = new ThresholdAddendum[] {
-                new ThresholdAddendum(
+            FallingAddendums = new Addendum_Need_Rate[] {
+                new Addendum_Need_Rate(
                     (byte)JoyCategory.High,
-                    (byte)JoyCategory.Extreme,
                     JoyTunings.ThreshVeryHigh,
-                    "INI.Joy.Satisfied"
+                    "INI.Joy.Satisfied",
+                    (byte)JoyCategory.Extreme
                 ),
-                new ThresholdAddendum(
+                new Addendum_Need_Rate(
                     (byte)JoyCategory.Satisfied,
-                    (byte)JoyCategory.High,
                     JoyTunings.ThreshHigh,
-                    "INI.Joy.Neutral"
+                    "INI.Joy.Neutral",
+                    (byte)JoyCategory.High
                 ),
-                new ThresholdAddendum(
+                new Addendum_Need_Rate(
                     (byte)JoyCategory.Low,
-                    (byte)JoyCategory.Satisfied,
                     JoyTunings.ThreshSatisfied,
-                    "INI.Joy.Unfulfilled"
+                    "INI.Joy.Unfulfilled",
+                    (byte)JoyCategory.Satisfied
                 ),
-                new ThresholdAddendum(
+                new Addendum_Need_Rate(
                     (byte)JoyCategory.VeryLow,
-                    (byte)JoyCategory.Low,
                     JoyTunings.ThreshLow,
-                    "INI.Joy.Deprived"
+                    "INI.Joy.Deprived",
+                    (byte)JoyCategory.Low
                 ),
-                new ThresholdAddendum(
+                new Addendum_Need_Rate(
                     (byte)JoyCategory.Empty,
-                    (byte)JoyCategory.VeryLow,
                     0f,
-                    "INI.Joy.Starved"
-                ),
+                    "INI.Joy.Starved",
+                    (byte)JoyCategory.VeryLow
+                )
             };
         }
 
@@ -60,16 +60,16 @@ namespace Improved_Need_Indicator
             base.UpdateBasicTip(tickNow);
         }
 
-        public override void UpdateDetailedTip(int tickNow)
+        public override void UpdateDetailTip(int tickNow)
         {
-            base.UpdateDetailedTip(tickNow);
+            base.UpdateDetailTip(tickNow);
         }
 
         public override void UpdateRates(int tickNow)
         {
             float curJoyFall = GetJoyFallPerTick();
 
-            foreach (ThresholdAddendum threshold in fallingAddendums)
+            foreach (Addendum_Need_Rate threshold in FallingRateAddendums)
                 threshold.Rate =
                     JoyFallPerTickAssumingCategory(
                         (JoyCategory)threshold.RateCategory,
@@ -88,10 +88,9 @@ namespace Improved_Need_Indicator
                 case JoyCategory.Low:
                     joyFall = joyFall / JoyTunings.FallRateFactorWhenLow;
                     break;
+
                 case JoyCategory.VeryLow:
                     joyFall = joyFall / JoyTunings.FallRateFactorWhenVeryLow;
-                    break;
-                default:
                     break;
             }
 
@@ -100,10 +99,9 @@ namespace Improved_Need_Indicator
                 case JoyCategory.Low:
                     joyFall = joyFall * JoyTunings.FallRateFactorWhenLow;
                     break;
+
                 case JoyCategory.VeryLow:
                     joyFall = joyFall * JoyTunings.FallRateFactorWhenVeryLow;
-                    break;
-                default:
                     break;
             }
 
@@ -113,7 +111,7 @@ namespace Improved_Need_Indicator
 
         private static readonly MethodInfo
             get_FallPerInterval = typeof(Need_Joy)
-                .GetProperty("FallPerInterval", Utility.flags).GetGetMethod(nonPublic: true);
+                .GetProperty("FallPerInterval", Utility.flags).GetGetMethod(true);
 
 #if v1_2
         private float GetJoyFallPerTick()
@@ -132,11 +130,11 @@ namespace Improved_Need_Indicator
                     / NeedTunings.NeedUpdateInterval
                     * JoyTunings.FallRateFactorWhenFormingCaravan
                 );
-            else
-                return (
-                    (float)get_FallPerInterval.Invoke(needJoy, null)
-                    / NeedTunings.NeedUpdateInterval
-                );
+
+            return (
+                (float)get_FallPerInterval.Invoke(needJoy, null)
+                / NeedTunings.NeedUpdateInterval
+            );
         }
 #else
         private float GetJoyFallPerTick()
@@ -148,12 +146,12 @@ namespace Improved_Need_Indicator
                     * pawn.GetStatValue(StatDefOf.JoyFallRateFactor)
                     * JoyTunings.FallRateFactorWhenFormingCaravan
                 );
-            else
-                return (
-                    (float)get_FallPerInterval.Invoke(needJoy, null)
-                    / NeedTunings.NeedUpdateInterval
-                    * pawn.GetStatValue(StatDefOf.JoyFallRateFactor)
-                );
+
+            return (
+                (float)get_FallPerInterval.Invoke(needJoy, null)
+                / NeedTunings.NeedUpdateInterval
+                * pawn.GetStatValue(StatDefOf.JoyFallRateFactor)
+            );
         }
 #endif
     }
