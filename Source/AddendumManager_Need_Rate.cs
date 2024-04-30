@@ -57,16 +57,16 @@ namespace Improved_Need_Indicator
             basicTip = "";
             foreach (Addendum_Need_Rate thresholdAddendum in FallingRateAddendums)
             {
-                if (levelAccumulator >= thresholdAddendum.Threshold)
+                if (levelAccumulator >= thresholdAddendum.Max)
                 {
-                    ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, thresholdAddendum.Threshold, thresholdAddendum.Rate);
+                    ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, thresholdAddendum.Max, thresholdAddendum.Rate);
                     tickAccumulator += ticksUntilThreshold;
                     levelAccumulator -= ticksUntilThreshold * thresholdAddendum.Rate;
 
                     thresholdAddendum.Basic = thresholdAddendum.Translation.Translate((tickAccumulator - tickOffset).TicksToPeriod());
                 }
 
-                if (curLevel >= thresholdAddendum.Threshold)
+                if (curLevel >= thresholdAddendum.Max)
                     basicTip += "\n" + thresholdAddendum.Basic;
             }
 
@@ -85,16 +85,16 @@ namespace Improved_Need_Indicator
             basicTip = "";
             foreach (Addendum_Need_Rate thresholdAddendum in FallingRateAddendums)
             {
-                if (levelAccumulator >= thresholdAddendum.Threshold)
+                if (levelAccumulator >= thresholdAddendum.Max)
                 {
-                    ticksUntilThreshold = TicksUntilThreshold(levelAccumulator, thresholdAddendum.Threshold, thresholdAddendum.Rate);
+                    ticksUntilThreshold = TicksUntilThreshold(levelAccumulator, thresholdAddendum.Max, thresholdAddendum.Rate);
                     tickAccumulator += ticksUntilThreshold;
                     levelAccumulator -= ticksUntilThreshold * thresholdAddendum.Rate;
 
                     thresholdAddendum.Basic = thresholdAddendum.Translation.Translate(tickAccumulator.TicksToPeriod());
                 }
 
-                if (curLevel >= thresholdAddendum.Threshold)
+                if (curLevel >= thresholdAddendum.Max)
                     basicTip += "\n" + thresholdAddendum.Basic;
             }
 
@@ -115,9 +115,9 @@ namespace Improved_Need_Indicator
             detailedTip = string.Empty;
             foreach (Addendum_Need_Rate thresholdAddendum in FallingRateAddendums)
             {
-                if (levelAccumulator >= thresholdAddendum.Threshold)
+                if (levelAccumulator >= thresholdAddendum.Max)
                 {
-                    ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, thresholdAddendum.Threshold, thresholdAddendum.Rate);
+                    ticksUntilThreshold = TicksUntilThresholdUpdate(levelAccumulator, thresholdAddendum.Max, thresholdAddendum.Rate);
                     tickAccumulator += ticksUntilThreshold;
                     levelAccumulator -= ticksUntilThreshold * thresholdAddendum.Rate;
 
@@ -127,7 +127,7 @@ namespace Improved_Need_Indicator
                     );
                 }
 
-                if (curLevel >= thresholdAddendum.Threshold)
+                if (curLevel >= thresholdAddendum.Max)
                     detailedTip += "\n" + thresholdAddendum.Detail;
             }
 

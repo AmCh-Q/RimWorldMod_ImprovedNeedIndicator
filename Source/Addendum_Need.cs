@@ -3,7 +3,8 @@
     public class Addendum_Need
     {
         public byte Category { get; protected set; }
-        public float Threshold { get; protected set; }
+        public float Max { get; protected set; } // exclusive (x < Max)
+        public float Min { get; protected set; } // inclusive (x >= Min)
         public string Translation { get; protected set; }
 
         public string Basic { get; set; }
@@ -11,12 +12,14 @@
 
         public Addendum_Need(
             byte category,
-            float threshold,
+            float max,
+            float min,
             string translation
         )
         {
             Category = category;
-            Threshold = threshold;
+            Max = max;
+            Min = min;
             Translation = translation;
 
             Basic = string.Empty;

@@ -7,10 +7,11 @@
 
         public Addendum_Need_Rate(
             byte category,
-            float threshold,
+            float max,
+            float min,
             string translation,
             byte rateCategory
-        ) : base(category, threshold, translation)
+        ) : base(category, max, min, translation)
         {
             Rate = 0f;
             RateCategory = rateCategory;

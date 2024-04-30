@@ -14,31 +14,37 @@ namespace Improved_Need_Indicator
                 new Addendum_Need(
                     (byte)OutdoorsCategory.Free,
                     1f,
+                    .8f,
                     "INI.Neutral"
                 ),
                 new Addendum_Need(
                     (byte)OutdoorsCategory.NeedFreshAir,
                     .8f,
+                    .6f,
                     "INI.Outdoors.StuckIndoors"
                 ),
                 new Addendum_Need(
                     (byte)OutdoorsCategory.CabinFeverLight,
                     .6f,
+                    .4f,
                     "INI.Outdoors.TrappedIndoors"
                 ),
                 new Addendum_Need(
                     (byte)OutdoorsCategory.CabinFeverSevere,
                     .4f,
+                    .2f,
                     "INI.Outdoors.CabinFever"
                 ),
                 new Addendum_Need(
                     (byte)OutdoorsCategory.Trapped,
                     .2f,
+                    .05f,
                     "INI.Outdoors.TrappedUnderground"
                 ),
                 new Addendum_Need(
                     (byte)OutdoorsCategory.Entombed,
                     .05f,
+                    0f,
                     "INI.Outdoors.EntombedUnderground"
                 )
             };

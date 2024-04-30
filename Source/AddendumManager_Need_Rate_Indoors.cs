@@ -14,32 +14,38 @@ namespace Improved_Need_Indicator
             FallingAddendums = new Addendum_Need[] {
                 new Addendum_Need(
                     (byte)IndoorsCategory.ComfortablyIndoors,
-                    1f,
+                    need.MaxLevel,
+                    .8f,
                     "INI.Neutral"
                 ),
                 new Addendum_Need(
                     (byte)IndoorsCategory.JustOutdoors,
                     .8f,
+                    .6f,
                     "INI.Indoors.JustOutdoors"
                 ),
                 new Addendum_Need(
                     (byte)IndoorsCategory.Outdoors,
                     .6f,
+                    .4f,
                     "INI.Indoors.Outdoors"
                 ),
                 new Addendum_Need(
                     (byte)IndoorsCategory.LongOutdoors,
                     .4f,
+                    .2f,
                     "INI.Indoors.LongOutdoors"
                 ),
                 new Addendum_Need(
                     (byte)IndoorsCategory.VeryLongOutdoors,
                     .2f,
+                    .05f,
                     "INI.Indoors.VeryLongOutdoors"
                 ),
                 new Addendum_Need(
                     (byte)IndoorsCategory.BrutalOutdoors,
                     .05f,
+                    0f,
                     "INI.Indoors.BrutalOutdoors"
                 )
             };

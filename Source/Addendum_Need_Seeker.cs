@@ -4,9 +4,10 @@
     {
         public Addendum_Need_Seeker(
             byte category,
-            float threshold,
+            float max,
+            float min,
             string translation
-        ): base(category, threshold, translation)
+        ): base(category, max, min, translation)
         { }
     }
 }

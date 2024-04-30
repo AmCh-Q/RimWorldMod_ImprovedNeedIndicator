@@ -19,19 +19,29 @@ namespace Improved_Need_Indicator
 
             FallingAddendums = new Addendum_Need_Rate[] {
                 new Addendum_Need_Rate(
+                    (byte)RestCategory.Rested,
+                    need.MaxLevel,
+                    Need_Rest.ThreshTired,
+                    "INI.Rest.Rested",
+                    (byte)RestCategory.Rested
+                ),
+                new Addendum_Need_Rate(
                     (byte)RestCategory.Tired,
                     Need_Rest.ThreshTired,
+                    Need_Rest.ThreshVeryTired,
                     "INI.Rest.Tired",
                     (byte)RestCategory.Rested
                 ),
                 new Addendum_Need_Rate(
                     (byte)RestCategory.VeryTired,
                     Need_Rest.ThreshVeryTired,
+                    0.0001f,
                     "INI.Rest.VeryTired",
                     (byte)RestCategory.Tired
                 ),
                 new Addendum_Need_Rate(
                     (byte)RestCategory.Exhausted,
+                    0f,
                     0f,
                     "INI.Rest.Exhausted",
                     (byte)RestCategory.VeryTired
@@ -120,12 +130,12 @@ namespace Improved_Need_Indicator
 
             foreach (Addendum_Need_Rate thresholdAddendum in FallingRateAddendums)
             {
-                if (levelAccumulator >= thresholdAddendum.Threshold)
+                if (levelAccumulator >= thresholdAddendum.Max)
                 {
                     ticksUntilThreshold =
                         TicksUntilThresholdUpdate(
                             levelAccumulator,
-                            thresholdAddendum.Threshold,
+                            thresholdAddendum.Max,
                             thresholdAddendum.Rate
                         );
                     tickAccumulator += ticksUntilThreshold;
@@ -140,11 +150,11 @@ namespace Improved_Need_Indicator
                     thresholdAddendum.Detail = (
                         thresholdAddendum.Basic
                         + "\n\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod())
-                        + "\n\t" + "INI.Rested".Translate(ticksUntilRest.TicksToPeriod())
+                        + "\n\t" + "INI.Rest.Rested".Translate(ticksUntilRest.TicksToPeriod())
                     );
                 }
 
-                if (curLevel >= thresholdAddendum.Threshold)
+                if (curLevel >= thresholdAddendum.Max)
                     detailedTip += "\n" + thresholdAddendum.Detail;
             }
 

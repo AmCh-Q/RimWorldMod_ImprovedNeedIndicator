@@ -14,40 +14,45 @@ namespace Improved_Need_Indicator
         {
             needJoy = need;
 
-            // For future sanity.
-            //
-            // JoyCategory.High      => JoyTunings.ThreshVeryHigh  => "INI.Joy.Satisfied"
-            // JoyCategory.Satisfied => JoyTunings.ThreshHigh      => "INI.Joy.Neutral"
-            // JoyCategory.Low       => JoyTunings.ThreshSatisfied => "INI.Joy.Unfulfilled"
-            // JoyCategory.VeryLow   => JoyTunings.ThreshLow       => "INI.Joy.Deprived"
-            // JoyCategory.Empty     => 0f                         => "INI.Joy.Starved"
             FallingAddendums = new Addendum_Need_Rate[] {
+                new Addendum_Need_Rate(
+                    (byte)JoyCategory.Extreme,
+                    need.MaxLevel,
+                    JoyTunings.ThreshVeryHigh,
+                    "INI.Joy.FullySatisfied",
+                    (byte)JoyCategory.Extreme
+                ),
                 new Addendum_Need_Rate(
                     (byte)JoyCategory.High,
                     JoyTunings.ThreshVeryHigh,
+                    JoyTunings.ThreshHigh,
                     "INI.Joy.Satisfied",
                     (byte)JoyCategory.Extreme
                 ),
                 new Addendum_Need_Rate(
                     (byte)JoyCategory.Satisfied,
                     JoyTunings.ThreshHigh,
+                    JoyTunings.ThreshSatisfied,
                     "INI.Neutral",
                     (byte)JoyCategory.High
                 ),
                 new Addendum_Need_Rate(
                     (byte)JoyCategory.Low,
                     JoyTunings.ThreshSatisfied,
+                    JoyTunings.ThreshLow,
                     "INI.Joy.Unfulfilled",
                     (byte)JoyCategory.Satisfied
                 ),
                 new Addendum_Need_Rate(
                     (byte)JoyCategory.VeryLow,
                     JoyTunings.ThreshLow,
+                    0.0001f,
                     "INI.Joy.Deprived",
                     (byte)JoyCategory.Low
                 ),
                 new Addendum_Need_Rate(
                     (byte)JoyCategory.Empty,
+                    0f,
                     0f,
                     "INI.Joy.Starved",
                     (byte)JoyCategory.VeryLow

@@ -16,20 +16,24 @@ namespace Improved_Need_Indicator
                 new Addendum_Need_Seeker(
                     (byte)MoodThreshold.None,
                     0f,
+                    0f,
                     "INI.Comfort.Content"
                 ),
                 new Addendum_Need_Seeker(
                     (byte)MoodThreshold.Minor,
+                    0f,
                     0f,
                     "INI.Comfort.Minor"
                 ),
                 new Addendum_Need_Seeker(
                     (byte)MoodThreshold.Major,
                     0f,
+                    0f,
                     "INI.Comfort.Major"
                 ),
                 new Addendum_Need_Seeker(
                     (byte)MoodThreshold.Extreme,
+                    0f,
                     0f,
                     "INI.Comfort.Extreme"
                 )
@@ -45,20 +49,24 @@ namespace Improved_Need_Indicator
                 new Addendum_Need_Seeker(
                     0,
                     0f,
+                    0f,
                     "INI.Comfort.Content"
                 ),
                 new Addendum_Need_Seeker(
                     1,
+                    0f,
                     0f,
                     "INI.Comfort.Minor"
                 ),
                 new Addendum_Need_Seeker(
                     2,
                     0f,
+                    0f,
                     "INI.Comfort.Major"
                 ),
                 new Addendum_Need_Seeker(
                     3,
+                    0f,
                     0f,
                     "INI.Comfort.Extreme"
                 )

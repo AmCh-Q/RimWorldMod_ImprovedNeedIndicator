@@ -13,19 +13,29 @@ namespace Improved_Need_Indicator
 
             FallingAddendums = new Addendum_Need_Rate[] {
                 new Addendum_Need_Rate(
+                    (byte)HungerCategory.Fed,
+                    need.MaxLevel,
+                    need.PercentageThreshHungry,
+                    "INI.Food.Fed",
+                    (byte)HungerCategory.Fed
+                ),
+                new Addendum_Need_Rate(
                     (byte)HungerCategory.Hungry,
                     need.PercentageThreshHungry,
+                    need.PercentageThreshUrgentlyHungry,
                     "INI.Food.Hungry",
                     (byte)HungerCategory.Fed
                 ),
                 new Addendum_Need_Rate(
                     (byte)HungerCategory.UrgentlyHungry,
                     need.PercentageThreshUrgentlyHungry,
+                    0.00001f,
                     "INI.Food.Ravenous",
                     (byte)HungerCategory.Hungry
                 ),
                 new Addendum_Need_Rate(
                     (byte)HungerCategory.Starving,
+                    0f,
                     0f,
                     "INI.Food.Malnourished",
                     (byte)HungerCategory.UrgentlyHungry

@@ -18,16 +18,18 @@
   <INI.Comfort.Comfortable>{0} till comfortable</INI.Comfort.Comfortable>
   <INI.Comfort.Uncomfortable>{0} till uncomfortable</INI.Comfort.Uncomfortable>
 
+  <INI.Food.Fed>{0} till fed</INI.Food.Fed>
   <INI.Food.Hungry>{0}后饥饿</INI.Food.Hungry>
   <INI.Food.Ravenous>{0}后非常饥饿</INI.Food.Ravenous>
   <INI.Food.Malnourished>{0}后饥肠辘辘</INI.Food.Malnourished>
 
-  <INI.Indoors.JustOutdoors>{0} till should not</INI.Indoors.JustOutdoors>
-  <INI.Indoors.Outdoors>{0} till too much</INI.Indoors.Outdoors>
+  <INI.Indoors.JustOutdoors>{0} till shouldn't be outdoors</INI.Indoors.JustOutdoors>
+  <INI.Indoors.Outdoors>{0} till too much outdoors</INI.Indoors.Outdoors>
   <INI.Indoors.LongOutdoors>{0} till wronged</INI.Indoors.LongOutdoors>
   <INI.Indoors.VeryLongOutdoors>{0} till disturbed</INI.Indoors.VeryLongOutdoors>
   <INI.Indoors.BrutalOutdoors>{0} till insane</INI.Indoors.BrutalOutdoors>
 
+  <INI.Joy.FullySatisfied>{0} till fully satisfied</INI.Joy.FullySatisfied>
   <INI.Joy.Satisfied>{0}后感觉娱乐充足</INI.Joy.Satisfied>
   <INI.Joy.Unfulfilled>{0}后感觉娱乐不足</INI.Joy.Unfulfilled>
   <INI.Joy.Deprived>{0}后感觉缺乏娱乐</INI.Joy.Deprived>
@@ -35,7 +37,7 @@
 
   <INI.Outdoors.StuckIndoors>{0} till stuck indoors</INI.Outdoors.StuckIndoors>
   <INI.Outdoors.TrappedIndoors>{0} till trapped indoors</INI.Outdoors.TrappedIndoors>
-  <INI.Outdoors.CabinFever>{0} till cabin fever</INI.Outdoors.CabinFeber>
+  <INI.Outdoors.CabinFever>{0} till cabin fever</INI.Outdoors.CabinFever>
   <INI.Outdoors.TrappedUnderground>{0} till trapped underground</INI.Outdoors.TrappedUnderground>
   <INI.Outdoors.EntombedUnderground>{0} till entombed underground</INI.Outdoors.EntombedUnderground>
 
