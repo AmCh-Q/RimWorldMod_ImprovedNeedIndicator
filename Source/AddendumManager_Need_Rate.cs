@@ -123,7 +123,7 @@ namespace Improved_Need_Indicator
 
                     thresholdAddendum.Detail = (
                         thresholdAddendum.Basic
-                        + "\n\t" + "INI.Max".Translate(tickAccumulator.TicksToPeriod())
+                        + "\n    " + "INI.Max".Translate(tickAccumulator.TicksToPeriod())
                     );
                 }
 

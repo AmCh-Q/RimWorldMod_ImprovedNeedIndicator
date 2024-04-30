@@ -34,10 +34,12 @@ namespace Improved_Need_Indicator
 
         public virtual bool IsBasicStale(int tickNow)
         {
+            if (basicTip == "")
+                return true;
+
             if (
                 need.def.freezeWhileSleeping
                 && pawn.Awake() == false
-                && basicTip != ""
             )
                 return false;
 
@@ -46,10 +48,12 @@ namespace Improved_Need_Indicator
 
         public virtual bool IsDetailStale(int tickNow)
         {
+            if (detailedTip == "")
+                return true;
+
             if (
                 need.def.freezeWhileSleeping
                 && pawn.Awake() == false
-                && detailedTip != ""
             )
                 return false;
 

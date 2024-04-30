@@ -50,4 +50,5 @@
   <INI.Rest.Tired>{0} till drowsy</INI.Rest.Tired>
   <INI.Rest.VeryTired>{0} till tired</INI.Rest.VeryTired>
   <INI.Rest.Exhausted>{0} till exhausted</INI.Rest.Exhausted>
+  <INI.Rest.MaxRestNeeded>max rest needed: {0}</INI.Rest.MaxRestNeeded>
 </LanguageData>

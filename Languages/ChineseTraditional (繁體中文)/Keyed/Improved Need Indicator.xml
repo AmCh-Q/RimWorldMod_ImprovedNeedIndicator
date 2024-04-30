@@ -45,4 +45,5 @@
   <INI.Rest.Tired>{0}后感到昏昏欲睡</INI.Rest.Tired>
   <INI.Rest.VeryTired>{0}后感到疲憊不堪</INI.Rest.VeryTired>
   <INI.Rest.Exhausted>{0}后精疲力盡</INI.Rest.Exhausted>
+  <INI.Rest.MaxRestNeeded>max rest needed: {0}</INI.Rest.MaxRestNeeded>
 </LanguageData>
