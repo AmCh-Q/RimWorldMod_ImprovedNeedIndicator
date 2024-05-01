@@ -1,49 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <INI.Name>更多需求條信息</INI.Name>
-  <INI.ShowDetails>Hold ctrl for details</INI.ShowDetails>
+  <INI.ShowDetails>按住Ctrl顯示詳細信息</INI.ShowDetails>
 
-  <INI.Max>max: {0}</INI.Max>
+  <INI.Max>最高: {0}</INI.Max>
   <INI.Neutral>{0}后無需娛樂</INI.Neutral>
 
-  <INI.Beauty.Beautiful>{0} till beautiful environment</INI.Beauty.Beautiful>
-  <INI.Beauty.Pretty>{0} till pretty environment</INI.Beauty.Pretty>
-  <INI.Beauty.Unsightly>{0} till unsightly environment</INI.Beauty.Unsightly>
-  <INI.Beauty.Ugly>{0} till ugly environment</INI.Beauty.Ugly>
-  <INI.Beauty.Hideous>{0} till hideous environment</INI.Beauty.Hideous>
+  <INI.Beauty.Gorgeous>{0}后感到環境漂亮</INI.Beauty.Gorgeous>
+  <INI.Beauty.Beautiful>{0}后感到環境漂亮</INI.Beauty.Beautiful>
+  <INI.Beauty.Pretty>{0}后感到環境標緻</INI.Beauty.Pretty>
+  <INI.Beauty.Unsightly>{0}后感到環境難看</INI.Beauty.Unsightly>
+  <INI.Beauty.Ugly>{0}后感到環境醜陋</INI.Beauty.Ugly>
+  <INI.Beauty.Hideous>{0}后感到環境恐怖</INI.Beauty.Hideous>
 
-  <INI.Comfort.LuxuriantlyComfortable>{0} till luxuriantly comfortable</INI.Comfort.LuxuriantlyComfortable>
-  <INI.Comfort.ExtremelyComfortable>{0} till extremely comfortable</INI.Comfort.ExtremelyComfortable>
-  <INI.Comfort.VeryComfortable>{0} till very comfortable</INI.Comfort.VeryComfortable>
-  <INI.Comfort.Comfortable>{0} till comfortable</INI.Comfort.Comfortable>
-  <INI.Comfort.Uncomfortable>{0} till uncomfortable</INI.Comfort.Uncomfortable>
+  <INI.Comfort.LuxuriantlyComfortable>{0}后感到怡然自得</INI.Comfort.LuxuriantlyComfortable>
+  <INI.Comfort.ExtremelyComfortable>{0}后感覺超級舒適</INI.Comfort.ExtremelyComfortable>
+  <INI.Comfort.VeryComfortable>{0}后感覺十分舒適</INI.Comfort.VeryComfortable>
+  <INI.Comfort.Comfortable>{0}后感覺舒適</INI.Comfort.Comfortable>
+  <INI.Comfort.Uncomfortable>{0}后感覺不舒適</INI.Comfort.Uncomfortable>
 
-  <INI.Food.Fed>{0} till fed</INI.Food.Fed>
+  <INI.Food.Fed>{0}后吃飽</INI.Food.Fed>
   <INI.Food.Hungry>{0}后感到餓</INI.Food.Hungry>
   <INI.Food.Ravenous>{0}后非常餓</INI.Food.Ravenous>
   <INI.Food.Malnourished>{0}后營養不良</INI.Food.Malnourished>
 
-  <INI.Indoors.JustOutdoors>{0} till just outdoors</INI.Indoors.JustOutdoors>
-  <INI.Indoors.Outdoors>{0} till outdoors</INI.Indoors.Outdoors>
-  <INI.Indoors.LongOutdoors>{0} till long outdoors</INI.Indoors.LongOutdoors>
-  <INI.Indoors.VeryLongOutdoors>{0} till very long outdoors</INI.Indoors.VeryLongOutdoors>
-  <INI.Indoors.BrutalOutdoors>{0} till brutal outdoors</INI.Indoors.BrutalOutdoors>
+  <INI.Indoors.JustOutdoors>{0}后意識到曾處於戶外</INI.Indoors.JustOutdoors>
+  <INI.Indoors.Outdoors>{0}后意識到身處戶外</INI.Indoors.Outdoors>
+  <INI.Indoors.LongOutdoors>{0}后感到長時間在戶外</INI.Indoors.LongOutdoors>
+  <INI.Indoors.VeryLongOutdoors>{0}后感到漫長的戶外活動</INI.Indoors.VeryLongOutdoors>
+  <INI.Indoors.BrutalOutdoors>{0}后感到被強迫戶外活動</INI.Indoors.BrutalOutdoors>
 
-  <INI.Joy.FullySatisfied>{0} till fully satisfied</INI.Joy.FullySatisfied>
+  <INI.Joy.FullySatisfied>{0}后娛樂滿點</INI.Joy.FullySatisfied>
   <INI.Joy.Satisfied>{0}后滿意娛樂</INI.Joy.Satisfied>
   <INI.Joy.Unfulfilled>{0}后需要娛樂</INI.Joy.Unfulfilled>
   <INI.Joy.Deprived>{0}后缺乏娛樂</INI.Joy.Deprived>
   <INI.Joy.Starved>{0}后渴望娛樂</INI.Joy.Starved>
 
-  <INI.Outdoors.StuckIndoors>{0} till stuck indoors</INI.Outdoors.StuckIndoors>
-  <INI.Outdoors.TrappedIndoors>{0} till trapped indoors</INI.Outdoors.TrappedIndoors>
-  <INI.Outdoors.CabinFever>{0} till cabin fever</INI.Outdoors.CabinFever>
-  <INI.Outdoors.TrappedUnderground>{0} till trapped underground</INI.Outdoors.TrappedUnderground>
-  <INI.Outdoors.EntombedUnderground>{0} till entombed underground</INI.Outdoors.EntombedUnderground>
+  <INI.Outdoors.StuckIndoors>{0}后感到被悶在室內</INI.Outdoors.StuckIndoors>
+  <INI.Outdoors.TrappedIndoors>{0}后感到被困在室內</INI.Outdoors.TrappedIndoors>
+  <INI.Outdoors.CabinFever>{0}后受到幽居症</INI.Outdoors.CabinFever>
+  <INI.Outdoors.TrappedUnderground>{0}后感到被囚困在地底</INI.Outdoors.TrappedUnderground>
+  <INI.Outdoors.EntombedUnderground>{0}后感到被深埋在地底</INI.Outdoors.EntombedUnderground>
 
   <INI.Rest.Rested>{0}后睡飽</INI.Rest.Rested>
   <INI.Rest.Drowsy>{0}后感到昏昏欲睡</INI.Rest.Drowsy>
   <INI.Rest.Tired>{0}后感到疲憊不堪</INI.Rest.Tired>
   <INI.Rest.Exhausted>{0}后精疲力盡</INI.Rest.Exhausted>
-  <INI.Rest.MaxRestNeeded>max rest needed: {0}</INI.Rest.MaxRestNeeded>
+  <INI.Rest.MaxRestNeeded>最高需要{0}睡眠</INI.Rest.MaxRestNeeded>
 </LanguageData>
