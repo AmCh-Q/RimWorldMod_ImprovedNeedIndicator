@@ -6,6 +6,7 @@
   <INI.Max>最高: {0}</INI.Max>
   <INI.Neutral>{0}后感觉娱乐一般</INI.Neutral>
 
+  <INI.Beauty.Gorgeous>{0}后感觉环境极其美丽</INI.Beauty.Gorgeous>
   <INI.Beauty.Beautiful>{0}后感觉环境非常美丽</INI.Beauty.Beautiful>
   <INI.Beauty.Pretty>{0}后感觉环境美丽</INI.Beauty.Pretty>
   <INI.Beauty.Unsightly>{0}后感觉环境丑陋</INI.Beauty.Unsightly>
@@ -50,5 +51,5 @@
   <INI.Rest.Drowsy>{0}后感到疲劳</INI.Rest.Drowsy>
   <INI.Rest.Tired>{0}后感到非常疲劳</INI.Rest.Tired>
   <INI.Rest.Exhausted>{0}后精疲力竭</INI.Rest.Exhausted>
-  <INI.Rest.MaxRestNeeded>最大需要{0}睡眠</INI.Rest.MaxRestNeeded>
+  <INI.Rest.MaxRestNeeded>最高需要{0}睡眠</INI.Rest.MaxRestNeeded>
 </LanguageData>
