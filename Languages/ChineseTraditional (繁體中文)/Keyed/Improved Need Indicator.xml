@@ -36,6 +36,11 @@
   <INI.Joy.Deprived>{0}后缺乏娛樂</INI.Joy.Deprived>
   <INI.Joy.Starved>{0}后渴望娛樂</INI.Joy.Starved>
 
+  <INI.Mood.Content>{0}后感到滿足</INI.Mood.Content>
+  <INI.Mood.Minor>{0}后到輕度崩潰風險閾值</INI.Mood.Minor>
+  <INI.Mood.Major>{0}后到重度崩潰風險閾值</INI.Mood.Major>
+  <INI.Mood.Extreme>{0}后到極重度崩潰風險閾值</INI.Mood.Extreme>
+
   <INI.Outdoors.StuckIndoors>{0}后感到被悶在室內</INI.Outdoors.StuckIndoors>
   <INI.Outdoors.TrappedIndoors>{0}后感到被困在室內</INI.Outdoors.TrappedIndoors>
   <INI.Outdoors.CabinFever>{0}后受到幽居症</INI.Outdoors.CabinFever>
