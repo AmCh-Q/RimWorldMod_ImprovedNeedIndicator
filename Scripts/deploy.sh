@@ -4,6 +4,7 @@ source .env
 
 DESTINATION="$RIMWORLD_MOD_PATH/Improved Need Indicator"
 
+rm -r "$DESTINATION"
 mkdir "$DESTINATION"
 
 mkdir "$DESTINATION/1.2"
@@ -29,6 +30,9 @@ cp -af ./Languages "$DESTINATION"
 
 mkdir "$DESTINATION/Scripts"
 cp -af ./Scripts "$DESTINATION"
+
+mkdir "$DESTINATION/Source"
+cp -af ./Source "$DESTINATION"
 
 cp -f ./Dockerfile "$DESTINATION"
 cp -f ./LICENSE "$DESTINATION"
