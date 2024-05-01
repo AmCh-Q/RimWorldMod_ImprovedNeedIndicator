@@ -42,6 +42,10 @@ namespace Improved_Need_Indicator
             else if (__instance is Need_Rest needRest)
                 cachedNeedManager = new AddendumManager_Need_Rate_Rest(needRest);
 
+            // We don't want to edit needs we've not implemented
+            else
+                return;
+
 
             __result += cachedNeedManager.ToTip(
                 Find.TickManager.TicksGame,
