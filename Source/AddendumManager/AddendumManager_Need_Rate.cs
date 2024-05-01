@@ -147,7 +147,7 @@ namespace Improved_Need_Indicator
             else if (IsBasicStale(tickNow))
                 UpdateBasicTip(tickNow);
 
-            return ((TaggedString)("\n\n" + basicTip + showDetails)).Resolve();
+            return basicTip + showDetails;
         }
 
         protected override string ToDetailTip(int tickNow)
@@ -164,7 +164,7 @@ namespace Improved_Need_Indicator
                 UpdateDetailTip(tickNow);
             }
 
-            return ((TaggedString)("\n\n" + detailedTip)).Resolve();
+            return detailedTip;
         }
     }
 }

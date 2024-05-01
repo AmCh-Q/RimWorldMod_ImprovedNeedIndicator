@@ -113,10 +113,7 @@ namespace Improved_Need_Indicator
             return joyFall;
         }
 
-
-        private static readonly MethodInfo
-            get_FallPerInterval = typeof(Need_Joy)
-                .GetProperty("FallPerInterval", Utility.flags).GetGetMethod(true);
+        private static readonly MethodInfo get_FallPerInterval = typeof(Need_Joy).GetProperty("FallPerInterval", Utility.flags).GetGetMethod(true);
 
 #if v1_2
         private float GetJoyFallPerTick()

@@ -73,6 +73,8 @@ namespace Improved_Need_Indicator
 
             curTickRate = 0f;
             curCategory = RoofEnclosureCategory.OutdoorsNoRoof;
+
+            showDetails = string.Empty;
         }
 
 
@@ -92,7 +94,7 @@ namespace Improved_Need_Indicator
             tickAccumulator = 0;
             tickOffset = pawn.TicksUntilNextUpdate();
 
-            basicTip = "Falling:";
+            basicTip = string.Empty;
             foreach (Addendum_Need thresholdAddendum in FallingAddendums)
             {
                 if (levelAccumulator >= thresholdAddendum.Max)
@@ -120,7 +122,7 @@ namespace Improved_Need_Indicator
             levelAccumulator = curLevel;
             tickAccumulator = 0;
 
-            basicTip = "Rising:\n";
+            basicTip = string.Empty;
             foreach (Addendum_Need thresholdAddendum in FallingAddendums)
             {
                 if (levelAccumulator <= thresholdAddendum.Min)

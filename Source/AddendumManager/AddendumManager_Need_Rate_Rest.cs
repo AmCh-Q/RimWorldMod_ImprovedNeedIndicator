@@ -4,7 +4,7 @@ using Verse;
 
 namespace Improved_Need_Indicator
 {
-    public class AddendumManager_Need_Rate_Sleep : AddendumManager_Need_Rate
+    public class AddendumManager_Need_Rate_Rest : AddendumManager_Need_Rate
     {
 
         private Need_Rest needRest;
@@ -13,7 +13,7 @@ namespace Improved_Need_Indicator
         private string restNeededAddendum;
 
 
-        public AddendumManager_Need_Rate_Sleep(Need_Rest need) : base(need)
+        public AddendumManager_Need_Rate_Rest(Need_Rest need) : base(need)
         {
             needRest = (Need_Rest)this.need;
 

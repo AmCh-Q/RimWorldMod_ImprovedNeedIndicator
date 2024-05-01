@@ -15,7 +15,7 @@ namespace Improved_Need_Indicator
 
         protected string basicTip;
         protected string detailedTip;
-        protected string showDetails = "\n\n" + "INI.ShowDetails".Translate();
+        protected string showDetails;
 
         protected Addendum_Need[] FallingAddendums { get; set; }
 
@@ -31,7 +31,9 @@ namespace Improved_Need_Indicator
             detailUpdatedAt = -1;
 
             FallingAddendums = new Addendum_Need[]{ };
-        }
+
+            showDetails = "\n\n" + "INI.ShowDetails".Translate();
+    }
 
         public virtual bool IsBasicStale(int tickNow)
         {
@@ -69,10 +71,15 @@ namespace Improved_Need_Indicator
 
         public virtual string ToTip(int tickNow, bool isDetailed)
         {
-            if (isDetailed)
-                return ToDetailTip(tickNow);
+            string tip;
 
-            return ToBasicTip(tickNow);
+            if (isDetailed)
+                tip = ToDetailTip(tickNow);
+
+            else
+                tip = ToBasicTip(tickNow);
+
+            return ((TaggedString)("\n\n" + tip)).Resolve();
         }
 
         protected virtual string ToBasicTip(int tickNow)
@@ -80,7 +87,7 @@ namespace Improved_Need_Indicator
            if (IsBasicStale(tickNow))
                 UpdateBasicTip(tickNow);
 
-            return ((TaggedString)("\n\n" + basicTip + showDetails)).Resolve();
+            return basicTip + showDetails;
         }
 
         protected virtual string ToDetailTip(int tickNow)
@@ -91,7 +98,7 @@ namespace Improved_Need_Indicator
                 UpdateDetailTip(tickNow);
             }
 
-            return ((TaggedString)("\n\n" + detailedTip)).Resolve();
+            return detailedTip;
         }
 
 
