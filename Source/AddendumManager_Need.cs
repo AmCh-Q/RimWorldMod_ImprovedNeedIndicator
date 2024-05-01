@@ -13,8 +13,9 @@ namespace Improved_Need_Indicator
         protected int basicUpdatedAt;
         protected int detailUpdatedAt;
 
-        public string basicTip;
-        public string detailedTip;
+        protected string basicTip;
+        protected string detailedTip;
+        protected string showDetails = "\n\n" + "INI.ShowDetails".Translate();
 
         protected Addendum_Need[] FallingAddendums { get; set; }
 
@@ -37,10 +38,7 @@ namespace Improved_Need_Indicator
             if (basicTip == "")
                 return true;
 
-            if (
-                need.def.freezeWhileSleeping
-                && pawn.Awake() == false
-            )
+            if (need.GUIChangeArrow == 0)
                 return false;
 
             return tickNow != basicUpdatedAt;
@@ -50,12 +48,6 @@ namespace Improved_Need_Indicator
         {
             if (detailedTip == "")
                 return true;
-
-            if (
-                need.def.freezeWhileSleeping
-                && pawn.Awake() == false
-            )
-                return false;
 
             return tickNow - detailUpdatedAt > 150;
         }
@@ -75,6 +67,33 @@ namespace Improved_Need_Indicator
             detailUpdatedAt = tickNow;
         }
 
+        public virtual string ToTip(int tickNow, bool isDetailed)
+        {
+            if (isDetailed)
+                return ToDetailTip(tickNow);
+
+            return ToBasicTip(tickNow);
+        }
+
+        protected virtual string ToBasicTip(int tickNow)
+        {
+           if (IsBasicStale(tickNow))
+                UpdateBasicTip(tickNow);
+
+            return ((TaggedString)("\n\n" + basicTip + showDetails)).Resolve();
+        }
+
+        protected virtual string ToDetailTip(int tickNow)
+        {
+            if (IsDetailStale(tickNow) || IsBasicStale(tickNow))
+            {
+                UpdateBasicTip(tickNow);
+                UpdateDetailTip(tickNow);
+            }
+
+            return ((TaggedString)("\n\n" + detailedTip)).Resolve();
+        }
+
 
         protected static int TicksUntilThreshold(
             float levelOfNeed,
@@ -88,7 +107,8 @@ namespace Improved_Need_Indicator
             float levelOfNeed,
             float threshold,
             float perTickLevelChange
-        ) {
+        )
+        {
             float updatesUntilThreshold;
 
             updatesUntilThreshold = (levelOfNeed - threshold) / (perTickLevelChange * NeedTunings.NeedUpdateInterval);

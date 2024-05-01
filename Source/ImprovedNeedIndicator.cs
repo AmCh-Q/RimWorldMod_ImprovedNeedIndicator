@@ -5,48 +5,100 @@ using Verse;
 
 namespace Improved_Need_Indicator
 {
-    public class ImprovedNeedIndicator : Mod
+    public class ImprovedNeedIndicator: Mod
     {
-        public static readonly Harmony
-            harmony = new Harmony("AmCh.ImprovedNeedIndicator");
-
-        private delegate void ActionRef_r2<T1, T2>(T1 t1, ref T2 t2);
-
-
-        // Need postfix
-        // The majority of needs fall into this category.
-        private static readonly MethodBase
-            originalNeed = typeof(Need).GetMethod(nameof(Need.GetTipString), Utility.flags);
-        private static readonly HarmonyMethod
-            postfixNeed = new HarmonyMethod(((ActionRef_r2<Need, string>)Postfix_Need).Method);
-
-
-        // Need_Food postfix
-        // Need_Food overrides GetTipString, so we have to patch it separately.
-        private static readonly MethodBase
-            originalNeedFood = typeof(Need_Food).GetMethod(nameof(Need_Food.GetTipString), Utility.flags);
-        private static readonly HarmonyMethod
-            postfixNeedFood = new HarmonyMethod(((ActionRef_r2<Need_Food, string>)Postfix_Need_Food).Method);
-
-
-        public ImprovedNeedIndicator(ModContentPack contentPack) : base(contentPack) 
+        public ImprovedNeedIndicator(ModContentPack contentPack) : base(contentPack)
         {
-            harmony.Patch(originalNeed, postfix: postfixNeed);
-            harmony.Patch(originalNeedFood, postfix: postfixNeedFood);
+            Harmony harmony = new Harmony("AmCh.ImprovedNeedIndicator");
+
+            MethodInfo need_GetTipString = AccessTools.Method(typeof(Need), nameof(Need.GetTipString));
+            harmony.Patch(
+                need_GetTipString,
+                postfix: new HarmonyMethod(typeof(ImprovedNeedIndicator), nameof(Need_Joy_Postfix))
+            );
+            harmony.Patch(
+                need_GetTipString,
+                postfix: new HarmonyMethod(typeof(ImprovedNeedIndicator), nameof(Need_Outdoors_Postfix))
+            );
+
+            harmony.Patch(
+                need_GetTipString,
+                postfix: new HarmonyMethod(typeof(ImprovedNeedIndicator), nameof(Need_Rest_Postfix))
+            );
+
+            MethodInfo need_Food_GetTipString = AccessTools.Method(typeof(Need_Food), nameof(Need_Food.GetTipString));
+            harmony.Patch(
+                need_Food_GetTipString,
+                postfix: new HarmonyMethod(typeof(ImprovedNeedIndicator), nameof(Need_Food_Postfix))
+            );
         }
 
-        private static void Postfix_Need(Need __instance, ref string __result)
+
+        private static AddendumManager_Need cachedNeedManager;
+
+        private static void Need_Food_Postfix(Need_Food __instance, ref string __result)
         {
-            // Skip if need type is not supported yet
-            if (__instance is Need_Rest)
-                __result += AddendumProcessor_Need_Rate.GetTipAddendum(__instance);
-            else if (__instance is Need_Joy)
-                __result += AddendumProcessor_Need_Rate.GetTipAddendum(__instance);
+            if (cachedNeedManager is null)
+                cachedNeedManager = new AddendumManager_Need_Rate_Food(__instance);
+
+            else if (cachedNeedManager.IsSameNeed(__instance) == false)
+                cachedNeedManager = new AddendumManager_Need_Rate_Food(__instance);
+
+            __result += cachedNeedManager.ToTip(
+                Find.TickManager.TicksGame,
+                INIKeyBindingDefOf.ShowDetails.IsDown
+            );
         }
 
-        private static void Postfix_Need_Food(Need_Food __instance, ref string __result)
+        private static void Need_Joy_Postfix(Need __instance, ref string __result)
         {
-            __result += AddendumProcessor_Need_Rate.GetTipAddendum(__instance);
+            if ((__instance is Need_Joy) == false)
+                return;
+
+            if (cachedNeedManager is null)
+                cachedNeedManager = new AddendumManager_Need_Rate_Joy((Need_Joy)__instance);
+
+            else if (cachedNeedManager.IsSameNeed(__instance) == false)
+                cachedNeedManager = new AddendumManager_Need_Rate_Joy((Need_Joy)__instance);
+
+            __result += cachedNeedManager.ToTip(
+                Find.TickManager.TicksGame,
+                INIKeyBindingDefOf.ShowDetails.IsDown
+            );
+        }
+
+        private static void Need_Outdoors_Postfix(Need __instance, ref string __result)
+        {
+            if ((__instance is Need_Outdoors) == false)
+                return;
+
+            if (cachedNeedManager is null)
+                cachedNeedManager = new AddendumManager_Need_Rate_Outdoors((Need_Outdoors)__instance);
+
+            else if (cachedNeedManager.IsSameNeed(__instance) == false)
+                cachedNeedManager = new AddendumManager_Need_Rate_Outdoors((Need_Outdoors)__instance);
+
+            __result += cachedNeedManager.ToTip(
+                Find.TickManager.TicksGame,
+                INIKeyBindingDefOf.ShowDetails.IsDown
+            );
+        }
+
+        private static void Need_Rest_Postfix(Need __instance, ref string __result)
+        {
+            if ((__instance is Need_Rest) == false)
+                return;
+
+            if (cachedNeedManager is null)
+                cachedNeedManager = new AddendumManager_Need_Rate_Sleep((Need_Rest)__instance);
+
+            else if (cachedNeedManager.IsSameNeed(__instance) == false)
+                cachedNeedManager = new AddendumManager_Need_Rate_Sleep((Need_Rest)__instance);
+
+            __result += cachedNeedManager.ToTip(
+                Find.TickManager.TicksGame,
+                INIKeyBindingDefOf.ShowDetails.IsDown
+            );
         }
     }
 }

@@ -32,13 +32,10 @@ namespace Improved_Need_Indicator
 
         public override void UpdateBasicTip(int tickNow)
         {
-            float curLevel = need.CurLevel;
-            float curInstantLevel = need.CurInstantLevel;
-
-            if (curInstantLevel < curLevel)
-                UpdateBasicTipFalling(tickNow, curLevel);
-            else
-                UpdateBasicTipRising(tickNow, curInstantLevel);
+            if (need.GUIChangeArrow < 0)
+                UpdateBasicTipFalling(tickNow, need.CurLevel);
+            else if (need.GUIChangeArrow > 0)
+                UpdateBasicTipRising(tickNow, need.CurInstantLevel);
 
             base.UpdateBasicTip(tickNow);
         }
@@ -66,7 +63,7 @@ namespace Improved_Need_Indicator
                     thresholdAddendum.Basic = thresholdAddendum.Translation.Translate((tickAccumulator - tickOffset).TicksToPeriod());
                 }
 
-                if (curLevel >= thresholdAddendum.Max)
+                if (curLevel >= thresholdAddendum.Min)
                     basicTip += "\n" + thresholdAddendum.Basic;
             }
 
@@ -138,6 +135,36 @@ namespace Improved_Need_Indicator
         public virtual void UpdateRates(int tickNow)
         {
             ratesUpdatedAt = tickNow;
+        }
+
+        protected override string ToBasicTip(int tickNow)
+        {
+            if (IsRatesStale(tickNow))
+            {
+                UpdateRates(tickNow);
+                UpdateBasicTip(tickNow);
+            }
+            else if (IsBasicStale(tickNow))
+                UpdateBasicTip(tickNow);
+
+            return ((TaggedString)("\n\n" + basicTip + showDetails)).Resolve();
+        }
+
+        protected override string ToDetailTip(int tickNow)
+        {
+            if (IsRatesStale(tickNow))
+            {
+                UpdateRates(tickNow);
+                UpdateBasicTip(tickNow);
+                UpdateDetailTip(tickNow);
+            }
+            else if (IsDetailStale(tickNow) || IsBasicStale(tickNow))
+            {
+                UpdateBasicTip(tickNow);
+                UpdateDetailTip(tickNow);
+            }
+
+            return ((TaggedString)("\n\n" + detailedTip)).Resolve();
         }
     }
 }
