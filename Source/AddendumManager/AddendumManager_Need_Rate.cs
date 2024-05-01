@@ -34,8 +34,10 @@ namespace Improved_Need_Indicator
         {
             if (need.GUIChangeArrow < 0)
                 UpdateBasicTipFalling(tickNow, need.CurLevel);
+
             else if (need.GUIChangeArrow > 0)
                 UpdateBasicTipRising(tickNow, need.CurLevel);
+
 
             base.UpdateBasicTip(tickNow);
         }

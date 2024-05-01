@@ -1,13 +1,17 @@
 ﻿#if !v1_2
+using HarmonyLib;
 using RimWorld;
 
 namespace Improved_Need_Indicator
 {
-    public class AddendumManager_Need_Rate_Indoors : AddendumManager_Need_Rate
+    public class AddendumManager_Need_RoofEnclosure_Indoors : AddendumManager_Need_RoofEnclosure
     {
-        public AddendumManager_Need_Rate_Indoors(Need_Indoors need) : base(need)
-        {
+        private static readonly AccessTools.FieldRef<Need_Indoors, float>
+            fr_lastEffectiveDelta = AccessTools.FieldRefAccess<Need_Indoors, float>("lastEffectiveDelta");
 
+
+        public AddendumManager_Need_RoofEnclosure_Indoors(Need_Indoors need) : base(need)
+        {
             // Tresholds are hard-coded but aren't in any place where
             // we can grab them. And rates depend on where the pawn is and if
             // they are asleep.
@@ -49,6 +53,15 @@ namespace Improved_Need_Indicator
                     "INI.Indoors.BrutalOutdoors"
                 )
             };
+
+            curTickRate = System.Math.Abs(fr_lastEffectiveDelta(need)) / NeedTunings.NeedUpdateInterval;
+        }
+
+        public override void UpdateRates(int tickNow)
+        {
+            curTickRate = System.Math.Abs(fr_lastEffectiveDelta((Need_Indoors)need)) / NeedTunings.NeedUpdateInterval;
+
+            base.UpdateRates(tickNow);
         }
     }
 }

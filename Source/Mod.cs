@@ -33,16 +33,21 @@ namespace Improved_Need_Indicator
                 && cachedNeedManager.IsSameNeed(__instance)
             ) { }
 
+#if !v1_2
+            else if (__instance is Need_Indoors needIndoors)
+                cachedNeedManager = new AddendumManager_Need_RoofEnclosure_Indoors(needIndoors);
+#endif
+
             else if (__instance is Need_Joy needJoy)
                 cachedNeedManager = new AddendumManager_Need_Rate_Joy(needJoy);
 
             else if (__instance is Need_Outdoors needOutdoors)
-                cachedNeedManager = new AddendumManager_Need_Rate_Outdoors(needOutdoors);
+                cachedNeedManager = new AddendumManager_Need_RoofEnclosure_Outdoors(needOutdoors);
 
             else if (__instance is Need_Rest needRest)
                 cachedNeedManager = new AddendumManager_Need_Rate_Rest(needRest);
 
-            // We don't want to edit needs we've not implemented
+            // We don't want to edit needs we've not implemented.
             else
                 return;
 
