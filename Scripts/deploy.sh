@@ -34,6 +34,8 @@ cp -af ./Scripts "$DESTINATION"
 mkdir "$DESTINATION/Source"
 cp -af ./Source "$DESTINATION"
 
+rm -r "$DESTINATION/Source/.vs"
+
 cp -f ./Dockerfile "$DESTINATION"
 cp -f ./LICENSE "$DESTINATION"
 cp -f ./readme.md "$DESTINATION"
