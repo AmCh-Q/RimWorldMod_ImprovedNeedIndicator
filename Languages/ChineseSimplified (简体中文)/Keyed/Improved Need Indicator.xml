@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <INI.Name>更多需求条信息</INI.Name>
-  <INI.ShowDetails>Hold ctrl for details</INI.ShowDetails>
+  <INI.ShowDetails>按住Ctrl显示详细信息</INI.ShowDetails>
 
-  <INI.Max>max: {0}</INI.Max>
+  <INI.Max>最高: {0}</INI.Max>
   <INI.Neutral>{0}后感觉娱乐一般</INI.Neutral>
 
-  <INI.Beauty.Beautiful>{0} till beautiful environment</INI.Beauty.Beautiful>
-  <INI.Beauty.Pretty>{0} till pretty environment</INI.Beauty.Pretty>
-  <INI.Beauty.Unsightly>{0} till unsightly environment</INI.Beauty.Unsightly>
-  <INI.Beauty.Ugly>{0} till ugly environment</INI.Beauty.Ugly>
-  <INI.Beauty.Hideous>{0} till hideous environment</INI.Beauty.Hideous>
+  <INI.Beauty.Beautiful>{0}后感觉环境非常美丽</INI.Beauty.Beautiful>
+  <INI.Beauty.Pretty>{0}后感觉环境美丽</INI.Beauty.Pretty>
+  <INI.Beauty.Unsightly>{0}后感觉环境丑陋</INI.Beauty.Unsightly>
+  <INI.Beauty.Ugly>{0}后感觉环境非常丑陋</INI.Beauty.Ugly>
+  <INI.Beauty.Hideous>{0}后感觉环境极其丑陋</INI.Beauty.Hideous>
 
-  <INI.Comfort.LuxuriantlyComfortable>{0} till luxuriantly comfortable</INI.Comfort.LuxuriantlyComfortable>
-  <INI.Comfort.ExtremelyComfortable>{0} till extremely comfortable</INI.Comfort.ExtremelyComfortable>
-  <INI.Comfort.VeryComfortable>{0} till very comfortable</INI.Comfort.VeryComfortable>
-  <INI.Comfort.Comfortable>{0} till comfortable</INI.Comfort.Comfortable>
-  <INI.Comfort.Uncomfortable>{0} till uncomfortable</INI.Comfort.Uncomfortable>
+  <INI.Comfort.LuxuriantlyComfortable>{0}后感到奢华享受</INI.Comfort.LuxuriantlyComfortable>
+  <INI.Comfort.ExtremelyComfortable>{0}后感觉极其舒适</INI.Comfort.ExtremelyComfortable>
+  <INI.Comfort.VeryComfortable>{0}后感觉非常舒适</INI.Comfort.VeryComfortable>
+  <INI.Comfort.Comfortable>{0}后感觉舒适</INI.Comfort.Comfortable>
+  <INI.Comfort.Uncomfortable>{0}后感觉不够舒适</INI.Comfort.Uncomfortable>
 
-  <INI.Food.Fed>{0} till fed</INI.Food.Fed>
+  <INI.Food.Fed>{0}后感到吃饱</INI.Food.Fed>
   <INI.Food.Hungry>{0}后饥饿</INI.Food.Hungry>
   <INI.Food.Ravenous>{0}后非常饥饿</INI.Food.Ravenous>
   <INI.Food.Malnourished>{0}后饥肠辘辘</INI.Food.Malnourished>
 
-  <INI.Indoors.JustOutdoors>{0} till just outdoors</INI.Indoors.JustOutdoors>
-  <INI.Indoors.Outdoors>{0} till outdoors</INI.Indoors.Outdoors>
-  <INI.Indoors.LongOutdoors>{0} till long outdoors</INI.Indoors.LongOutdoors>
-  <INI.Indoors.VeryLongOutdoors>{0} till very long outdoors</INI.Indoors.VeryLongOutdoors>
-  <INI.Indoors.BrutalOutdoors>{0} till brutal outdoors</INI.Indoors.BrutalOutdoors>
+  <INI.Indoors.JustOutdoors>{0}后意识到在室外活动</INI.Indoors.JustOutdoors>
+  <INI.Indoors.Outdoors>{0}后感到在室外呆得太多了</INI.Indoors.Outdoors>
+  <INI.Indoors.LongOutdoors>{0}后感到长期室外活动</INI.Indoors.LongOutdoors>
+  <INI.Indoors.VeryLongOutdoors>{0}后感到漫长的室外活动</INI.Indoors.VeryLongOutdoors>
+  <INI.Indoors.BrutalOutdoors>{0}后感到残酷的室外活动</INI.Indoors.BrutalOutdoors>
 
-  <INI.Joy.FullySatisfied>{0} till fully satisfied</INI.Joy.FullySatisfied>
+  <INI.Joy.FullySatisfied>{0}后感到娱乐活动丰富</INI.Joy.FullySatisfied>
   <INI.Joy.Satisfied>{0}后感觉娱乐充足</INI.Joy.Satisfied>
   <INI.Joy.Unfulfilled>{0}后感觉娱乐不足</INI.Joy.Unfulfilled>
   <INI.Joy.Deprived>{0}后感觉缺乏娱乐</INI.Joy.Deprived>
   <INI.Joy.Starved>{0}后感觉毫无娱乐</INI.Joy.Starved>
 
-  <INI.Mood.Content>{0} till content</INI.Mood.Content>
-  <INI.Mood.Minor>{0} till minor break risk</INI.Mood.Minor>
-  <INI.Mood.Major>{0} till major break risk</INI.Mood.Major>
-  <INI.Mood.Extreme>{0} till extreme break risk</INI.Mood.Extreme>
+  <INI.Mood.Content>{0}后感到满足</INI.Mood.Content>
+  <INI.Mood.Minor>{0}后崩溃风险（低）</INI.Mood.Minor>
+  <INI.Mood.Major>{0}后崩溃风险（中）</INI.Mood.Major>
+  <INI.Mood.Extreme>{0}后崩溃风险（高）</INI.Mood.Extreme>
 
-  <INI.Outdoors.StuckIndoors>{0} till stuck indoors</INI.Outdoors.StuckIndoors>
-  <INI.Outdoors.TrappedIndoors>{0} till trapped indoors</INI.Outdoors.TrappedIndoors>
-  <INI.Outdoors.CabinFever>{0} till cabin fever</INI.Outdoors.CabinFever>
-  <INI.Outdoors.TrappedUnderground>{0} till trapped underground</INI.Outdoors.TrappedUnderground>
-  <INI.Outdoors.EntombedUnderground>{0} till entombed underground</INI.Outdoors.EntombedUnderground>
+  <INI.Outdoors.StuckIndoors>{0}后受到幽居病（轻微）</INI.Outdoors.StuckIndoors>
+  <INI.Outdoors.TrappedIndoors>{0}后受到幽居病（较轻）</INI.Outdoors.TrappedIndoors>
+  <INI.Outdoors.CabinFever>{0}后受到幽居病（中度）</INI.Outdoors.CabinFever>
+  <INI.Outdoors.TrappedUnderground>{0}后受到幽居病（严重）</INI.Outdoors.TrappedUnderground>
+  <INI.Outdoors.EntombedUnderground>{0}后受到幽居病（极重）</INI.Outdoors.EntombedUnderground>
 
   <INI.Rest.Rested>{0}后睡饱</INI.Rest.Rested>
   <INI.Rest.Drowsy>{0}后感到疲劳</INI.Rest.Drowsy>
   <INI.Rest.Tired>{0}后感到非常疲劳</INI.Rest.Tired>
   <INI.Rest.Exhausted>{0}后精疲力竭</INI.Rest.Exhausted>
-  <INI.Rest.MaxRestNeeded>max rest needed: {0}</INI.Rest.MaxRestNeeded>
+  <INI.Rest.MaxRestNeeded>最大需要{0}睡眠</INI.Rest.MaxRestNeeded>
 </LanguageData>
