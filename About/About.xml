@@ -2,58 +2,55 @@
 <ModMetaData>
   <packageId>AmCh.ImprovedNeedIndicator</packageId>
   <name>Improved Need Indicator</name>
-  <modVersion IgnoreIfNoMatchingField="True">0.10.0</modVersion>
+  <modVersion IgnoreIfNoMatchingField="True">1.5.4069+20240501Z</modVersion>
   <authors>
     <li>AmCh</li>
     <li>Missionz3r0</li>
   </authors>
   <url>https://github.com/AmCh-Q/RimWorldMod_ImprovedNeedIndicator</url>
   <description>
-[h1]What[/h1]
-Adds tooltip text to inform the player how long a pawn has until mood debuffs.
+A pawn has several needs. If you hover over those needs, you'll see a tooltip.
+This tooltip has some helpful text, but it could be better.
 
-[h2]Needs Indicators Implemented[/h2]
-[list]
-[*] Food
-[*] Recreation
-[*] Rest
-[/list]
+Improved Need Indicator adds helpful timers to a need's tooltip so you know
+exactly how long you have until that need is unfulfilled.
 
-[h2]Needs Indicators On Deck[/h2]
-[list]
-[*] Beauty
-[/list]
+Implemented:
+* Food
+* Indoors
+* Outdoors
+* Recreation
+* Rest
 
-[h2]Need Indicators Upcoming[/h2]
-[list]
-[*] Chemical
-[*] Comfort
-[*] Deathrest
-[*] Energy
-[*] Indoors
-[*] Kill Satiety
-[*] Learning
-[*] Outdoors
-[*] Play
-[/list]
+On Deck:
+* Beauty
 
-[h1]Why[/h1]
-Because I spent three hours building a spreadsheet to figure out how long my pawns sleep and just knew there had to be a better way. Sleep alone is a complicated formula using the pawn's own 'Rest Rate Multiplier', bed type, bed material, bed quality, and number of sleep accelorators. Did you know making the bed out of marble to get that sweet beauty bonus makes your pawn sleep longer? Or that Jade doesn't count as stone and works the same as wood? Who knew?! I fricken didn't.
+Upcoming:
+* Chemical
+* Comfort
+* Deathrest
+* Energy
+* Kill Satiety
+* Learning
+* Play
 
-Don't fall down the same rabbit hole I did. We've done the work for you here. Install the mod, shower us with praise, and sleep better than ever.
+Why?
+  Because I spent three hours building a spreadsheet to figure out how long my pawns sleep and just knew there had to be a better way. Sleep alone is a complicated formula using the pawn's own 'Rest Rate Multiplier', bed type, bed material, bed quality, and number of sleep accelorators. Did you know making the bed out of marble to get that sweet beauty bonus makes your pawn sleep longer? Or that Jade doesn't count as stone and works the same as wood? Who knew?! I fricken didn't.
 
-[h1]Who[/h1]
-AmCh: Coding and Language Translations
-Missionz3r0: Coding and DevOps
+  Don't fall down the same rabbit hole I did. We've done the work for you here. Install the mod, shower us with praise, and sleep better than ever.
 
-I (missionz3r0) want to convey my thanks to AmCh. They did the lions share of the coding in this mod. Be sure to shower them with adulations.
+Who
+  AmCh: Coding and Language Translations
+  Missionz3r0: Coding and DevOps
 
-[h1]GitHub[/h1]
-[url=https://github.com/AmCh-Q/RimWorldMod_ImprovedNeedIndicator] Did I mention it's open source too? [/url]
+  I (missionz3r0) want to convey my thanks to AmCh. They did the lions share of the coding in this mod. Be sure to shower them with adulations.
 
-[h1]Some of our other mods[/h1]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3201556917]More Sleep Accelorators[/url]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2566316158]Need Bar Overflow[/url]
+GitHub:
+  https://github.com/AmCh-Q/RimWorldMod_ImprovedNeedIndicator
+
+Some of our other mods:
+  More Sleep Accelerators: https://steamcommunity.com/sharedfiles/filedetails/?id=3201556917
+  Need Bar Overflow: https://steamcommunity.com/sharedfiles/filedetails/?id=2566316158
   </description>
   <supportedVersions>
     <li>1.2</li>
@@ -62,15 +59,15 @@ I (missionz3r0) want to convey my thanks to AmCh. They did the lions share of th
     <li>1.5</li>
   </supportedVersions>
   <modDependencies>
-	<li>
-	  <packageId>brrainz.harmony</packageId>
-	  <displayName>Harmony</displayName>
-	  <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/</downloadUrl>
-	  <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
-	</li>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/</downloadUrl>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+    </li>
   </modDependencies>
   <loadAfter>
-	<li>brrainz.harmony</li>
-	<li>Ludeon.RimWorld</li>
+    <li>brrainz.harmony</li>
+    <li>Ludeon.RimWorld</li>
   </loadAfter>
 </ModMetaData>
