@@ -6,6 +6,7 @@
   <INI.Max>max: {0}</INI.Max>
   <INI.Neutral>{0} till neutral</INI.Neutral>
 
+  <INI.Beauty.Gorgeous>{0} till gorgeous environment</INI.Beauty.Gorgeous>
   <INI.Beauty.Beautiful>{0} till beautiful environment</INI.Beauty.Beautiful>
   <INI.Beauty.Pretty>{0} till pretty environment</INI.Beauty.Pretty>
   <INI.Beauty.Unsightly>{0} till unsightly environment</INI.Beauty.Unsightly>

@@ -14,13 +14,13 @@ namespace Improved_Need_Indicator
                     (byte)BeautyCategory.Beautiful,
                     fr_ThreshBeautiful(need),
                     fr_ThreshVeryPretty(need),
-                    "INI.Beauty.Beautiful"
+                    "INI.Beauty.Gorgeous"
                 ),
                 new Addendum_Need(
                     (byte)BeautyCategory.VeryPretty,
                     fr_ThreshVeryPretty(need),
                     fr_ThreshPretty(need),
-                    "INI.Beauty.VeryPretty"
+                    "INI.Beauty.Beautiful"
                 ),
                 new Addendum_Need(
                     (byte)BeautyCategory.Pretty,
