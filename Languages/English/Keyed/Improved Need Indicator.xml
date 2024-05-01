@@ -6,11 +6,11 @@
   <INI.Max>max: {0}</INI.Max>
   <INI.Neutral>{0} till neutral</INI.Neutral>
 
-  <INI.Beauty.Beautiful>{0} till beautiful</INI.Beauty.Beautiful>
-  <INI.Beauty.Pretty>{0} till nice</INI.Beauty.Pretty>
-  <INI.Beauty.Unsightly>{0} till unsighly</INI.Beauty.Unsightly>
-  <INI.Beauty.Ugly>{0} till ugly</INI.Beauty.Ugly>
-  <INI.Beauty.Hideous>{0} till grotesque</INI.Beauty.Hideous>
+  <INI.Beauty.Beautiful>{0} till beautiful environment</INI.Beauty.Beautiful>
+  <INI.Beauty.Pretty>{0} till pretty environment</INI.Beauty.Pretty>
+  <INI.Beauty.Unsightly>{0} till unsightly environment</INI.Beauty.Unsightly>
+  <INI.Beauty.Ugly>{0} till ugly environment</INI.Beauty.Ugly>
+  <INI.Beauty.Hideous>{0} till hideous environment</INI.Beauty.Hideous>
 
   <INI.Comfort.LuxuriantlyComfortable>{0} till luxuriantly comfortable</INI.Comfort.LuxuriantlyComfortable>
   <INI.Comfort.ExtremelyComfortable>{0} till extremely comfortable</INI.Comfort.ExtremelyComfortable>
@@ -20,14 +20,14 @@
 
   <INI.Food.Fed>{0} till fed</INI.Food.Fed>
   <INI.Food.Hungry>{0} till hungry</INI.Food.Hungry>
-  <INI.Food.Ravenous>{0} till hunger pangs</INI.Food.Ravenous>
-  <INI.Food.Malnourished>{0} till wasting away</INI.Food.Malnourished>
+  <INI.Food.Ravenous>{0} till ravenously hunger</INI.Food.Ravenous>
+  <INI.Food.Malnourished>{0} till malnourished</INI.Food.Malnourished>
 
-  <INI.Indoors.JustOutdoors>{0} till shouldn't be outdoors</INI.Indoors.JustOutdoors>
-  <INI.Indoors.Outdoors>{0} till too much outdoors</INI.Indoors.Outdoors>
-  <INI.Indoors.LongOutdoors>{0} till wronged</INI.Indoors.LongOutdoors>
-  <INI.Indoors.VeryLongOutdoors>{0} till disturbed</INI.Indoors.VeryLongOutdoors>
-  <INI.Indoors.BrutalOutdoors>{0} till insane</INI.Indoors.BrutalOutdoors>
+  <INI.Indoors.JustOutdoors>{0} till just outdoors</INI.Indoors.JustOutdoors>
+  <INI.Indoors.Outdoors>{0} till outdoors</INI.Indoors.Outdoors>
+  <INI.Indoors.LongOutdoors>{0} till long outdoors</INI.Indoors.LongOutdoors>
+  <INI.Indoors.VeryLongOutdoors>{0} till very long outdoors</INI.Indoors.VeryLongOutdoors>
+  <INI.Indoors.BrutalOutdoors>{0} till brutal outdoors</INI.Indoors.BrutalOutdoors>
 
   <INI.Joy.FullySatisfied>{0} till fully satisfied</INI.Joy.FullySatisfied>
   <INI.Joy.Satisfied>{0} till satisfied</INI.Joy.Satisfied>
@@ -47,8 +47,8 @@
   <INI.Outdoors.EntombedUnderground>{0} till entombed underground</INI.Outdoors.EntombedUnderground>
 
   <INI.Rest.Rested>{0} till rested</INI.Rest.Rested>
-  <INI.Rest.Tired>{0} till drowsy</INI.Rest.Tired>
-  <INI.Rest.VeryTired>{0} till tired</INI.Rest.VeryTired>
+  <INI.Rest.Drowsy>{0} till drowsy</INI.Rest.Drowsy>
+  <INI.Rest.Tired>{0} till tired</INI.Rest.Tired>
   <INI.Rest.Exhausted>{0} till exhausted</INI.Rest.Exhausted>
   <INI.Rest.MaxRestNeeded>max rest needed: {0}</INI.Rest.MaxRestNeeded>
 </LanguageData>

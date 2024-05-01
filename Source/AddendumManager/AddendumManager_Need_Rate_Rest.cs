@@ -29,14 +29,14 @@ namespace Improved_Need_Indicator
                     (byte)RestCategory.Tired,
                     Need_Rest.ThreshTired,
                     Need_Rest.ThreshVeryTired,
-                    "INI.Rest.Tired",
+                    "INI.Rest.Drowsy",
                     (byte)RestCategory.Rested
                 ),
                 new Addendum_Need_Rate(
                     (byte)RestCategory.VeryTired,
                     Need_Rest.ThreshVeryTired,
                     0.0001f,
-                    "INI.Rest.VeryTired",
+                    "INI.Rest.Tired",
                     (byte)RestCategory.Tired
                 ),
                 new Addendum_Need_Rate(
