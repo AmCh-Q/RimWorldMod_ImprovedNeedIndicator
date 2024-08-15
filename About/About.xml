@@ -2,7 +2,7 @@
 <ModMetaData>
   <packageId>AmCh.ImprovedNeedIndicator</packageId>
   <name>Improved Need Indicator</name>
-  <modVersion IgnoreIfNoMatchingField="True">1.5.4069.20240501Z</modVersion>
+  <modVersion IgnoreIfNoMatchingField="True">1.5.4104.20240815Z</modVersion>
   <authors>
     <li>AmCh</li>
     <li>Missionz3r0</li>
@@ -22,25 +22,14 @@ Implemented:
 * Recreation
 * Rest
 
-On Deck:
-* Beauty
-
-Upcoming:
-* Chemical
-* Comfort
-* Deathrest
-* Energy
-* Kill Satiety
-* Learning
-* Play
-
 Why?
   Because I spent three hours building a spreadsheet to figure out how long my pawns sleep and just knew there had to be a better way. Sleep alone is a complicated formula using the pawn's own 'Rest Rate Multiplier', bed type, bed material, bed quality, and number of sleep accelorators. Did you know making the bed out of marble to get that sweet beauty bonus makes your pawn sleep longer? Or that Jade doesn't count as stone and works the same as wood? Who knew?! I fricken didn't.
 
   Don't fall down the same rabbit hole I did. We've done the work for you here. Install the mod, shower us with praise, and sleep better than ever.
 
 Who
-  AmCh: Coding and Language Translations
+  AmCh: Coding and Translations (Chinese Simplified &  Chinese Traditional)
+  Ferchu: Translations (Spanish and Spanish Latin)
   Missionz3r0: Coding and DevOps
 
   I (missionz3r0) want to convey my thanks to AmCh. They did the lions share of the coding in this mod. Be sure to shower them with adulations.
