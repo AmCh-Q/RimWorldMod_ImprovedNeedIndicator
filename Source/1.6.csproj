@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0">
+
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>..\obj\1.6\</BaseIntermediateOutputPath>
+    <MSBUildProjectExtensionsPath>..\obj\1.6\</MSBUildProjectExtensionsPath>
+  </PropertyGroup>
+
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+
+  <PropertyGroup>
+    <AssemblyName>Improved Need Indicator</AssemblyName>
+    <DefineConstants>v1_6</DefineConstants>
+    <OutputPath>..\1.6\Assemblies\</OutputPath>
+    <ProjectGuid>{1A1062E4-F8B8-43AF-A34C-8819224AE1B3}</ProjectGuid>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.*-*" />
+    <PackageReference Include="Lib.Harmony" Version="2.3.*" ExcludeAssets="runtime" />
+    <None Include="..\LICENSE" Pack="true" />
+  </ItemGroup>
+
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+
+</Project>
